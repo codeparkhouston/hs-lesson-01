@@ -9,14 +9,32 @@ body {
 }
 
 #robot {
-  width: 100px;
-  height: 100px;
-  background: rgba(255, 100, 100, 1);
-  -webkit-transition: all 100ms ease-in-out;
-  transition:         all 100ms ease-in-out;
   position: absolute;
+  transform: scaleX(-1);
+}
+
+#robot img {
+  width: 200px;
 }
 
 #robot::after {
   content: attr(data-name);
+  text-align: center;
+  width: inherit;
+  display: block;
+  color: #FFFFFF;
+  opacity: 0;
+  font-size: 20px;
+  font-weight: 100;
+  font-style: italic;
+}
+
+#robot[data-name]::after {
+  opacity: 1;
+}
+
+/* make things smooth */
+#robot, #robot::after, #robot img {
+  -webkit-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
 }

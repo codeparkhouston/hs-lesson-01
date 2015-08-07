@@ -5,52 +5,56 @@ var observer = new MutationObserver(function(mutations) {
   });
 });
 
-var myRobot = makeRobot(robotEl);
+var cecil = new Robot(robotEl);
 
-function makeRobot(robotEl) {
+function Robot(robotEl) {
 
   var robotMethods = {
-    setDOMNode: setRobotElement,
-    getDOMNode: getRobotElement,
     getPosition: getPosition,
     getRobotSize: getRobotSize,
-    setName: setName,
+    name: name,
     move: move,
-    reset: reset
+    moveTo: moveTo,
+    reset: reset,
+    changeRobot: changeRobot
   };
 
-  var robotElement;
-  var robotData;
-  setRobotElement(robotEl);
-  robotData = new RobotData();
+  var robot = {};
 
-  observer.observe(robotElement, { attributes : true, attributeFilter : ['style'] });
-  robotMethods.robotData = robotData;
+  setRobotElement(robotEl);
+
+  observer.observe(robot.dom, { attributes : true, attributeFilter : ['style'] });
   return robotMethods;
 
 
   function setRobotElement(){
-    robotElement = robotEl;
+    robot.dom = robotEl;
+    robot.img = robot.dom.getElementsByTagName('img')[0]
+    robot.img.onload = setRobotDefaults;
   }
 
-  function RobotData() {
-    Object.defineProperty(this, 'position', {
-      get: function(){
-        return getPosition();
-      },
-      set: function(value) {
-        robotElement.style.left = value.x + 'px';
-        robotElement.style.top = value.y + 'px';
-      }
-    });
+  function setRobotDefaults(){
+    robot.defaults = {}
+    robot.defaults.src = robot.img.src;
+    robot.defaults.size = getRobotSize();
+    robot.defaults.position = {
+      scale: 1,
+      rotate: 0,
+      x: robot.defaults.size.width/2,
+      y: robot.defaults.size.height/2
+    };
+  }
+
+  function getRobotDefaults(){
+    return Object.create(robot.defaults);
   }
 
   function getRobotElement(){
-    return robotElement;
+    return robot.dom;
   }
 
   function getRobotSize(){
-    var boundingRectangle = robotElement.getBoundingClientRect();
+    var boundingRectangle = robot.dom.getBoundingClientRect();
     var size = {
       width: boundingRectangle.right - boundingRectangle.left,
       height: boundingRectangle.bottom - boundingRectangle.top
@@ -61,7 +65,7 @@ function makeRobot(robotEl) {
 
   function getPosition(){
     var robotSize = getRobotSize();
-    var boundingRectangle = robotElement.getBoundingClientRect();
+    var boundingRectangle = robot.dom.getBoundingClientRect();
 
     var center = {
       x: (robotSize.width)/2 + boundingRectangle.left,
@@ -87,13 +91,13 @@ function makeRobot(robotEl) {
     }();
 
     function moveLeft (distance) {
-      var currentLeft = _getPosition().x;
-      robotElement.style.left = currentLeft + distance + 'px';
+      var currentLeft = getPosition().x;
+      moveToX(currentLeft + distance);
     }
 
     function moveDown (distance) {
-      var currentLeft = _getPosition().y;
-      robotElement.style.top = currentLeft + distance + 'px';
+      var currentTop = getPosition().y;
+      moveToY(currentTop + distance);
     }
 
     function moveRight (distance) {
@@ -103,47 +107,81 @@ function makeRobot(robotEl) {
     function moveUp (distance) {
       moveDown( - 1 * distance);
     }
-
-    function _getPosition() {
-      var boundingRectangle = robotElement.getBoundingClientRect();
-      var topLeftCorner = {
-        x: boundingRectangle.left,
-        y: boundingRectangle.top
-      };
-
-      return topLeftCorner;
-    }
   }
 
   function moveTo(x, y){
-    robotData.position = {
-      x: x,
-      y: y
-    };
-    // moveToX(x);
-    // moveToY(y);
+    var angle = calcAngle({x: x, y: y});
+    var scale = calcScale({x: x, y: y});
+    moveToX(x);
+    moveToY(y);
+    orient(angle, scale);
   }
 
   function moveToX(x) {
     var robotSize = getRobotSize();
-    robotElement.style.left = x - robotSize.width/2;
+    robot.dom.style.left = x - robotSize.width/2 + 'px';
   }
 
   function moveToY(y) {
     var robotSize = getRobotSize();
-    robotElement.style.top = y - robotSize.height/2;
+    robot.dom.style.top = y - robotSize.height/2 + 'px';
   }
 
-  function setName(name) {
-    robotElement.dataset.name = name;
+  function orient(angle, scale) {
+    robot.position = robot.position || {};
+    var transform = '';
+
+    if(_isNumber(angle)) {
+      transform += 'rotate(' + angle + 'deg)';
+    }
+    if(_isNumber(scale)) {
+      transform += ' scaleX(' + scale + ')';
+    }
+    robot.position.angle = angle;
+    robot.position.scale = scale;
+    robot.img.style.transform = transform;
   }
 
-  function setImage() {
+  function _getSign(distance) {
+    return distance/Math.abs(distance);
+  }
 
+  function _isNumber(number) {
+    return typeof number == 'number' && number.toString() !== 'NaN'
+  }
+
+  function calcAngle(destination) {
+    var currentPosition = getPosition();
+    var xDist = destination.x - currentPosition.x;
+    var yDist = currentPosition.y - destination.y;
+
+    if(xDist == 0){
+      return _getSign(yDist) * 90;
+    }
+
+    return Math.atan(yDist/xDist) / Math.PI * 180;
+  }
+
+  function calcScale(destination) {
+    var currentPosition = getPosition();
+    var xDist = destination.x - currentPosition.x;
+
+    return _getSign(xDist);
+  }
+
+  function name(robotName) {
+    robot.dom.dataset.name = robotName;
+  }
+
+  function changeRobot(imageURL) {
+    robot.img.src = imageURL;
   }
 
   function reset() {
-    moveTo(0, 0);
+    var defaults = getRobotDefaults();
+    moveTo(defaults.position.x, defaults.position.y);
+    orient(defaults.position.angle, defaults.position.scale);
+    changeRobot(defaults.src);
   }
 }
 
