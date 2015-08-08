@@ -1,3 +1,9 @@
+/**
+ * # robot.js
+ *
+ * This file contains code related to the robot.
+ */
+
 var robotEl = document.getElementById('robot');
 var cecil = new Robot(robotEl);
 
@@ -8,6 +14,7 @@ function Robot(robotEl) {
     getPosition: getPosition,
     getRobotSize: getRobotSize,
     name: name,
+    flip: flip,
     move: move,
     moveTo: moveTo,
     watch: watch,
@@ -50,6 +57,10 @@ function Robot(robotEl) {
     return center;
   }
 
+  function flip(){
+    robot.dom.classList.toggle('flip');
+  }
+
   function move(direction, distance){
 
     var movers = {
@@ -65,21 +76,21 @@ function Robot(robotEl) {
     }();
 
     function _moveLeft (distance) {
-      var currentLeft = getPosition().x;
+      var currentLeft = robot.position.get().x;
       moveToX(currentLeft + distance);
     }
 
     function _moveDown (distance) {
-      var currentTop = getPosition().y;
+      var currentTop = robot.position.get().y;
       moveToY(currentTop + distance);
     }
 
     function _moveRight (distance) {
-      _moveLeft( - 1 * distance);
+      _moveLeft( -1 * distance);
     }
 
     function _moveUp (distance) {
-      _moveDown( - 1 * distance);
+      _moveDown( -1 * distance);
     }
   }
 
@@ -98,28 +109,16 @@ function Robot(robotEl) {
   }
 
   function moveToX(x) {
-    var robotSize = getRobotSize();
-    robot.dom.style.left = x - robotSize.width/2 + 'px';
+    robot.position.x = x;
   }
 
   function moveToY(y) {
-    var robotSize = getRobotSize();
-    robot.dom.style.top = y - robotSize.height/2 + 'px';
+    robot.position.y = y;
   }
 
   function orient(angle, scale) {
-    robot.position = robot.position || {};
-    var transform = '';
-
-    if(_isNumber(angle)) {
-      transform += 'rotate(' + angle + 'deg)';
-    }
-    if(_isNumber(scale)) {
-      transform += ' scaleX(' + scale + ')';
-    }
     robot.position.angle = angle;
     robot.position.scale = scale;
-    robot.img.style.transform = transform;
   }
 
   function name(robotName) {
@@ -137,11 +136,12 @@ function Robot(robotEl) {
     changeRobot(defaults.src);
   }
 
-
   // These functions can only be used within this Robot function.
   // They are "Private" functions.
   function _setRobotElement(){
     robot.dom = robotEl;
+    robot.position = new Position(robot.dom);
+
     robot.img = robot.dom.getElementsByTagName('img')[0]
     robot.img.onload = _setRobotDefaults;
   }
@@ -150,12 +150,7 @@ function Robot(robotEl) {
     robot.defaults = {}
     robot.defaults.src = robot.img.src;
     robot.defaults.size = getRobotSize();
-    robot.defaults.position = {
-      scale: 1,
-      rotate: 0,
-      x: robot.defaults.size.width/2,
-      y: robot.defaults.size.height/2
-    };
+    robot.defaults.position = robot.position.get();
   }
 
   // returns a copy of the robot's default settings
@@ -172,7 +167,7 @@ function Robot(robotEl) {
   }
 
   function _calcAngle(destination) {
-    var currentPosition = getPosition();
+    var currentPosition = robot.position.get();
     var xDist = destination.x - currentPosition.x;
     var yDist = currentPosition.y - destination.y;
 
@@ -184,7 +179,7 @@ function Robot(robotEl) {
   }
 
   function _calcScale(destination) {
-    var currentPosition = getPosition();
+    var currentPosition = robot.position.get();
     var xDist = destination.x - currentPosition.x;
 
     return _getDirection(xDist);

@@ -1,0 +1,181 @@
+<!DOCTYPE html><html lang="en"><head><title>robot</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="robot"><meta name="groc-project-path" content="assets/robot.js"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path">assets/robot.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> robotEl = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'robot'</span>);
+<span class="hljs-keyword">var</span> cecil = <span class="hljs-keyword">new</span> Robot(robotEl);
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Robot</span>(<span class="hljs-params">robotEl</span>) </span>{
+
+  <span class="hljs-keyword">var</span> robotMethods = {
+    getRobotElement: getRobotElement,
+    getPosition: getPosition,
+    getRobotSize: getRobotSize,
+    name: name,
+    move: move,
+    moveTo: moveTo,
+    watch: watch,
+    reset: reset,
+    changeRobot: changeRobot
+  };
+
+  <span class="hljs-keyword">var</span> robot = {};
+
+  _setRobotElement(robotEl);
+
+  <span class="hljs-keyword">return</span> robotMethods;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Functions are defined below</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRobotElement</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">return</span> robot.dom;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRobotSize</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">var</span> boundingRectangle = robot.dom.getBoundingClientRect();
+    <span class="hljs-keyword">var</span> size = {
+      width: boundingRectangle.right - boundingRectangle.left,
+      height: boundingRectangle.bottom - boundingRectangle.top
+    };
+
+    <span class="hljs-keyword">return</span> size;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getPosition</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">var</span> robotSize = getRobotSize();
+    <span class="hljs-keyword">var</span> boundingRectangle = robot.dom.getBoundingClientRect();
+
+    <span class="hljs-keyword">var</span> center = {
+      x: (robotSize.width)/<span class="hljs-number">2</span> + boundingRectangle.left,
+      y: (robotSize.height)/<span class="hljs-number">2</span> + boundingRectangle.top
+    };
+
+    <span class="hljs-keyword">return</span> center;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">move</span>(<span class="hljs-params">direction, distance</span>)</span>{
+
+    <span class="hljs-keyword">var</span> movers = {
+      left: _moveLeft,
+      right: _moveRight,
+      down: _moveDown,
+      up: _moveUp
+    };
+
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+      movers[direction](distance);
+      <span class="hljs-keyword">return</span> <span class="hljs-string">'moved '</span> + distance + <span class="hljs-string">' '</span> + direction;
+    }();
+
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_moveLeft</span> (<span class="hljs-params">distance</span>) </span>{
+      <span class="hljs-keyword">var</span> currentLeft = getPosition().x;
+      moveToX(currentLeft + distance);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_moveDown</span> (<span class="hljs-params">distance</span>) </span>{
+      <span class="hljs-keyword">var</span> currentTop = getPosition().y;
+      moveToY(currentTop + distance);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_moveRight</span> (<span class="hljs-params">distance</span>) </span>{
+      _moveLeft( - <span class="hljs-number">1</span> * distance);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_moveUp</span> (<span class="hljs-params">distance</span>) </span>{
+      _moveDown( - <span class="hljs-number">1</span> * distance);
+    }
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">watch</span>(<span class="hljs-params">x, y</span>)</span>{
+    <span class="hljs-keyword">var</span> angle = _calcAngle({x: x, y: y});
+    <span class="hljs-keyword">var</span> scale = _calcScale({x: x, y: y});
+    orient(angle, scale);
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">moveTo</span>(<span class="hljs-params">x, y</span>)</span>{
+    <span class="hljs-keyword">var</span> angle = _calcAngle({x: x, y: y});
+    <span class="hljs-keyword">var</span> scale = _calcScale({x: x, y: y});
+    moveToX(x);
+    moveToY(y);
+    orient(angle, scale);
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">moveToX</span>(<span class="hljs-params">x</span>) </span>{
+    <span class="hljs-keyword">var</span> robotSize = getRobotSize();
+    robot.dom.style.left = x - robotSize.width/<span class="hljs-number">2</span> + <span class="hljs-string">'px'</span>;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">moveToY</span>(<span class="hljs-params">y</span>) </span>{
+    <span class="hljs-keyword">var</span> robotSize = getRobotSize();
+    robot.dom.style.top = y - robotSize.height/<span class="hljs-number">2</span> + <span class="hljs-string">'px'</span>;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">orient</span>(<span class="hljs-params">angle, scale</span>) </span>{
+    robot.position = robot.position || {};
+    <span class="hljs-keyword">var</span> transform = <span class="hljs-string">''</span>;
+
+    <span class="hljs-keyword">if</span>(_isNumber(angle)) {
+      transform += <span class="hljs-string">'rotate('</span> + angle + <span class="hljs-string">'deg)'</span>;
+    }
+    <span class="hljs-keyword">if</span>(_isNumber(scale)) {
+      transform += <span class="hljs-string">' scaleX('</span> + scale + <span class="hljs-string">')'</span>;
+    }
+    robot.position.angle = angle;
+    robot.position.scale = scale;
+    robot.img.style.transform = transform;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">name</span>(<span class="hljs-params">robotName</span>) </span>{
+    robot.dom.dataset.name = robotName;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">changeRobot</span>(<span class="hljs-params">imageURL</span>) </span>{
+    robot.img.src = imageURL;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reset</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> defaults = _getRobotDefaults();
+    moveTo(defaults.position.x, defaults.position.y);
+    orient(defaults.position.angle, defaults.position.scale);
+    changeRobot(defaults.src);
+  }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>These functions can only be used within this Robot function.
+They are &quot;Private&quot; functions.</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_setRobotElement</span>(<span class="hljs-params"></span>)</span>{
+    robot.dom = robotEl;
+    robot.img = robot.dom.getElementsByTagName(<span class="hljs-string">'img'</span>)[<span class="hljs-number">0</span>]
+    robot.img.onload = _setRobotDefaults;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_setRobotDefaults</span>(<span class="hljs-params"></span>)</span>{
+    robot.defaults = {}
+    robot.defaults.src = robot.img.src;
+    robot.defaults.size = getRobotSize();
+    robot.defaults.position = {
+      scale: <span class="hljs-number">1</span>,
+      rotate: <span class="hljs-number">0</span>,
+      x: robot.defaults.size.width/<span class="hljs-number">2</span>,
+      y: robot.defaults.size.height/<span class="hljs-number">2</span>
+    };
+  }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>returns a copy of the robot&#39;s default settings</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_getRobotDefaults</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.create(robot.defaults);
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_getDirection</span>(<span class="hljs-params">distance</span>) </span>{
+    <span class="hljs-keyword">return</span> distance/<span class="hljs-built_in">Math</span>.abs(distance);
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_isNumber</span>(<span class="hljs-params">number</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">typeof</span> number == <span class="hljs-string">'number'</span> &amp;&amp; number.toString() !== <span class="hljs-string">'NaN'</span>
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_calcAngle</span>(<span class="hljs-params">destination</span>) </span>{
+    <span class="hljs-keyword">var</span> currentPosition = getPosition();
+    <span class="hljs-keyword">var</span> xDist = destination.x - currentPosition.x;
+    <span class="hljs-keyword">var</span> yDist = currentPosition.y - destination.y;
+
+    <span class="hljs-keyword">if</span>(xDist == <span class="hljs-number">0</span>){
+      <span class="hljs-keyword">return</span> _getDirection(yDist) * <span class="hljs-number">90</span>;
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.atan(yDist/xDist) / <span class="hljs-built_in">Math</span>.PI * <span class="hljs-number">180</span>;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_calcScale</span>(<span class="hljs-params">destination</span>) </span>{
+    <span class="hljs-keyword">var</span> currentPosition = getPosition();
+    <span class="hljs-keyword">var</span> xDist = destination.x - currentPosition.x;
+
+    <span class="hljs-keyword">return</span> _getDirection(xDist);
+  }
+
+}</div></div></div></div></body></html>
