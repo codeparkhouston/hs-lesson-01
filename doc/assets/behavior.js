@@ -31,11 +31,11 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "foldPrefix": "^",
           "name": "CSS"
         },
-        "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/assets/normalize.css",
-        "projectPath": "assets/normalize.css",
-        "targetPath": "normalize",
-        "pageTitle": "normalize",
-        "title": "normalize"
+        "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/assets/main.css",
+        "projectPath": "assets/main.css",
+        "targetPath": "main",
+        "pageTitle": "main",
+        "title": "main"
       },
       "depth": 1
     }, {
@@ -58,42 +58,126 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
       },
       "depth": 1
     }, {
-      "type": "file",
+      "type": "folder",
       "data": {
-        "language": {
-          "nameMatchers": [".js"],
-          "pygmentsLexer": "javascript",
-          "multiLineComment": ["/*", "*", "*/"],
-          "singleLineComment": ["//"],
-          "ignorePrefix": "}",
-          "foldPrefix": "^",
-          "name": "JavaScript"
-        },
-        "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/assets/robot.js",
-        "projectPath": "assets/robot.js",
-        "targetPath": "robot",
-        "pageTitle": "robot",
+        "path": "robot",
         "title": "robot"
       },
-      "depth": 1
-    }, {
-      "type": "file",
-      "data": {
-        "language": {
-          "nameMatchers": [".css"],
-          "pygmentsLexer": "css",
-          "multiLineComment": ["/*", "*", "*/"],
-          "ignorePrefix": "}",
-          "foldPrefix": "^",
-          "name": "CSS"
-        },
-        "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/assets/styles.css",
-        "projectPath": "assets/styles.css",
-        "targetPath": "styles",
-        "pageTitle": "styles",
-        "title": "styles"
-      },
-      "depth": 1
+      "depth": 1,
+      "children": [
+        {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".md", ".markdown", ".mkd", ".mkdn", ".mdown"],
+              "commentsOnly": true,
+              "name": "Markdown"
+            },
+            "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/assets/robot/README.md",
+            "projectPath": "assets/robot/README.md",
+            "targetPath": "robot/README",
+            "pageTitle": "robot/README",
+            "title": "README"
+          },
+          "depth": 2
+        }, {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".js"],
+              "pygmentsLexer": "javascript",
+              "multiLineComment": ["/*", "*", "*/"],
+              "singleLineComment": ["//"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "JavaScript"
+            },
+            "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/assets/robot/position.js",
+            "projectPath": "assets/robot/position.js",
+            "targetPath": "robot/position",
+            "pageTitle": "robot/position",
+            "title": "position"
+          },
+          "depth": 2
+        }, {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".js"],
+              "pygmentsLexer": "javascript",
+              "multiLineComment": ["/*", "*", "*/"],
+              "singleLineComment": ["//"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "JavaScript"
+            },
+            "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/assets/robot/robot.js",
+            "projectPath": "assets/robot/robot.js",
+            "targetPath": "robot/robot",
+            "pageTitle": "robot/robot",
+            "firstHeader": {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "robot.js",
+                "slug": "robotjs",
+                "isFileHeader": true
+              },
+              "depth": 1
+            },
+            "title": "robot.js"
+          },
+          "depth": 2,
+          "outline": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Functions",
+                "slug": "functions"
+              },
+              "depth": 1,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Give the robot a body.",
+                    "slug": "give-the-robot-a-body"
+                  },
+                  "depth": 2
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Remember the initial information about the robot.",
+                    "slug": "remember-the-initial-information-about-the-robot"
+                  },
+                  "depth": 2
+                }
+              ]
+            }
+          ]
+        }, {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".css"],
+              "pygmentsLexer": "css",
+              "multiLineComment": ["/*", "*", "*/"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "CSS"
+            },
+            "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/assets/robot/style.css",
+            "projectPath": "assets/robot/style.css",
+            "targetPath": "robot/style",
+            "pageTitle": "robot/style",
+            "title": "style"
+          },
+          "depth": 2
+        }
+      ]
     }
   ];
 

@@ -1,3 +1,4 @@
 {
-  "glob": ["assets/**", "README.md"]
+  "glob": ["assets/**", "README.md"],
+  "except": ["assets/lib/**"]
 }
