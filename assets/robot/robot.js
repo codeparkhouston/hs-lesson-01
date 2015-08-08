@@ -17,7 +17,6 @@ function Robot(robotEl) {
     flip: flip,
     move: move,
     moveTo: moveTo,
-    watch: watch,
     reset: reset,
     changeRobot: changeRobot
   };
@@ -76,49 +75,58 @@ function Robot(robotEl) {
     }();
 
     function _moveLeft (distance) {
-      var currentLeft = robot.position.get().x;
-      moveToX(currentLeft + distance);
+      var currentPosition = getPosition();
+      var newX = currentPosition.x + distance;
+
+      moveTo(newX, currentPosition.y);
     }
 
     function _moveDown (distance) {
-      var currentTop = robot.position.get().y;
-      moveToY(currentTop + distance);
+      var currentPosition = getPosition();
+      var newY = currentPosition.y + distance;
+
+      moveTo(currentPosition.x, newY);
     }
 
     function _moveRight (distance) {
-      _moveLeft( -1 * distance);
+      _moveLeft( - 1 * distance);
     }
 
     function _moveUp (distance) {
-      _moveDown( -1 * distance);
+      _moveDown( - 1 * distance);
     }
   }
 
-  function watch(x, y){
-    var angle = _calcAngle({x: x, y: y});
-    var scale = _calcScale({x: x, y: y});
-    orient(angle, scale);
-  }
-
   function moveTo(x, y){
+    _orient(x, y);
+    _positionTo(x, y);
+  }
+
+  function _positionTo(x, y) {
+    var robotSize = getRobotSize();
+    robot.dom.style.left = x - robotSize.width/2 + 'px';
+    robot.dom.style.top = y - robotSize.height/2 + 'px';
+  }
+
+  function _orient(x, y){
     var angle = _calcAngle({x: x, y: y});
     var scale = _calcScale({x: x, y: y});
-    moveToX(x);
-    moveToY(y);
-    orient(angle, scale);
+    _transform(angle, scale);
   }
 
-  function moveToX(x) {
-    robot.position.x = x;
-  }
+  function _transform(angle, scale) {
+    robot.position = robot.position || {};
+    var transform = '';
 
-  function moveToY(y) {
-    robot.position.y = y;
-  }
-
-  function orient(angle, scale) {
+    if(_isNumber(angle)) {
+      transform += 'rotate(' + angle + 'deg)';
+    }
+    if(_isNumber(scale)) {
+      transform += ' scaleX(' + scale + ')';
+    }
     robot.position.angle = angle;
     robot.position.scale = scale;
+    robot.img.style.transform = transform;
   }
 
   function name(robotName) {
@@ -132,7 +140,7 @@ function Robot(robotEl) {
   function reset() {
     var defaults = _getRobotDefaults();
     moveTo(defaults.position.x, defaults.position.y);
-    orient(defaults.position.angle, defaults.position.scale);
+    _transform(defaults.position.angle, defaults.position.scale);
     changeRobot(defaults.src);
   }
 
@@ -140,8 +148,6 @@ function Robot(robotEl) {
   // They are "Private" functions.
   function _setRobotElement(){
     robot.dom = robotEl;
-    robot.position = new Position(robot.dom);
-
     robot.img = robot.dom.getElementsByTagName('img')[0]
     robot.img.onload = _setRobotDefaults;
   }
@@ -150,7 +156,12 @@ function Robot(robotEl) {
     robot.defaults = {}
     robot.defaults.src = robot.img.src;
     robot.defaults.size = getRobotSize();
-    robot.defaults.position = robot.position.get();
+    robot.defaults.position = {
+      scale: 1,
+      rotate: 0,
+      x: robot.defaults.size.width/2,
+      y: robot.defaults.size.height/2
+    };
   }
 
   // returns a copy of the robot's default settings
@@ -167,7 +178,7 @@ function Robot(robotEl) {
   }
 
   function _calcAngle(destination) {
-    var currentPosition = robot.position.get();
+    var currentPosition = getPosition();
     var xDist = destination.x - currentPosition.x;
     var yDist = currentPosition.y - destination.y;
 
@@ -179,7 +190,7 @@ function Robot(robotEl) {
   }
 
   function _calcScale(destination) {
-    var currentPosition = robot.position.get();
+    var currentPosition = getPosition();
     var xDist = destination.x - currentPosition.x;
 
     return _getDirection(xDist);
