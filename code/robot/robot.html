@@ -7,6 +7,7 @@
     getSize: getSize,
     moveTo: moveTo,
     move: move,
+    moveRandom: moveRandom,
     change: change,
     reset: reset,
     name: name,
@@ -127,27 +128,41 @@ We can use <code>robot.defaults</code> later to be able to reset the robot to it
       <span class="hljs-keyword">return</span> <span class="hljs-string">'moved '</span> + distance + <span class="hljs-string">' '</span> + direction;
     }();
 
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">moveLeft</span> (<span class="hljs-params">distance</span>) </span>{
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">moveLeft</span>(<span class="hljs-params">distance</span>) </span>{
       <span class="hljs-keyword">var</span> currentPosition = getPosition();
       <span class="hljs-keyword">var</span> newX = currentPosition.x + distance;
 
       moveTo(newX, currentPosition.y);
     }
 
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">moveDown</span> (<span class="hljs-params">distance</span>) </span>{
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">moveDown</span>(<span class="hljs-params">distance</span>) </span>{
       <span class="hljs-keyword">var</span> currentPosition = getPosition();
       <span class="hljs-keyword">var</span> newY = currentPosition.y + distance;
 
       moveTo(currentPosition.x, newY);
     }
 
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">moveRight</span> (<span class="hljs-params">distance</span>) </span>{
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">moveRight</span>(<span class="hljs-params">distance</span>) </span>{
       moveLeft( - <span class="hljs-number">1</span> * distance);
     }
 
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">moveUp</span> (<span class="hljs-params">distance</span>) </span>{
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">moveUp</span>(<span class="hljs-params">distance</span>) </span>{
       moveDown( - <span class="hljs-number">1</span> * distance);
     }
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">moveRandom</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">var</span> robotSize = getSize();
+    <span class="hljs-keyword">var</span> xBuffer = robotSize.width/<span class="hljs-number">2</span>;
+    <span class="hljs-keyword">var</span> yBuffer = robotSize.height/<span class="hljs-number">2</span>;
+
+    <span class="hljs-keyword">var</span> randomXMax = <span class="hljs-built_in">window</span>.innerWidth - <span class="hljs-number">2</span> * xBuffer;
+    <span class="hljs-keyword">var</span> randomYMax = <span class="hljs-built_in">window</span>.innerHeight - <span class="hljs-number">2</span> * yBuffer;
+
+    <span class="hljs-keyword">var</span> randomX = <span class="hljs-built_in">Math</span>.random() * randomXMax + xBuffer;
+    <span class="hljs-keyword">var</span> randomY = <span class="hljs-built_in">Math</span>.random() * randomYMax + yBuffer;
+
+    moveTo(randomX, randomY);
   }
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">change</span>(<span class="hljs-params">imageURL</span>) </span>{

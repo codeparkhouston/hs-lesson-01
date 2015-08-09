@@ -16,6 +16,7 @@ function Robot(robotEl) {
     getSize: getSize,
     moveTo: moveTo,
     move: move,
+    moveRandom: moveRandom,
     change: change,
     reset: reset,
     name: name,
@@ -173,27 +174,41 @@ function Robot(robotEl) {
       return 'moved ' + distance + ' ' + direction;
     }();
 
-    function moveLeft (distance) {
+    function moveLeft(distance) {
       var currentPosition = getPosition();
       var newX = currentPosition.x + distance;
 
       moveTo(newX, currentPosition.y);
     }
 
-    function moveDown (distance) {
+    function moveDown(distance) {
       var currentPosition = getPosition();
       var newY = currentPosition.y + distance;
 
       moveTo(currentPosition.x, newY);
     }
 
-    function moveRight (distance) {
+    function moveRight(distance) {
       moveLeft( - 1 * distance);
     }
 
-    function moveUp (distance) {
+    function moveUp(distance) {
       moveDown( - 1 * distance);
     }
+  }
+
+  function moveRandom(){
+    var robotSize = getSize();
+    var xBuffer = robotSize.width/2;
+    var yBuffer = robotSize.height/2;
+
+    var randomXMax = window.innerWidth - 2 * xBuffer;
+    var randomYMax = window.innerHeight - 2 * yBuffer;
+
+    var randomX = Math.random() * randomXMax + xBuffer;
+    var randomY = Math.random() * randomYMax + yBuffer;
+
+    moveTo(randomX, randomY);
   }
 
   function change(imageURL) {
