@@ -54,10 +54,18 @@ function Robot(robotEl) {
    */
   function setBody(robotElement){
     robot.element = robotElement;
-    robot.size = getSize();
     robot.img = robot.element.getElementsByTagName('img')[0]
-    robot.img.onload = setDefaults;
+    robot.img.onload = setSizeAndPosition;
+    // Force an image reload to make `setSizeAndPosition` run.
+    robot.img.src = robot.img.src;
+  }
+
+
+  function setSizeAndPosition(){
+    robot.size = getSize();
     robot.position = new Position(robot);
+
+    setDefaults()
   }
 
   /**
@@ -67,11 +75,12 @@ function Robot(robotEl) {
    * We can use `robot.defaults` later to be able to reset the robot to it's original state.
    */
   function setDefaults(){
+    robot.size = getSize();
+    robot.position = new Position(robot);
+
     robot.defaults = {}
     robot.defaults.src = robot.img.src;
     robot.defaults.position = getPosition();
-    robot.defaults.position.scale = 1;
-    robot.defaults.position.rotate = 0;
   }
 
   /**
@@ -81,15 +90,7 @@ function Robot(robotEl) {
    * @return {Object} with an x and y for where the robot is.
    */
   function getPosition(){
-    var robotSize = robot.size;
-    var boundingRectangle = robot.element.getBoundingClientRect();
-
-    var center = {
-      x: (robotSize.width)/2 + boundingRectangle.left,
-      y: (robotSize.height)/2 + boundingRectangle.top
-    };
-
-    return center;
+    return robot.position.get();
   }
 
   function getSize(){
@@ -163,8 +164,11 @@ function Robot(robotEl) {
   }
 
   function reset() {
-    moveTo(robot.defaults.position.x, robot.defaults.position.y);
-    transform(robot.defaults.position.angle, robot.defaults.position.scale);
+    robot.position.angle = robot.defaults.position.angle;
+    robot.position.scale = robot.defaults.position.scale;
+    robot.position.x = robot.defaults.position.x;
+    robot.position.y = robot.defaults.position.y;
+
     change(robot.defaults.src);
   }
 

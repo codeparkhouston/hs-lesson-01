@@ -1,7 +1,7 @@
 function Position(body, defaultPosition) {
   var position = {
-    x: 0,
-    y: 0,
+    x: body.size.width/2,
+    y: body.size.height/2,
     angle: 0,
     scale: 1
   };
