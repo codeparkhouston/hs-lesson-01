@@ -1,4 +1,4 @@
 {
-  "glob": ["assets/**", "README.md"],
-  "except": ["assets/lib/**"]
+  "glob": ["exercise/assets/**", "README.md"],
+  "out": "./code"
 }
