@@ -115,49 +115,9 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "projectPath": "assets/robot/robot.js",
             "targetPath": "robot/robot",
             "pageTitle": "robot/robot",
-            "firstHeader": {
-              "type": "heading",
-              "data": {
-                "level": 1,
-                "title": "robot.js",
-                "slug": "robotjs",
-                "isFileHeader": true
-              },
-              "depth": 1
-            },
-            "title": "robot.js"
+            "title": "robot"
           },
-          "depth": 2,
-          "outline": [
-            {
-              "type": "heading",
-              "data": {
-                "level": 1,
-                "title": "Functions",
-                "slug": "functions"
-              },
-              "depth": 1,
-              "children": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 2,
-                    "title": "Give the robot a body.",
-                    "slug": "give-the-robot-a-body"
-                  },
-                  "depth": 2
-                }, {
-                  "type": "heading",
-                  "data": {
-                    "level": 2,
-                    "title": "Remember the initial information about the robot.",
-                    "slug": "remember-the-initial-information-about-the-robot"
-                  },
-                  "depth": 2
-                }
-              ]
-            }
-          ]
+          "depth": 2
         }, {
           "type": "file",
           "data": {
@@ -173,6 +133,34 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "projectPath": "assets/robot/style.css",
             "targetPath": "robot/style",
             "pageTitle": "robot/style",
+            "title": "style"
+          },
+          "depth": 2
+        }
+      ]
+    }, {
+      "type": "folder",
+      "data": {
+        "path": "scene",
+        "title": "scene"
+      },
+      "depth": 1,
+      "children": [
+        {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".css"],
+              "pygmentsLexer": "css",
+              "multiLineComment": ["/*", "*", "*/"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "CSS"
+            },
+            "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/assets/scene/style.css",
+            "projectPath": "assets/scene/style.css",
+            "targetPath": "scene/style",
+            "pageTitle": "scene/style",
             "title": "style"
           },
           "depth": 2

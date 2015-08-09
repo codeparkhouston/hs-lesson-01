@@ -45,7 +45,9 @@ function Robot(robotEl) {
 
 
   /**
-   * ## Give the robot a body.
+   * ## setBody
+   * 
+   * Gives the robot a body.
    * 
    * @param {DOMElement} robotElement The HTML Element that the robot's capabilities should be attached to.
    */
@@ -56,7 +58,10 @@ function Robot(robotEl) {
   }
 
   /**
-   * ## Remember the initial information about the robot.
+   * ## setDefaults
+   * 
+   * Remembers the initial information about the robot.
+   * We can use `robot.defaults` later to be able to reset the robot to it's original state.
    */
   function setDefaults(){
     robot.defaults = {}
@@ -66,6 +71,12 @@ function Robot(robotEl) {
     robot.defaults.position.rotate = 0;
   }
 
+  /**
+   * ## getPosition
+   * 
+   * Tells us where the robot is.
+   * @return {Object} with an x and y for where the robot is.
+   */
   function getPosition(){
     var robotSize = getSize();
     var boundingRectangle = robot.element.getBoundingClientRect();
