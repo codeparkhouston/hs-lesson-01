@@ -12354,5 +12354,5 @@
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],2:[function(require,module,exports){
-var _ = require('lodash');
+window._ = require('lodash');
 },{"lodash":1}]},{},[2]);

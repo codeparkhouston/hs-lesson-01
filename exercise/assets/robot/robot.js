@@ -54,8 +54,10 @@ function Robot(robotEl) {
    */
   function setBody(robotElement){
     robot.element = robotElement;
+    robot.size = getSize();
     robot.img = robot.element.getElementsByTagName('img')[0]
     robot.img.onload = setDefaults;
+    robot.position = new Position(robot);
   }
 
   /**
@@ -79,7 +81,7 @@ function Robot(robotEl) {
    * @return {Object} with an x and y for where the robot is.
    */
   function getPosition(){
-    var robotSize = getSize();
+    var robotSize = robot.size;
     var boundingRectangle = robot.element.getBoundingClientRect();
 
     var center = {
@@ -101,64 +103,9 @@ function Robot(robotEl) {
   }
 
   function moveTo(x, y){
-    orient(x, y);
-    positionTo(x, y);
+    robot.position.x = x;
+    robot.position.y = y;
   }
-
-  function positionTo(x, y) {
-    var robotSize = getSize();
-    robot.element.style.left = x - robotSize.width/2 + 'px';
-    robot.element.style.top = y - robotSize.height/2 + 'px';
-  }
-
-  function orient(x, y){
-    var angle = calculateAngle({x: x, y: y});
-    var scale = calculateScale({x: x, y: y});
-    transform(angle, scale);
-  }
-
-  function transform(angle, scale) {
-    robot.position = robot.position || {};
-    var transform = '';
-
-    if(isNumber(angle)) {
-      transform += 'rotate(' + angle + 'deg)';
-    }
-    if(isNumber(scale)) {
-      transform += ' scaleX(' + scale + ')';
-    }
-    robot.position.angle = angle;
-    robot.position.scale = scale;
-    robot.img.style.transform = transform;
-  }
-
-  function getDirection(distance) {
-    return distance/Math.abs(distance);
-  }
-
-  function isNumber(number) {
-    return typeof number == 'number' && number.toString() !== 'NaN'
-  }
-
-  function calculateAngle(destination) {
-    var currentPosition = getPosition();
-    var xDist = destination.x - currentPosition.x;
-    var yDist = currentPosition.y - destination.y;
-
-    if(xDist == 0){
-      return getDirection(yDist) * 90;
-    }
-
-    return Math.atan(yDist/xDist) / Math.PI * 180;
-  }
-
-  function calculateScale(destination) {
-    var currentPosition = getPosition();
-    var xDist = destination.x - currentPosition.x;
-
-    return getDirection(xDist);
-  }
-
 
   function move(direction, distance){
 
@@ -198,7 +145,7 @@ function Robot(robotEl) {
   }
 
   function moveRandom(){
-    var robotSize = getSize();
+    var robotSize = robot.size;
     var xBuffer = robotSize.width/2;
     var yBuffer = robotSize.height/2;
 
