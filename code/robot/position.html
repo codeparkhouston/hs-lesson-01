@@ -17,7 +17,7 @@
     set: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>) </span>{
       previous.x = position.x;
       position.x = value;
-      <span class="hljs-keyword">this</span>.emitChange(<span class="hljs-string">'xyChange'</span>, [<span class="hljs-string">'x'</span>]);
+      emitChange(<span class="hljs-string">'xyChange'</span>, [<span class="hljs-string">'x'</span>]);
     }
   });
 
@@ -28,7 +28,7 @@
     set: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>) </span>{
       previous.y = position.y;
       position.y = value;
-      <span class="hljs-keyword">this</span>.emitChange(<span class="hljs-string">'xyChange'</span>, [<span class="hljs-string">'y'</span>]);
+      emitChange(<span class="hljs-string">'xyChange'</span>, [<span class="hljs-string">'y'</span>]);
     }
   });
 
@@ -38,7 +38,7 @@
     },
     set: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>) </span>{
       position.scale = value;
-      <span class="hljs-keyword">this</span>.emitChange(<span class="hljs-string">'orientationChange'</span>, [<span class="hljs-string">'scale'</span>]);
+      emitChange(<span class="hljs-string">'orientationChange'</span>, [<span class="hljs-string">'scale'</span>]);
     }
   });
 
@@ -48,11 +48,18 @@
     },
     set: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>) </span>{
       position.angle = value;
-      <span class="hljs-keyword">this</span>.emitChange(<span class="hljs-string">'orientationChange'</span>, [<span class="hljs-string">'angle'</span>]);
+      emitChange(<span class="hljs-string">'orientationChange'</span>, [<span class="hljs-string">'angle'</span>]);
     }
   });
 
-  <span class="hljs-keyword">this</span>.emitChange = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">changeType, changedProperties</span>)</span>{
+  <span class="hljs-keyword">this</span>.get = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">return</span> _.clone(position);
+  }
+
+  body.element.addEventListener(<span class="hljs-string">'xyChange'</span>, _.debounce(orient, <span class="hljs-number">100</span>).bind(<span class="hljs-keyword">this</span>));
+  body.element.addEventListener(<span class="hljs-string">'orientationChange'</span>, _.debounce(move, <span class="hljs-number">100</span>));
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">emitChange</span>(<span class="hljs-params">changeType, changedProperties</span>)</span>{
     <span class="hljs-keyword">var</span> changeEventData = {
       position: position,
       changed: changedProperties
@@ -61,24 +68,17 @@
     body.element.dispatchEvent(changeEvent);
   }
 
-  <span class="hljs-keyword">this</span>.get = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
-    <span class="hljs-keyword">return</span> _.clone(position);
-  }
-
-  <span class="hljs-keyword">this</span>.orient = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">orient</span>(<span class="hljs-params"></span>)</span>{
     <span class="hljs-keyword">this</span>.angle = calculateAngle(position);
     <span class="hljs-keyword">this</span>.scale = calculateScale(position);
   }
 
-  <span class="hljs-keyword">this</span>.move = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">move</span>(<span class="hljs-params"></span>)</span>{
     <span class="hljs-keyword">var</span> transform = getTransform(position);
     body.element.style.left = position.x - body.size.width/<span class="hljs-number">2</span> + <span class="hljs-string">'px'</span>;
     body.element.style.top = position.y - body.size.height/<span class="hljs-number">2</span> + <span class="hljs-string">'px'</span>;
     body.img.style.transform = transform;
   }
-
-  body.element.addEventListener(<span class="hljs-string">'xyChange'</span>, _.debounce(<span class="hljs-keyword">this</span>.orient, <span class="hljs-number">100</span>).bind(<span class="hljs-keyword">this</span>));
-  body.element.addEventListener(<span class="hljs-string">'orientationChange'</span>, _.debounce(<span class="hljs-keyword">this</span>.move, <span class="hljs-number">100</span>).bind(<span class="hljs-keyword">this</span>));
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getTransform</span>(<span class="hljs-params">position</span>) </span>{
     <span class="hljs-keyword">var</span> transform = <span class="hljs-string">''</span>;

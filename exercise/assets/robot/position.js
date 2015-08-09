@@ -17,7 +17,7 @@ function Position(body, defaultPosition) {
     set: function(value) {
       previous.x = position.x;
       position.x = value;
-      this.emitChange('xyChange', ['x']);
+      emitChange('xyChange', ['x']);
     }
   });
 
@@ -28,7 +28,7 @@ function Position(body, defaultPosition) {
     set: function(value) {
       previous.y = position.y;
       position.y = value;
-      this.emitChange('xyChange', ['y']);
+      emitChange('xyChange', ['y']);
     }
   });
 
@@ -38,7 +38,7 @@ function Position(body, defaultPosition) {
     },
     set: function(value) {
       position.scale = value;
-      this.emitChange('orientationChange', ['scale']);
+      emitChange('orientationChange', ['scale']);
     }
   });
 
@@ -48,11 +48,18 @@ function Position(body, defaultPosition) {
     },
     set: function(value) {
       position.angle = value;
-      this.emitChange('orientationChange', ['angle']);
+      emitChange('orientationChange', ['angle']);
     }
   });
 
-  this.emitChange = function(changeType, changedProperties){
+  this.get = function(){
+    return _.clone(position);
+  }
+
+  body.element.addEventListener('xyChange', _.debounce(orient, 100).bind(this));
+  body.element.addEventListener('orientationChange', _.debounce(move, 100));
+
+  function emitChange(changeType, changedProperties){
     var changeEventData = {
       position: position,
       changed: changedProperties
@@ -61,24 +68,17 @@ function Position(body, defaultPosition) {
     body.element.dispatchEvent(changeEvent);
   }
 
-  this.get = function(){
-    return _.clone(position);
-  }
-
-  this.orient = function(){
+  function orient(){
     this.angle = calculateAngle(position);
     this.scale = calculateScale(position);
   }
 
-  this.move = function(){
+  function move(){
     var transform = getTransform(position);
     body.element.style.left = position.x - body.size.width/2 + 'px';
     body.element.style.top = position.y - body.size.height/2 + 'px';
     body.img.style.transform = transform;
   }
-
-  body.element.addEventListener('xyChange', _.debounce(this.orient, 100).bind(this));
-  body.element.addEventListener('orientationChange', _.debounce(this.move, 100).bind(this));
 
   function getTransform(position) {
     var transform = '';
