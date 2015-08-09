@@ -22,6 +22,7 @@
     robot.element = robotElement;
     robot.img = robot.element.getElementsByTagName(<span class="hljs-string">'img'</span>)[<span class="hljs-number">0</span>]
     robot.img.onload = setSizeAndPosition;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Force an image reload to make <code>setSizeAndPosition</code> run.</p></div></div><div class="code"><div class="wrapper">    robot.img.src = robot.img.src;
+    robot.name = <span class="hljs-string">''</span>;
   }
 
 
@@ -58,6 +59,8 @@ We can use <code>robot.defaults</code> later to be able to reset the robot to it
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">moveTo</span>(<span class="hljs-params">x, y</span>)</span>{
     robot.position.x = x;
     robot.position.y = y;
+
+    <span class="hljs-keyword">return</span> robot.name + <span class="hljs-string">' moved to '</span> + x + <span class="hljs-string">', '</span> + y;
   }
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">move</span>(<span class="hljs-params">direction, distance</span>)</span>{
@@ -69,31 +72,28 @@ We can use <code>robot.defaults</code> later to be able to reset the robot to it
       up: moveUp
     };
 
-    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
-      movers[direction](distance);
-      <span class="hljs-keyword">return</span> <span class="hljs-string">'moved '</span> + distance + <span class="hljs-string">' '</span> + direction;
-    }();
+    <span class="hljs-keyword">return</span> movers[direction](distance);
 
     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">moveLeft</span>(<span class="hljs-params">distance</span>) </span>{
       <span class="hljs-keyword">var</span> currentPosition = getPosition();
       <span class="hljs-keyword">var</span> newX = currentPosition.x + distance;
 
-      moveTo(newX, currentPosition.y);
+      <span class="hljs-keyword">return</span> moveTo(newX, currentPosition.y);
     }
 
     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">moveDown</span>(<span class="hljs-params">distance</span>) </span>{
       <span class="hljs-keyword">var</span> currentPosition = getPosition();
       <span class="hljs-keyword">var</span> newY = currentPosition.y + distance;
 
-      moveTo(currentPosition.x, newY);
+      <span class="hljs-keyword">return</span> moveTo(currentPosition.x, newY);
     }
 
     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">moveRight</span>(<span class="hljs-params">distance</span>) </span>{
-      moveLeft( - <span class="hljs-number">1</span> * distance);
+      <span class="hljs-keyword">return</span> moveLeft( - <span class="hljs-number">1</span> * distance);
     }
 
     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">moveUp</span>(<span class="hljs-params">distance</span>) </span>{
-      moveDown( - <span class="hljs-number">1</span> * distance);
+      <span class="hljs-keyword">return</span> moveDown( - <span class="hljs-number">1</span> * distance);
     }
   }
 
@@ -108,7 +108,7 @@ We can use <code>robot.defaults</code> later to be able to reset the robot to it
     <span class="hljs-keyword">var</span> randomX = <span class="hljs-built_in">Math</span>.random() * randomXMax + xBuffer;
     <span class="hljs-keyword">var</span> randomY = <span class="hljs-built_in">Math</span>.random() * randomYMax + yBuffer;
 
-    moveTo(randomX, randomY);
+    <span class="hljs-keyword">return</span> moveTo(randomX, randomY);
   }
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">change</span>(<span class="hljs-params">imageURL</span>) </span>{
@@ -125,6 +125,7 @@ We can use <code>robot.defaults</code> later to be able to reset the robot to it
   }
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">name</span>(<span class="hljs-params">robotName</span>) </span>{
+    robot.name = robotName;
     robot.element.dataset.name = robotName;
   }
 

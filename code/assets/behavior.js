@@ -39,25 +39,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
       },
       "depth": 1
     }, {
-      "type": "file",
-      "data": {
-        "language": {
-          "nameMatchers": [".js"],
-          "pygmentsLexer": "javascript",
-          "multiLineComment": ["/*", "*", "*/"],
-          "singleLineComment": ["//"],
-          "ignorePrefix": "}",
-          "foldPrefix": "^",
-          "name": "JavaScript"
-        },
-        "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/exercise/assets/observer.js",
-        "projectPath": "exercise/assets/observer.js",
-        "targetPath": "observer",
-        "pageTitle": "observer",
-        "title": "observer"
-      },
-      "depth": 1
-    }, {
       "type": "folder",
       "data": {
         "path": "robot",
@@ -115,57 +96,9 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "projectPath": "exercise/assets/robot/robot.js",
             "targetPath": "robot/robot",
             "pageTitle": "robot/robot",
-            "firstHeader": {
-              "type": "heading",
-              "data": {
-                "level": 1,
-                "title": "robot.js",
-                "slug": "robotjs",
-                "isFileHeader": true
-              },
-              "depth": 1
-            },
-            "title": "robot.js"
+            "title": "robot"
           },
-          "depth": 2,
-          "outline": [
-            {
-              "type": "heading",
-              "data": {
-                "level": 1,
-                "title": "Functions",
-                "slug": "functions"
-              },
-              "depth": 1,
-              "children": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 2,
-                    "title": "setBody",
-                    "slug": "setbody"
-                  },
-                  "depth": 2
-                }, {
-                  "type": "heading",
-                  "data": {
-                    "level": 2,
-                    "title": "setDefaults",
-                    "slug": "setdefaults"
-                  },
-                  "depth": 2
-                }, {
-                  "type": "heading",
-                  "data": {
-                    "level": 2,
-                    "title": "getPosition",
-                    "slug": "getposition"
-                  },
-                  "depth": 2
-                }
-              ]
-            }
-          ]
+          "depth": 2
         }, {
           "type": "file",
           "data": {

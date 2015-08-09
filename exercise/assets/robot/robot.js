@@ -58,6 +58,7 @@ function Robot(robotEl) {
     robot.img.onload = setSizeAndPosition;
     // Force an image reload to make `setSizeAndPosition` run.
     robot.img.src = robot.img.src;
+    robot.name = '';
   }
 
 
@@ -106,6 +107,8 @@ function Robot(robotEl) {
   function moveTo(x, y){
     robot.position.x = x;
     robot.position.y = y;
+
+    return robot.name + ' moved to ' + x + ', ' + y;
   }
 
   function move(direction, distance){
@@ -117,31 +120,28 @@ function Robot(robotEl) {
       up: moveUp
     };
 
-    return function(){
-      movers[direction](distance);
-      return 'moved ' + distance + ' ' + direction;
-    }();
+    return movers[direction](distance);
 
     function moveLeft(distance) {
       var currentPosition = getPosition();
       var newX = currentPosition.x + distance;
 
-      moveTo(newX, currentPosition.y);
+      return moveTo(newX, currentPosition.y);
     }
 
     function moveDown(distance) {
       var currentPosition = getPosition();
       var newY = currentPosition.y + distance;
 
-      moveTo(currentPosition.x, newY);
+      return moveTo(currentPosition.x, newY);
     }
 
     function moveRight(distance) {
-      moveLeft( - 1 * distance);
+      return moveLeft( - 1 * distance);
     }
 
     function moveUp(distance) {
-      moveDown( - 1 * distance);
+      return moveDown( - 1 * distance);
     }
   }
 
@@ -156,7 +156,7 @@ function Robot(robotEl) {
     var randomX = Math.random() * randomXMax + xBuffer;
     var randomY = Math.random() * randomYMax + yBuffer;
 
-    moveTo(randomX, randomY);
+    return moveTo(randomX, randomY);
   }
 
   function change(imageURL) {
@@ -173,6 +173,7 @@ function Robot(robotEl) {
   }
 
   function name(robotName) {
+    robot.name = robotName;
     robot.element.dataset.name = robotName;
   }
 
