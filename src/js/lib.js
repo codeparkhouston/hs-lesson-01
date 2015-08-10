@@ -1,1 +1,1 @@
-var _ = require('lodash');
+window._ = require('lodash');

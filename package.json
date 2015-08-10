@@ -5,26 +5,30 @@
   "main": "index.js",
   "dependencies": {
     "bootstrap": "^3.3.5",
+    "headjs": "git://github.com/headjs/headjs",
+    "highlight.js": "^8.7.0",
+    "jquery": "^2.1.4",
     "lodash": "^3.10.1",
-    "normalize.css": "^3.0.3"
+    "normalize.css": "^3.0.3",
+    "prismjs": "0.0.1",
+    "reveal": "0.0.4"
   },
   "devDependencies": {
     "groc": "^0.8.0",
     "less": "^2.5.1",
     "less-fixed": "0.0.4",
-    "livereload": "^0.3.7",
     "parallelshell": "^2.0.0",
     "watch": "^0.16.0",
     "watchify": "^3.3.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:less": "less-fixed ./src/less/lib.less ./assets/lib.css",
+    "build:less": "for file in ./src/less/*.less; do less-fixed $file ./dist/assets/${file:11:(${#file}-15)}css & done",
     "build:docs": "groc",
     "watch:less": "watch 'npm run build:less' ./src/less",
-    "watch:docs": "watch 'npm run build:docs' ./exercise",
-    "watch:js": "watchify ./src/js/lib.js -o ./assets/lib.js -v",
-    "dev": "parallelshell 'npm run watch:less' 'npm run watch:docs' 'npm run watch:js'"
+    "watch:docs": "watch 'npm run build:docs' ./dist/exercise",
+    "watch:js": "for file in ./src/js/*.js; do watchify $file -o ${file/#.\\/src\\/js/.\\/dist\\/assets} -v & done",
+    "dev": "parallelshell 'npm run watch:less' 'npm run watch:js' 'npm run watch:docs'"
   },
   "author": "",
   "license": "ISC"
