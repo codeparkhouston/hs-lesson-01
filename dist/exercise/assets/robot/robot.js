@@ -4,8 +4,8 @@
  * This file contains code all about the robot.
  */
 
-var robotEl = document.getElementById('robot');
-var cecil = new Robot(robotEl);
+var cecilEl = document.getElementById('cecil');
+var cecil = new Robot(cecilEl);
 
 function Robot(robotEl) {
   /**
@@ -162,8 +162,10 @@ function Robot(robotEl) {
     var xBuffer = robotSize.width/2;
     var yBuffer = robotSize.height/2;
 
-    var randomXMax = window.innerWidth - 2 * xBuffer;
-    var randomYMax = window.innerHeight - 2 * yBuffer;
+    var sceneSize = document.getElementById('scene').getBoundingClientRect();
+
+    var randomXMax = sceneSize.width - 2 * xBuffer;
+    var randomYMax = sceneSize.height - 2 * yBuffer;
 
     var randomX = Math.random() * randomXMax + xBuffer;
     var randomY = Math.random() * randomYMax + yBuffer;
