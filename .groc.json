@@ -1,4 +1,4 @@
 {
-  "glob": ["exercise/assets/**", "README.md"],
-  "out": "./code"
+  "glob": ["./dist/exercise/assets/**", "README.md"],
+  "out": "./dist/code"
 }

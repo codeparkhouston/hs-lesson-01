@@ -11,18 +11,17 @@ function Robot(robotEl) {
   /**
    * `robotMethods` will hold onto what the robot can do.
    */
-  var robotMethods = {
-    getPosition: getPosition,
-    getSize: getSize,
-    moveTo: moveTo,
-    move: move,
-    moveRandom: moveRandom,
-    change: change,
-    reset: reset,
-    name: name,
-    flip: flip,
-    getElement: getElement
-  };
+  var robotMethods = Object.create(null);
+  robotMethods.getPosition = getPosition;
+  robotMethods.getSize = getSize;
+  robotMethods.moveTo = moveTo;
+  robotMethods.move = move;
+  robotMethods.moveRandom = moveRandom;
+  robotMethods.change = change;
+  robotMethods.reset = reset;
+  robotMethods.name = name;
+  robotMethods.flip = flip;
+  robotMethods.getElement = getElement;
 
   /**
    * We are going to use `robot` to hold onto some private information about our robot.
@@ -53,6 +52,11 @@ function Robot(robotEl) {
    * @param {DOMElement} robotElement The HTML Element that the robot's capabilities should be attached to.
    */
   function setBody(robotElement){
+
+    if((!robotElement || typeof robotElement !== 'object')){
+      throw new MissingInformationError(['the robot\' HTML element']);
+    }
+
     robot.element = robotElement;
     robot.img = robot.element.getElementsByTagName('img')[0]
     robot.img.onload = setSizeAndPosition;
@@ -120,6 +124,14 @@ function Robot(robotEl) {
       up: moveUp
     };
 
+    try {
+      checkParameters(arguments, [{name: 'direction', test: _.isFunction.bind(_, movers[direction])}, {name: 'distance', test: _.isNumber}], 'cecil.move("left", 100)')
+    } catch(error){
+      console.error(error.message);
+      return;
+    }
+
+
     return movers[direction](distance);
 
     function moveLeft(distance) {
@@ -160,7 +172,16 @@ function Robot(robotEl) {
   }
 
   function change(imageURL) {
+    try {
+      checkParameters(arguments, [{name: 'the image url', test: _.isString}], 'cecil.change("http://www.clipartlord.com/wp-content/uploads/2014/04/robot20.png")')
+    } catch(error){
+      console.error(error.message);
+      return;
+    }
+
     robot.img.src = imageURL;
+
+    return 'Robot image set to ' + imageURL;
   }
 
   function reset() {
@@ -170,19 +191,51 @@ function Robot(robotEl) {
     robot.position.y = robot.defaults.position.y;
 
     change(robot.defaults.src);
+
+    return 'Robot reset to original position and image';
   }
 
   function name(robotName) {
+    try {
+      checkParameters(arguments, [{name: 'the name', test: _.isString}], 'cecil.name("Cecil")')
+    } catch(error){
+      console.error(error.message);
+      return;
+    }
+
     robot.name = robotName;
     robot.element.dataset.name = robotName;
+
+    return 'Robot got named ' + robotName;
   }
 
   function flip(){
     robot.element.classList.toggle('flip');
+
+    return 'Robot flipped!';
   }
 
   function getElement(){
     return robot.element;
   }
+
+  function checkParameters(parameters, expectedParameters, example){
+
+    var missingParameters = _.reject(expectedParameters, function(expectedParameter, iteration){
+      return expectedParameter.test(parameters[iteration]);
+    });
+
+    if(missingParameters.length){
+      throw new MissingInformationError(_.pluck(missingParameters, 'name'), example);
+    }
+  }
+
+  function MissingInformationError(parameters, example){
+    this.name = 'MissingInformationError'
+    this.message = 'This function needs information about ' + parameters.join(' , ') + '. For example, try: ' + example;
+  }
+
+  MissingInformationError.prototype = Object.create(Error.prototype);
+  MissingInformationError.prototype.constructor = MissingInformationError;
 }
 

@@ -31,8 +31,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "foldPrefix": "^",
           "name": "CSS"
         },
-        "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/exercise/assets/main.css",
-        "projectPath": "exercise/assets/main.css",
+        "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/dist/exercise/assets/main.css",
+        "projectPath": "dist/exercise/assets/main.css",
         "targetPath": "main",
         "pageTitle": "main",
         "title": "main"
@@ -54,8 +54,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "commentsOnly": true,
               "name": "Markdown"
             },
-            "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/exercise/assets/robot/README.md",
-            "projectPath": "exercise/assets/robot/README.md",
+            "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/dist/exercise/assets/robot/README.md",
+            "projectPath": "dist/exercise/assets/robot/README.md",
             "targetPath": "robot/README",
             "pageTitle": "robot/README",
             "title": "README"
@@ -73,8 +73,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "foldPrefix": "^",
               "name": "JavaScript"
             },
-            "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/exercise/assets/robot/position.js",
-            "projectPath": "exercise/assets/robot/position.js",
+            "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/dist/exercise/assets/robot/position.js",
+            "projectPath": "dist/exercise/assets/robot/position.js",
             "targetPath": "robot/position",
             "pageTitle": "robot/position",
             "title": "position"
@@ -92,13 +92,61 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "foldPrefix": "^",
               "name": "JavaScript"
             },
-            "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/exercise/assets/robot/robot.js",
-            "projectPath": "exercise/assets/robot/robot.js",
+            "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/dist/exercise/assets/robot/robot.js",
+            "projectPath": "dist/exercise/assets/robot/robot.js",
             "targetPath": "robot/robot",
             "pageTitle": "robot/robot",
-            "title": "robot"
+            "firstHeader": {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "robot.js",
+                "slug": "robotjs",
+                "isFileHeader": true
+              },
+              "depth": 1
+            },
+            "title": "robot.js"
           },
-          "depth": 2
+          "depth": 2,
+          "outline": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Functions",
+                "slug": "functions"
+              },
+              "depth": 1,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "setBody",
+                    "slug": "setbody"
+                  },
+                  "depth": 2
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "setDefaults",
+                    "slug": "setdefaults"
+                  },
+                  "depth": 2
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "getPosition",
+                    "slug": "getposition"
+                  },
+                  "depth": 2
+                }
+              ]
+            }
+          ]
         }, {
           "type": "file",
           "data": {
@@ -110,8 +158,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "foldPrefix": "^",
               "name": "CSS"
             },
-            "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/exercise/assets/robot/style.css",
-            "projectPath": "exercise/assets/robot/style.css",
+            "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/dist/exercise/assets/robot/style.css",
+            "projectPath": "dist/exercise/assets/robot/style.css",
             "targetPath": "robot/style",
             "pageTitle": "robot/style",
             "title": "style"
@@ -138,8 +186,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "foldPrefix": "^",
               "name": "CSS"
             },
-            "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/exercise/assets/scene/style.css",
-            "projectPath": "exercise/assets/scene/style.css",
+            "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/dist/exercise/assets/scene/style.css",
+            "projectPath": "dist/exercise/assets/scene/style.css",
             "targetPath": "scene/style",
             "pageTitle": "scene/style",
             "title": "style"
