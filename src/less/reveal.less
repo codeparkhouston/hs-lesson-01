@@ -118,6 +118,34 @@ strike{
   background: #000;
 }
 
+.reveal kbd {
+  background-color: @theme-neutral-light;
+  border: 1px solid #ccc;
+  color: @theme-neutral-dark;
+  text-shadow: 0 3px 0 @theme-neutral-lightest;
+  display: inline-block;
+  padding: 0.1em 0.6em;
+  margin: 0 0.1em;
+  white-space: nowrap;
+  box-shadow: 0 4px 0px rgba(0,0,0,0.2), 0 0 0 5px @theme-neutral-lightest inset;
+  border-radius: 12px;
+  font-size: 0.75em;
+}
+
+.reveal span.fragment.fill-in-the-blank {
+  opacity: 1;
+  border-bottom: 1px solid @theme-neutral-dark;
+  color: transparent;
+  font-style: italic;
+  font-size: 100;
+  margin: 0 4px;
+
+  &.visible {
+    color: fade(@theme-neutral-dark, 75%);
+  }
+}
+
+
 pre code .line.focus{
   background: rgba(0, 0, 0, .5);
   font-size: 1.25em;

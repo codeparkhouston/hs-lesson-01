@@ -14971,6 +14971,7 @@ module.exports = Reveal;
 var Reveal = require('reveal');
 window.jQuery = window.$ =  require('jquery');
 require('bootstrap');
+window.showTooltips = true;
 
 
 // Full list of configuration options available here: 
@@ -14996,7 +14997,7 @@ Reveal.addEventListener( 'slidechanged', function( slideChangeEvent ) {
 
 function funkyToolTipBusiness(slideChangeEvent){
 
-  if(slideChangeEvent.currentSlide.dataset.assignPopovers){
+  if(window.showTooltips && slideChangeEvent.currentSlide.dataset.assignPopovers){
     if(slideChangeEvent.currentSlide.querySelectorAll('.tipped').length){
       return;
     }

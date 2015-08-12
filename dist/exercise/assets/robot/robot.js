@@ -3,11 +3,13 @@
  *
  * This file contains code all about the robot.
  */
+'use strict';
 
 var cecilEl = document.getElementById('cecil');
-var cecil = new Robot(cecilEl);
+var sceneEl = document.getElementById('scene');
+var cecil = new Robot(cecilEl, sceneEl);
 
-function Robot(robotEl) {
+function Robot(robotElement, sceneElement) {
   /**
    * `robotMethods` will hold onto what the robot can do.
    */
@@ -29,9 +31,9 @@ function Robot(robotEl) {
   var robot = {};
 
   /**
-   * `setBody` gives the robot a body that is the HTML element passed in as `robotEl`
+   * `setBody` gives the robot a body that is the HTML element passed in as `robotElement`
    */
-  setBody(robotEl);
+  setBody(robotElement);
 
   /**
    * Give `robotMethods` out to the coder use elsewhere, as in the `console`.
@@ -53,8 +55,8 @@ function Robot(robotEl) {
    */
   function setBody(robotElement){
 
-    if((!robotElement || typeof robotElement !== 'object')){
-      throw new MissingInformationError(['the robot\' HTML element']);
+    if(doParametersFail(arguments, 'setBody')){
+      return;
     }
 
     robot.element = robotElement;
@@ -70,7 +72,9 @@ function Robot(robotEl) {
     robot.size = getSize();
     robot.position = new Position(robot);
 
-    setDefaults()
+    if(!robot.defaults){    
+      setDefaults();
+    }
   }
 
   /**
@@ -80,11 +84,8 @@ function Robot(robotEl) {
    * We can use `robot.defaults` later to be able to reset the robot to it's original state.
    */
   function setDefaults(){
-    robot.size = getSize();
-    robot.position = new Position(robot);
-
     robot.defaults = {}
-    robot.defaults.src = robot.img.src;
+    robot.defaults.src = robot.img.getAttribute('src');
     robot.defaults.position = getPosition();
   }
 
@@ -101,8 +102,8 @@ function Robot(robotEl) {
   function getSize(){
     var boundingRectangle = robot.element.getBoundingClientRect();
     var size = {
-      width: boundingRectangle.right - boundingRectangle.left,
-      height: boundingRectangle.bottom - boundingRectangle.top
+      width: boundingRectangle.width,
+      height: boundingRectangle.height
     };
 
     return size;
@@ -124,13 +125,9 @@ function Robot(robotEl) {
       up: moveUp
     };
 
-    try {
-      checkParameters(arguments, [{name: 'direction', test: _.isFunction.bind(_, movers[direction])}, {name: 'distance', test: _.isNumber}], 'cecil.move("left", 100)')
-    } catch(error){
-      console.error(error.message);
+    if(doParametersFail(arguments, 'move')){
       return;
     }
-
 
     return movers[direction](distance);
 
@@ -158,26 +155,35 @@ function Robot(robotEl) {
   }
 
   function moveRandom(){
+    // Use the robot size to calculate where the center of the robot is
+    // relative to the edge.
     var robotSize = robot.size;
-    var xBuffer = robotSize.width/2;
-    var yBuffer = robotSize.height/2;
+    var xRobotCenter = robotSize.width/2;
+    var yRobotCenter = robotSize.height/2;
 
-    var sceneSize = document.getElementById('scene').getBoundingClientRect();
+    // Get the size of the "scene" that the robot is in.
+    var sceneSize = sceneElement.getBoundingClientRect();
 
-    var randomXMax = sceneSize.width - 2 * xBuffer;
-    var randomYMax = sceneSize.height - 2 * yBuffer;
+    var maxRandomX = sceneSize.width - robotSize.width;
+    var maxRandomY = sceneSize.height - robotSize.height;
 
-    var randomX = Math.random() * randomXMax + xBuffer;
-    var randomY = Math.random() * randomYMax + yBuffer;
+    // ```Math.random()``` returns a random number in between 0 and 1.
+    // Multiplying it by the scene dimension scales the random number.
+    // In this case, the random number will be between 0 and scene width
+    // and height minus the robot width and height -- max random x and
+    // max random y.
+    // 
+    // Adding the robot center helps offsets the position so that
+    // it's the position for the center of the robot.
+    var randomX = Math.random() * maxRandomX + xRobotCenter;
+    var randomY = Math.random() * maxRandomY + yRobotCenter;
 
+    // Use the previously defined ```moveTo``` to do the moving.
     return moveTo(randomX, randomY);
   }
 
   function change(imageURL) {
-    try {
-      checkParameters(arguments, [{name: 'the image url', test: _.isString}], 'cecil.change("http://www.clipartlord.com/wp-content/uploads/2014/04/robot20.png")')
-    } catch(error){
-      console.error(error.message);
+    if(doParametersFail(arguments, 'change')){
       return;
     }
 
@@ -198,10 +204,7 @@ function Robot(robotEl) {
   }
 
   function name(robotName) {
-    try {
-      checkParameters(arguments, [{name: 'the name', test: _.isString}], 'cecil.name("Cecil")')
-    } catch(error){
-      console.error(error.message);
+    if(doParametersFail(arguments, 'name')){
       return;
     }
 
@@ -219,6 +222,49 @@ function Robot(robotEl) {
 
   function getElement(){
     return robot.element;
+  }
+
+  function doParametersFail(parameters, functionName){
+
+    var checkDirection = _.flow(_.indexOf.bind(this, ['left','right','up','down']), _.partialRight(_.gt, -1));
+    var expectedParameters = {
+      move: [{
+          name: 'direction',
+          test: checkDirection
+        },{
+          name: 'distance',
+          test: _.isNumber
+      }],
+      change: [{
+        name: 'the image url',
+        test: _.isString
+      }],
+      name: [{
+        name: 'the name',
+        test: _.isString
+      }],
+      setBody: [{
+        name: 'the robot\' HTML element',
+        test: _.isElement
+      }]
+    };
+
+
+    var examples = {
+      move: 'cecil.move("left", 100)',
+      change: 'cecil.change("http://www.clipartlord.com/wp-content/uploads/2014/04/robot20.png")',
+      name: 'cecil.name("Cecil")',
+      setBody: 'var robot = new Robot(document.getElementById("cecil"))'
+    };
+
+    try {
+      checkParameters.call(this, parameters, expectedParameters[functionName], examples[functionName]);
+    } catch(error){
+      console.error(error.message);
+      return true;
+    }
+
+    return false;
   }
 
   function checkParameters(parameters, expectedParameters, example){
