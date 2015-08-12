@@ -3,9 +3,27 @@
 
 <span class="hljs-keyword">var</span> cecilEl = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'cecil'</span>);
 <span class="hljs-keyword">var</span> sceneEl = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'scene'</span>);
-<span class="hljs-keyword">var</span> cecil = <span class="hljs-keyword">new</span> Robot(cecilEl, sceneEl);
+<span class="hljs-keyword">var</span> cecil = <span class="hljs-keyword">new</span> Robot(cecilEl);
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Robot</span>(<span class="hljs-params">robotElement, sceneElement</span>) </span>{</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>robotMethods</code> will hold onto what the robot can do.</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-keyword">var</span> robotMethods = <span class="hljs-built_in">Object</span>.create(<span class="hljs-literal">null</span>);
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">makeNewRobot</span>(<span class="hljs-params">id, imageURL</span>)</span>{
+  <span class="hljs-keyword">var</span> robotEl = makeNewRobotBody(id, imageURL);
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Robot(robotEl);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">makeNewRobotBody</span>(<span class="hljs-params">id, imageURL</span>)</span>{
+  <span class="hljs-keyword">var</span> robotBody = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'div'</span>);
+  <span class="hljs-keyword">var</span> robotImage = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'img'</span>);
+  robotBody.classList.add(<span class="hljs-string">'robot'</span>);
+  robotImage.src = imageURL;
+  robotBody.appendChild(robotImage);
+
+  sceneEl.appendChild(robotBody);
+
+  <span class="hljs-keyword">return</span> robotBody;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Robot</span>(<span class="hljs-params">robotElement</span>) </span>{</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>robotMethods</code> will hold onto what the robot can do.</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-keyword">var</span> robotMethods = <span class="hljs-built_in">Object</span>.create(<span class="hljs-literal">null</span>);
   robotMethods.getPosition = getPosition;
   robotMethods.getSize = getSize;
   robotMethods.moveTo = moveTo;
@@ -18,7 +36,7 @@
   robotMethods.getElement = getElement;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We are going to use <code>robot</code> to hold onto some private information about our robot.</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-keyword">var</span> robot = {};
   <span class="hljs-keyword">var</span> scene = {};</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>setBody</code> gives the robot a body that is the HTML element passed in as <code>robotElement</code></p></div></div><div class="code"><div class="wrapper">  setBody(robotElement);
 
-  setScene(sceneElement);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Give <code>robotMethods</code> out to the coder use elsewhere, as in the <code>console</code>.</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-keyword">return</span> robotMethods;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="functions">Functions</h1></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><h2 id="setbody">setBody</h2>
+  setScene(robotElement.parentElement);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Give <code>robotMethods</code> out to the coder use elsewhere, as in the <code>console</code>.</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-keyword">return</span> robotMethods;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="functions">Functions</h1></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><h2 id="setbody">setBody</h2>
 <p>Gives the robot a body.</p>
 <p>Parameters:</p>
 <ul>
@@ -58,8 +76,8 @@ We can use <code>robot.defaults</code> later to be able to reset the robot to it
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setSceneSize</span>(<span class="hljs-params"></span>)</span>{
     scene.size = scene.element.getBoundingClientRect();
-    sceneElement.dataset.width = <span class="hljs-built_in">Math</span>.round(scene.size.width);
-    sceneElement.dataset.height = <span class="hljs-built_in">Math</span>.round(scene.size.height);
+    scene.element.dataset.width = <span class="hljs-built_in">Math</span>.round(scene.size.width);
+    scene.element.dataset.height = <span class="hljs-built_in">Math</span>.round(scene.size.height);
   }</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><h2 id="getposition">getPosition</h2>
 <p>Tells us where the robot is.</p>
 <p><strong>Returns an Object</strong><br/>(with an x and y for where the robot is.)</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getPosition</span>(<span class="hljs-params"></span>)</span>{

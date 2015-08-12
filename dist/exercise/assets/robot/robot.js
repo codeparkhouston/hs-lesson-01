@@ -7,9 +7,27 @@
 
 var cecilEl = document.getElementById('cecil');
 var sceneEl = document.getElementById('scene');
-var cecil = new Robot(cecilEl, sceneEl);
+var cecil = new Robot(cecilEl);
 
-function Robot(robotElement, sceneElement) {
+
+function makeNewRobot(id, imageURL){
+  var robotEl = makeNewRobotBody(id, imageURL);
+  return new Robot(robotEl);
+}
+
+function makeNewRobotBody(id, imageURL){
+  var robotBody = document.createElement('div');
+  var robotImage = document.createElement('img');
+  robotBody.classList.add('robot');
+  robotImage.src = imageURL;
+  robotBody.appendChild(robotImage);
+
+  sceneEl.appendChild(robotBody);
+
+  return robotBody;
+}
+
+function Robot(robotElement) {
   /**
    * `robotMethods` will hold onto what the robot can do.
    */
@@ -36,7 +54,7 @@ function Robot(robotElement, sceneElement) {
    */
   setBody(robotElement);
 
-  setScene(sceneElement);
+  setScene(robotElement.parentElement);
 
   /**
    * Give `robotMethods` out to the coder use elsewhere, as in the `console`.
@@ -99,8 +117,8 @@ function Robot(robotElement, sceneElement) {
 
   function setSceneSize(){
     scene.size = scene.element.getBoundingClientRect();
-    sceneElement.dataset.width = Math.round(scene.size.width);
-    sceneElement.dataset.height = Math.round(scene.size.height);
+    scene.element.dataset.width = Math.round(scene.size.width);
+    scene.element.dataset.height = Math.round(scene.size.height);
   }
 
   /**
