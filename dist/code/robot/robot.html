@@ -15,7 +15,10 @@
   robotMethods.reset = reset;
   robotMethods.name = name;
   robotMethods.flip = flip;
-  robotMethods.getElement = getElement;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We are going to use <code>robot</code> to hold onto some private information about our robot.</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-keyword">var</span> robot = {};</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>setBody</code> gives the robot a body that is the HTML element passed in as <code>robotElement</code></p></div></div><div class="code"><div class="wrapper">  setBody(robotElement);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Give <code>robotMethods</code> out to the coder use elsewhere, as in the <code>console</code>.</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-keyword">return</span> robotMethods;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="functions">Functions</h1></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><h2 id="setbody">setBody</h2>
+  robotMethods.getElement = getElement;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We are going to use <code>robot</code> to hold onto some private information about our robot.</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-keyword">var</span> robot = {};
+  <span class="hljs-keyword">var</span> scene = {};</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>setBody</code> gives the robot a body that is the HTML element passed in as <code>robotElement</code></p></div></div><div class="code"><div class="wrapper">  setBody(robotElement);
+
+  setScene(sceneElement);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Give <code>robotMethods</code> out to the coder use elsewhere, as in the <code>console</code>.</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-keyword">return</span> robotMethods;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="functions">Functions</h1></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><h2 id="setbody">setBody</h2>
 <p>Gives the robot a body.</p>
 <p>Parameters:</p>
 <ul>
@@ -32,6 +35,11 @@
     robot.name = <span class="hljs-string">''</span>;
   }
 
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setScene</span>(<span class="hljs-params">sceneElement</span>)</span>{
+    scene.element = sceneElement;
+    setSceneSize();
+    <span class="hljs-built_in">window</span>.onresize = _.throttle(setSceneSize, <span class="hljs-number">100</span>);
+  }
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setSizeAndPosition</span>(<span class="hljs-params"></span>)</span>{
     robot.size = getSize();
@@ -46,6 +54,12 @@ We can use <code>robot.defaults</code> later to be able to reset the robot to it
     robot.defaults = {}
     robot.defaults.src = robot.img.getAttribute(<span class="hljs-string">'src'</span>);
     robot.defaults.position = getPosition();
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setSceneSize</span>(<span class="hljs-params"></span>)</span>{
+    scene.size = scene.element.getBoundingClientRect();
+    sceneElement.dataset.width = <span class="hljs-built_in">Math</span>.round(scene.size.width);
+    sceneElement.dataset.height = <span class="hljs-built_in">Math</span>.round(scene.size.height);
   }</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><h2 id="getposition">getPosition</h2>
 <p>Tells us where the robot is.</p>
 <p><strong>Returns an Object</strong><br/>(with an x and y for where the robot is.)</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getPosition</span>(<span class="hljs-params"></span>)</span>{
@@ -110,10 +124,10 @@ We can use <code>robot.defaults</code> later to be able to reset the robot to it
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">moveRandom</span>(<span class="hljs-params"></span>)</span>{</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Use the robot size to calculate where the center of the robot is
 relative to the edge.</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-keyword">var</span> robotSize = robot.size;
     <span class="hljs-keyword">var</span> xRobotCenter = robotSize.width/<span class="hljs-number">2</span>;
-    <span class="hljs-keyword">var</span> yRobotCenter = robotSize.height/<span class="hljs-number">2</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Get the size of the &quot;scene&quot; that the robot is in.</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-keyword">var</span> sceneSize = sceneElement.getBoundingClientRect();
+    <span class="hljs-keyword">var</span> yRobotCenter = robotSize.height/<span class="hljs-number">2</span>;
 
-    <span class="hljs-keyword">var</span> maxRandomX = sceneSize.width - robotSize.width;
-    <span class="hljs-keyword">var</span> maxRandomY = sceneSize.height - robotSize.height;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>Math.random()</code> returns a random number in between 0 and 1.
+    <span class="hljs-keyword">var</span> maxRandomX = scene.size.width - robotSize.width;
+    <span class="hljs-keyword">var</span> maxRandomY = scene.size.height - robotSize.height;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>Math.random()</code> returns a random number in between 0 and 1.
 Multiplying it by the scene dimension scales the random number.
 In this case, the random number will be between 0 and scene width
 and height minus the robot width and height -- max random x and

@@ -3,3 +3,21 @@
   height: 100%;
   width: 60%;
 }
+
+#scene::before {
+  content: '(0, 0)';
+  color: #FFF;
+  position: absolute;
+  top: 0;
+  left: 2px;
+  opacity: 0.25;
+}
+
+#scene::after {
+  content: '('attr(data-width)', 'attr(data-height)')';
+  color: #FFF;
+  position: absolute;
+  bottom: 0;
+  right: 2px;
+  opacity: 0.25;
+}

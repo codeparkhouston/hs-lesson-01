@@ -29,11 +29,14 @@ function Robot(robotElement, sceneElement) {
    * We are going to use `robot` to hold onto some private information about our robot.
    */
   var robot = {};
+  var scene = {};
 
   /**
    * `setBody` gives the robot a body that is the HTML element passed in as `robotElement`
    */
   setBody(robotElement);
+
+  setScene(sceneElement);
 
   /**
    * Give `robotMethods` out to the coder use elsewhere, as in the `console`.
@@ -67,6 +70,11 @@ function Robot(robotElement, sceneElement) {
     robot.name = '';
   }
 
+  function setScene(sceneElement){
+    scene.element = sceneElement;
+    setSceneSize();
+    window.onresize = _.throttle(setSceneSize, 100);
+  }
 
   function setSizeAndPosition(){
     robot.size = getSize();
@@ -87,6 +95,12 @@ function Robot(robotElement, sceneElement) {
     robot.defaults = {}
     robot.defaults.src = robot.img.getAttribute('src');
     robot.defaults.position = getPosition();
+  }
+
+  function setSceneSize(){
+    scene.size = scene.element.getBoundingClientRect();
+    sceneElement.dataset.width = Math.round(scene.size.width);
+    sceneElement.dataset.height = Math.round(scene.size.height);
   }
 
   /**
@@ -161,11 +175,8 @@ function Robot(robotElement, sceneElement) {
     var xRobotCenter = robotSize.width/2;
     var yRobotCenter = robotSize.height/2;
 
-    // Get the size of the "scene" that the robot is in.
-    var sceneSize = sceneElement.getBoundingClientRect();
-
-    var maxRandomX = sceneSize.width - robotSize.width;
-    var maxRandomY = sceneSize.height - robotSize.height;
+    var maxRandomX = scene.size.width - robotSize.width;
+    var maxRandomY = scene.size.height - robotSize.height;
 
     // ```Math.random()``` returns a random number in between 0 and 1.
     // Multiplying it by the scene dimension scales the random number.
