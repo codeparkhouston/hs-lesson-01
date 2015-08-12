@@ -28,7 +28,8 @@
     "watch:less": "watch 'npm run build:less' ./src/less",
     "watch:docs": "watch 'npm run build:docs' ./dist/exercise",
     "watch:js": "for file in ./src/js/*.js; do watchify $file -o ${file/#.\\/src\\/js/.\\/dist\\/assets} -v & done",
-    "dev": "parallelshell 'npm run watch:less' 'npm run watch:js' 'npm run watch:docs'"
+    "dev": "parallelshell 'npm run watch:less' 'npm run watch:js' 'npm run watch:docs'",
+    "publish": "git subtree push --prefix=dist origin gh-pages"
   },
   "author": "",
   "license": "ISC"
