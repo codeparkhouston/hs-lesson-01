@@ -5,9 +5,9 @@
  */
 'use strict';
 
-var cecilEl = document.getElementById('cecil');
-var sceneEl = document.getElementById('scene');
-var cecil = new Robot(cecilEl);
+var lionElement = document.getElementById('lion');
+var sceneElement = document.getElementById('scene');
+var lion = new Robot(lionElement);
 
 
 function makeNewRobot(id, imageURL){
@@ -22,7 +22,7 @@ function makeNewRobotBody(id, imageURL){
   robotImage.src = imageURL;
   robotBody.appendChild(robotImage);
 
-  sceneEl.appendChild(robotBody);
+  sceneElement.appendChild(robotBody);
 
   return robotBody;
 }
@@ -280,10 +280,10 @@ function Robot(robotElement) {
 
 
     var examples = {
-      move: 'cecil.move("left", 100)',
-      change: 'cecil.change("http://www.clipartlord.com/wp-content/uploads/2014/04/robot20.png")',
-      name: 'cecil.name("Cecil")',
-      setBody: 'var robot = new Robot(document.getElementById("cecil"))'
+      move: 'lion.move("left", 100)',
+      change: 'lion.change("http://www.clipartlord.com/wp-content/uploads/2014/04/robot20.png")',
+      name: 'lion.name("Leo")',
+      setBody: 'var robot = new Robot(document.getElementById("lion"))'
     };
 
     try {

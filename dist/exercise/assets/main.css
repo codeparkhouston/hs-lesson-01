@@ -8,10 +8,26 @@ body {
   position: relative;
 }
 
-#instructions {
+.instructions {
   position: fixed;
   right: 0;
   top: 0;
   width: 40%;
   height: 400px;
+}
+
+.record-mode {
+  background: #FBFEFE;
+}
+
+.record-mode #scene {
+  width: 100%;
+}
+
+.record-mode #scene::after, .record-mode #scene::before {
+  color: #333;
+}
+
+.record-mode .robot::after {
+  color: #333;
 }

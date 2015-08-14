@@ -9,82 +9,51 @@
   <div class="reveal">
     <div class="slides">
       <section>
-        <p>Coding is a way of <span class="fragment fill-in-the-blank">giving instructions</span> to the computer</p>
+        <p class="fragment">Coding is a way of <span class="fragment fill-in-the-blank">giving instructions</span> to the computer</p>
       </section>
       <section>
-        <p>Pressing <kbd>Ctrl</kbd> +  <kbd>Shift</kbd> + <kbd>I</kbd> opens up the</p>
-        <h2 class="fragment">console</h2>
-        <p class="fragment">a way to try out code one line at a time</p>
+        <p class="fragment">A way to try out code one line at a time</p>
+        <h2><i>the <strong>console</strong></i></h2>
+        <p class="fragment">Press <kbd>Ctrl</kbd> +  <kbd>Shift</kbd> + <kbd>I</kbd> to open up</p>
       </section>
       <section>
-        <h2>Using Functions</h2>
-        <p>a set of instructions grouped together</p>
+        <h2>functions</h2>
+        <p>instructions the computer remembers</p>
       </section>
       <section>
         <h2>"Calling" a function</h2>
-        <p>tells the computer to run the instructions grouped in that function</p>
+        <p>runs the instructions</p>
       </section>
       <section data-assign-popovers='functions'>
         <p>What calling a function looks like</p>
-        <pre class="emphasize language-javascript"><code data-trim class="language-javascript" data-manual-highlight='true'><span class="token function tip" title='Function name'>alert</span><span class='token punctuation tip' title='Tells the browser to run the instructions' data-placement='bottom'>()</span><span class="token punctuation tip" title='Ends this line of code, like the period at the end of a sentence' data-placement='right'>;</span></code></pre>
+        <pre class="emphasize language-javascript"><code data-trim class="language-javascript" data-manual-highlight='true'><span class="tip" title="This is the thing the function is on.  This is often also what the function will be acting on.">lion</span><span class="token punctuation tip" title="This separates the thing from the actions.">.</span><span class="token function tip" title='Function name'>moveRandom</span><span class='token punctuation tip' title='Tells the browser to run the instructions' data-placement='bottom'>()</span><span class="token punctuation tip" title='Ends this line of code, like the period at the end of a sentence' data-placement='right'>;</span></code></pre>
       </section>
       <section>
         <h2>Let's try it</h2>
       </section>
-      <section data-assign-popovers='functions'>
-        <h2>We just tried:</h2>
-        <ul>
-          <li>
-            <pre class="emphasize language-javascript"><code data-trim class="language-javascript" data-manual-highlight='true'><span class="token function tip" title='Function name'>alert</span><span class='token punctuation tip' title='Tells the browser to run the instructions' data-placement='bottom'>()</span><span class="token punctuation tip" title='Ends this line of code, like the period at the end of a sentence' data-placement='right'>;</span></code></pre>
-          </li>
-          <li>
-            <pre class="emphasize language-javascript"><code data-trim class="language-javascript" data-manual-highlight='true'><span class="token function tip" title='Function name'>prompt</span><span class='token punctuation tip' title='Tells the browser to run the instructions' data-placement='bottom'>()</span><span class="token punctuation tip" title='Ends this line of code, like the period at the end of a sentence' data-placement='right'>;</span></code></pre>
-          </li>
-          <li>
-            <pre class="emphasize language-javascript"><code data-trim class="language-javascript" data-manual-highlight='true'><span class="tip" title="This is the thing the function is on.">Math</span><span class="token punctuation tip" title="This separates the thing from the actions.">.</span><span class="token function tip" title='Function name'>random</span><span class='token punctuation tip' title='Tells the browser to run the instructions' data-placement='bottom'>()</span><span class="token punctuation tip" title='Ends this line of code, like the period at the end of a sentence' data-placement='right'>;</span></code></pre>
-          </li>
-        </ul>
-      </section>
-      <section>
-        <h2>Let's try some other functions</h2>
-      </section>
-      <section>
-        <h2>We just tried:</h2>
-        <ul>
-          <li>
-            <pre><code data-trim class="language-javascript">cecil.moveRandom();</code></pre>
-          </li>
-          <li>
-            <pre><code data-trim class="language-javascript">cecil.moveRandom;</code></pre>
-          </li>
-          <li>
-            <pre><code data-trim class="language-javascript">cecil.moveRandom.toString();</code></pre>
-          </li>
-        </ul>
-      </section>
       <section>
         <h2>Let's see what else we can tell Cecil to do!</h2>
-        <p>Typing in <code>cecil.</code> will show you.</p>
+        <p>Typing in <code>lion.</code> will show you.</p>
       </section>
       <section>
         <h2>What if you want to move Cecil to a specific place?</h2>
-        <p>Try <code>cecil.move()</code>.</p>
+        <p>Try <code>lion.move()</code>.</p>
       </section>
       <section data-assign-popovers='functions-params'>
-        <pre class="emphasize language-javascript"><code data-trim class="language-javascript" data-manual-highlight='true'><span class="tip" title="This is the thing the function is on.  This is often also what the function will be acting on.">cecil</span><span class="token punctuation tip" title="This separates the thing from the actions.">.</span><span class="token function tip" title="This is what we are asking cecil to do.  This is the function name.">move</span><span class="token punctuation">(</span><span class="token string tip" title="This is how we give this function information about the direction.">"left"</span><span class="token punctuation tip" title="This separates the first thing we have to tell the function from the next thing.">,</span> <span class="token number tip" title="This is how we tell the function how much to move by.">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+        <pre class="emphasize language-javascript"><code data-trim class="language-javascript" data-manual-highlight='true'><span class="tip" title="This is the thing the function is on.  This is often also what the function will be acting on.">lion</span><span class="token punctuation tip" title="This separates the thing from the actions.">.</span><span class="token function tip" title="This is what we are asking lion to do.  This is the function name.">move</span><span class="token punctuation">(</span><span class="token string tip" title="This is how we give this function information about the direction.">"left"</span><span class="token punctuation tip" title="This separates the first thing we have to tell the function from the next thing.">,</span> <span class="token number tip" title="This is how we tell the function how much to move by.">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
       </section>
       <section>
         <h2>Other functions to try:</h2>
         <ul>
           <li>
-            <pre><code data-trim class="language-javascript">cecil.moveTo(300, 300);
-cecil.change(someImageLinkHere);
-cecil.name("Cecil");
-cecil.reset();
-cecil.flip();
-cecil.getPosition();
-cecil.getSize();
-cecil.getElement();</code></pre>
+            <pre><code data-trim class="language-javascript">lion.moveTo(300, 300);
+lion.change(someImageLinkHere);
+lion.name("Cecil");
+lion.reset();
+lion.flip();
+lion.getPosition();
+lion.getSize();
+lion.getElement();</code></pre>
           </li>
         </ul>
       </section>

@@ -1,9 +1,9 @@
 <!DOCTYPE html><html lang="en"><head><title>robot/robot</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="robot/robot"><meta name="groc-project-path" content="dist/exercise/assets/robot/robot.js"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">dist/exercise/assets/robot/robot.js</div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="robotjs">robot.js</h1>
 <p>This file contains code all about the robot.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-pi">'use strict'</span>;
 
-<span class="hljs-keyword">var</span> cecilEl = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'cecil'</span>);
-<span class="hljs-keyword">var</span> sceneEl = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'scene'</span>);
-<span class="hljs-keyword">var</span> cecil = <span class="hljs-keyword">new</span> Robot(cecilEl);
+<span class="hljs-keyword">var</span> lionElement = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'lion'</span>);
+<span class="hljs-keyword">var</span> sceneElement = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'scene'</span>);
+<span class="hljs-keyword">var</span> lion = <span class="hljs-keyword">new</span> Robot(lionElement);
 
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">makeNewRobot</span>(<span class="hljs-params">id, imageURL</span>)</span>{
@@ -18,7 +18,7 @@
   robotImage.src = imageURL;
   robotBody.appendChild(robotImage);
 
-  sceneEl.appendChild(robotBody);
+  sceneElement.appendChild(robotBody);
 
   <span class="hljs-keyword">return</span> robotBody;
 }
@@ -224,10 +224,10 @@ it&#39;s the position for the center of the robot.</p></div></div><div class="co
 
 
     <span class="hljs-keyword">var</span> examples = {
-      move: <span class="hljs-string">'cecil.move("left", 100)'</span>,
-      change: <span class="hljs-string">'cecil.change("http://www.clipartlord.com/wp-content/uploads/2014/04/robot20.png")'</span>,
-      name: <span class="hljs-string">'cecil.name("Cecil")'</span>,
-      setBody: <span class="hljs-string">'var robot = new Robot(document.getElementById("cecil"))'</span>
+      move: <span class="hljs-string">'lion.move("left", 100)'</span>,
+      change: <span class="hljs-string">'lion.change("http://www.clipartlord.com/wp-content/uploads/2014/04/robot20.png")'</span>,
+      name: <span class="hljs-string">'lion.name("Leo")'</span>,
+      setBody: <span class="hljs-string">'var robot = new Robot(document.getElementById("lion"))'</span>
     };
 
     <span class="hljs-keyword">try</span> {
