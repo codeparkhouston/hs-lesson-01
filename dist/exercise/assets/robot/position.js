@@ -1,14 +1,22 @@
-function Position(body, defaultPosition) {
+function Position(body) {
+  var bodySize = body.getSize();
+  var bodyElement = body.getElement();
+  var previous = {};
   var position = {
-    x: body.size.width/2,
-    y: body.size.height/2,
+    x: bodySize.width/2,
+    y: bodySize.height/2,
     angle: 0,
     scale: 1
   };
-  var previous = {};
 
-  position = _.assign(position, defaultPosition);
-
+  bodyElement.addEventListener('transitionend', function(transitionEvent){
+    var changeEventData = {
+      box: bodyElement.getBoundingClientRect(),
+      elapsedTime: transitionEvent.elapsedTime,
+      propertyName: transitionEvent.propertyName
+    };
+    emitChange('moved', changeEventData);
+  });
 
   Object.defineProperty(this, 'x', {
     get: function() {
@@ -56,8 +64,8 @@ function Position(body, defaultPosition) {
     return _.clone(position);
   }
 
-  body.element.addEventListener('xyChange', _.debounce(orient, 100).bind(this));
-  body.element.addEventListener('orientationChange', _.debounce(move, 100));
+  bodyElement.addEventListener('xyChange', _.debounce(orient, 100).bind(this));
+  bodyElement.addEventListener('orientationChange', _.debounce(body.animateMove, 100));
 
   function emitChange(changeType, changedProperties){
     var changeEventData = {
@@ -67,49 +75,19 @@ function Position(body, defaultPosition) {
     changeEventData = _.assign(changeEventData, changedProperties)
 
     var changeEvent = new CustomEvent(changeType, {detail: changeEventData});
-    body.element.dispatchEvent(changeEvent);
+    bodyElement.dispatchEvent(changeEvent);
   }
 
   function orient(){
-    this.angle = calculateAngle(position);
-    this.scale = calculateScale(position);
-  }
-
-  function move(){
-    var transform = getTransform(position);
-    var changeEventData = {};
-    body.element.style.left = position.x - body.size.width/2 + 'px';
-    body.element.style.top = position.y - body.size.height/2 + 'px';
-    body.img.style.transform = transform;
-
-    _.delay(function(){
-      changeEventData.box = body.element.getBoundingClientRect();
-      emitChange('move', changeEventData);
-    }, 100);
-
-  }
-
-  function getTransform(position) {
-    var transform = '';
-
-    if(isNumber(position.angle)) {
-      transform += 'rotate(' + position.angle + 'deg)';
-    }
-    if(isNumber(position.scale)) {
-      transform += ' scaleX(' + position.scale + ')';
-    }
-    return transform;
+    this.angle = calculateAngle(previous, position);
+    this.scale = calculateScale(previous, position);
   }
 
   function getDirection(distance) {
-    return distance / Math.abs(distance);
+    return Math.sign(distance);
   }
 
-  function isNumber(number) {
-    return typeof number == 'number' && number.toString() !== 'NaN'
-  }
-
-  function calculateAngle(destination) {
+  function calculateAngle(previous, destination) {
     var xDist = destination.x - previous.x;
     var yDist = previous.y - destination.y;
 
@@ -120,7 +98,7 @@ function Position(body, defaultPosition) {
     return Math.atan(yDist/xDist) / Math.PI * 180;
   }
 
-  function calculateScale(destination) {
+  function calculateScale(previous, destination) {
     var xDist = destination.x - previous.x;
 
     return getDirection(xDist);

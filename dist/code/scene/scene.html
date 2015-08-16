@@ -37,13 +37,14 @@
   }
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">listenToRobot</span>(<span class="hljs-params">robot</span>)</span>{
-    robot.addEventListener(<span class="hljs-string">'move'</span>, checkRobot);
+    robot.addEventListener(<span class="hljs-string">'moved'</span>, checkRobot);
   }
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkRobot</span>(<span class="hljs-params">moveEvent</span>)</span>{
     <span class="hljs-built_in">console</span>.info(<span class="hljs-string">'hellO!'</span>);
     <span class="hljs-built_in">console</span>.info(moveEvent.detail.box.left);
     <span class="hljs-built_in">console</span>.info(moveEvent.detail.box.right);
+    <span class="hljs-built_in">console</span>.info(moveEvent.detail.propertyName);
   }
 
 }</div></div></div></div></body></html>

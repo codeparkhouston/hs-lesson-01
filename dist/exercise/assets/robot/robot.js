@@ -44,6 +44,7 @@ function Robot(robotElement) {
   robotMethods.name = name;
   robotMethods.flip = flip;
   robotMethods.getElement = getElement;
+  robotMethods.animateMove = animateMove;
 
   /**
    * We are going to use `robot` to hold onto some private information about our robot.
@@ -98,7 +99,7 @@ function Robot(robotElement) {
 
   function setSizeAndPosition(){
     robot.size = getSize();
-    robot.position = new Position(robot);
+    robot.position = new Position(robotMethods);
 
     if(!robot.defaults){    
       setDefaults();
@@ -255,6 +256,28 @@ function Robot(robotElement) {
     return robot.element;
   }
 
+
+  function animateMove(){
+    var position = robot.position;
+    var transform = getTransform(position);
+
+    robot.element.style.left = position.x - robot.size.width/2 + 'px';
+    robot.element.style.top = position.y - robot.size.height/2 + 'px';
+    robot.img.style.transform = transform;
+  }
+
+  function getTransform() {
+    var position = robot.position;
+    var transform = '';
+
+    if(_.isNumber(position.angle)) {
+      transform += 'rotate(' + position.angle + 'deg)';
+    }
+    if(_.isNumber(position.scale) && position.scale !== 0) {
+      transform += ' scaleX(' + position.scale + ')';
+    }
+    return transform;
+  }
 
 
 

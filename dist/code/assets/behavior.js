@@ -21,6 +21,35 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
       },
       "depth": 1
     }, {
+      "type": "folder",
+      "data": {
+        "path": "animator",
+        "title": "animator"
+      },
+      "depth": 1,
+      "children": [
+        {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".js"],
+              "pygmentsLexer": "javascript",
+              "multiLineComment": ["/*", "*", "*/"],
+              "singleLineComment": ["//"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "JavaScript"
+            },
+            "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/dist/exercise/assets/animator/animator.js",
+            "projectPath": "dist/exercise/assets/animator/animator.js",
+            "targetPath": "animator/animator",
+            "pageTitle": "animator/animator",
+            "title": "animator"
+          },
+          "depth": 2
+        }
+      ]
+    }, {
       "type": "file",
       "data": {
         "language": {

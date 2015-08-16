@@ -41,13 +41,14 @@ function Scene(sceneElement){
   }
 
   function listenToRobot(robot){
-    robot.addEventListener('move', checkRobot);
+    robot.addEventListener('moved', checkRobot);
   }
 
   function checkRobot(moveEvent){
     console.info('hellO!');
     console.info(moveEvent.detail.box.left);
     console.info(moveEvent.detail.box.right);
+    console.info(moveEvent.detail.propertyName);
   }
 
 }
