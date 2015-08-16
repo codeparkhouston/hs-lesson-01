@@ -1,6 +1,8 @@
 function Position(body) {
   var bodySize = body.getSize();
   var bodyElement = body.getElement();
+  var wait = 100;
+  var waitToDo = _.partial(_.debounce, _, wait);
   var previous = {};
   var position = {
     x: bodySize.width/2,
@@ -8,15 +10,6 @@ function Position(body) {
     angle: 0,
     scale: 1
   };
-
-  bodyElement.addEventListener('transitionend', function(transitionEvent){
-    var changeEventData = {
-      box: bodyElement.getBoundingClientRect(),
-      elapsedTime: transitionEvent.elapsedTime,
-      propertyName: transitionEvent.propertyName
-    };
-    emitChange('moved', changeEventData);
-  });
 
   Object.defineProperty(this, 'x', {
     get: function() {
@@ -64,8 +57,9 @@ function Position(body) {
     return _.clone(position);
   }
 
-  bodyElement.addEventListener('xyChange', _.debounce(orient, 100).bind(this));
-  bodyElement.addEventListener('orientationChange', _.debounce(body.animateMove, 100));
+  bodyElement.addEventListener('xyChange', waitToDo(orient).bind(this));
+  bodyElement.addEventListener('orientationChange', waitToDo(body.animateMove));
+  bodyElement.addEventListener('transitionend', waitToDo(emitMoved));
 
   function emitChange(changeType, changedProperties){
     var changeEventData = {
@@ -76,6 +70,16 @@ function Position(body) {
 
     var changeEvent = new CustomEvent(changeType, {detail: changeEventData});
     bodyElement.dispatchEvent(changeEvent);
+  }
+
+  function emitMoved(transitionEvent){
+    var changeEventData = {
+      box: bodyElement.getBoundingClientRect(),
+      elapsedTime: transitionEvent.elapsedTime,
+      propertyName: transitionEvent.propertyName,
+      position: body.getPosition()
+    };
+    emitChange('moved', changeEventData);
   }
 
   function orient(){

@@ -45,10 +45,7 @@ function Scene(sceneElement){
   }
 
   function checkRobot(moveEvent){
-    console.info('hellO!');
-    console.info(moveEvent.detail.box.left);
-    console.info(moveEvent.detail.box.right);
-    console.info(moveEvent.detail.propertyName);
+    console.info('moved to', moveEvent.detail.position.x, moveEvent.detail.position.y);
   }
 
 }

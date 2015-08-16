@@ -41,10 +41,7 @@
   }
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkRobot</span>(<span class="hljs-params">moveEvent</span>)</span>{
-    <span class="hljs-built_in">console</span>.info(<span class="hljs-string">'hellO!'</span>);
-    <span class="hljs-built_in">console</span>.info(moveEvent.detail.box.left);
-    <span class="hljs-built_in">console</span>.info(moveEvent.detail.box.right);
-    <span class="hljs-built_in">console</span>.info(moveEvent.detail.propertyName);
+    <span class="hljs-built_in">console</span>.info(<span class="hljs-string">'moved to'</span>, moveEvent.detail.position.x, moveEvent.detail.position.y);
   }
 
 }</div></div></div></div></body></html>
