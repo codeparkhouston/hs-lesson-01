@@ -10,6 +10,8 @@ var sceneElement = document.getElementById('scene');
 var lion = new Robot(lionElement);
 
 
+var scene = new Scene(sceneElement);
+
 function makeNewRobot(id, imageURL){
   var robotEl = makeNewRobotBody(id, imageURL);
   return new Robot(robotEl);
@@ -253,6 +255,13 @@ function Robot(robotElement) {
     return robot.element;
   }
 
+
+
+
+
+  /**
+   * ## Error Handling functions
+   */
   function doParametersFail(parameters, functionName){
 
     var checkDirection = _.flow(_.indexOf.bind(this, ['left','right','up','down']), _.partialRight(_.gt, -1));

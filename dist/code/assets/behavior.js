@@ -79,7 +79,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "pageTitle": "robot/position",
             "title": "position"
           },
-          "depth": 2
+          "depth": 2,
+          "outline": []
         }, {
           "type": "file",
           "data": {
@@ -128,6 +129,25 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
       "depth": 1,
       "children": [
         {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".js"],
+              "pygmentsLexer": "javascript",
+              "multiLineComment": ["/*", "*", "*/"],
+              "singleLineComment": ["//"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "JavaScript"
+            },
+            "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/dist/exercise/assets/scene/scene.js",
+            "projectPath": "dist/exercise/assets/scene/scene.js",
+            "targetPath": "scene/scene",
+            "pageTitle": "scene/scene",
+            "title": "scene"
+          },
+          "depth": 2
+        }, {
           "type": "file",
           "data": {
             "language": {

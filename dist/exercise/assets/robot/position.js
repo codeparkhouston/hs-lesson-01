@@ -17,7 +17,7 @@ function Position(body, defaultPosition) {
     set: function(value) {
       previous.x = position.x;
       position.x = value;
-      emitChange('xyChange', ['x']);
+      emitChange('xyChange');
     }
   });
 
@@ -28,7 +28,7 @@ function Position(body, defaultPosition) {
     set: function(value) {
       previous.y = position.y;
       position.y = value;
-      emitChange('xyChange', ['y']);
+      emitChange('xyChange');
     }
   });
 
@@ -38,7 +38,7 @@ function Position(body, defaultPosition) {
     },
     set: function(value) {
       position.scale = value;
-      emitChange('orientationChange', ['scale']);
+      emitChange('orientationChange');
     }
   });
 
@@ -48,7 +48,7 @@ function Position(body, defaultPosition) {
     },
     set: function(value) {
       position.angle = value;
-      emitChange('orientationChange', ['angle']);
+      emitChange('orientationChange');
     }
   });
 
@@ -61,10 +61,12 @@ function Position(body, defaultPosition) {
 
   function emitChange(changeType, changedProperties){
     var changeEventData = {
-      position: position,
-      changed: changedProperties
+      position: position
     };
-    var changeEvent = new Event(changeType, changeEventData);
+
+    changeEventData = _.assign(changeEventData, changedProperties)
+
+    var changeEvent = new CustomEvent(changeType, {detail: changeEventData});
     body.element.dispatchEvent(changeEvent);
   }
 
@@ -75,9 +77,16 @@ function Position(body, defaultPosition) {
 
   function move(){
     var transform = getTransform(position);
+    var changeEventData = {};
     body.element.style.left = position.x - body.size.width/2 + 'px';
     body.element.style.top = position.y - body.size.height/2 + 'px';
     body.img.style.transform = transform;
+
+    _.delay(function(){
+      changeEventData.box = body.element.getBoundingClientRect();
+      emitChange('move', changeEventData);
+    }, 100);
+
   }
 
   function getTransform(position) {
@@ -93,7 +102,7 @@ function Position(body, defaultPosition) {
   }
 
   function getDirection(distance) {
-    return distance/Math.abs(distance);
+    return distance / Math.abs(distance);
   }
 
   function isNumber(number) {
