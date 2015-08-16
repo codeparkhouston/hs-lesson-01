@@ -152,17 +152,8 @@ function Robot(robotElement) {
   }
 
   function moveTo(x, y){
-    var movement = new Tween(animator)
-      .from(robot.position.x, robot.position.y)
-      .to(x, y)
-      .by(function(stepX, stepY){
-        var position;
-        robot.position.x = stepX;
-        robot.position.y = stepY;
-
-        robot.position.emitChange('moving');
-      });
-
+    robot.position.x = x;
+    robot.position.y = y;
     return robot.name + ' moving to ' + x + ', ' + y;
   }
 
@@ -272,8 +263,7 @@ function Robot(robotElement) {
   }
 
 
-  function animateMove(){
-    var position = robot.position;
+  function animateMove(position){
     var transform = getTransform(position);
 
     robot.element.style.left = position.x - robot.size.width/2 + 'px';
@@ -281,8 +271,7 @@ function Robot(robotElement) {
     robot.img.style.transform = transform;
   }
 
-  function getTransform() {
-    var position = robot.position;
+  function getTransform(position) {
     var transform = '';
 
     if(_.isNumber(position.angle)) {

@@ -105,17 +105,8 @@ We can use <code>robot.defaults</code> later to be able to reset the robot to it
   }
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">moveTo</span>(<span class="hljs-params">x, y</span>)</span>{
-    <span class="hljs-keyword">var</span> movement = <span class="hljs-keyword">new</span> Tween(animator)
-      .from(robot.position.x, robot.position.y)
-      .to(x, y)
-      .by(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">stepX, stepY</span>)</span>{
-        <span class="hljs-keyword">var</span> position;
-        robot.position.x = stepX;
-        robot.position.y = stepY;
-
-        robot.position.emitChange(<span class="hljs-string">'moving'</span>);
-      });
-
+    robot.position.x = x;
+    robot.position.y = y;
     <span class="hljs-keyword">return</span> robot.name + <span class="hljs-string">' moving to '</span> + x + <span class="hljs-string">', '</span> + y;
   }
 
@@ -216,8 +207,7 @@ it&#39;s the position for the center of the robot.</p></div></div><div class="co
   }
 
 
-  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">animateMove</span>(<span class="hljs-params"></span>)</span>{
-    <span class="hljs-keyword">var</span> position = robot.position;
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">animateMove</span>(<span class="hljs-params">position</span>)</span>{
     <span class="hljs-keyword">var</span> transform = getTransform(position);
 
     robot.element.style.left = position.x - robot.size.width/<span class="hljs-number">2</span> + <span class="hljs-string">'px'</span>;
@@ -225,8 +215,7 @@ it&#39;s the position for the center of the robot.</p></div></div><div class="co
     robot.img.style.transform = transform;
   }
 
-  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getTransform</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">var</span> position = robot.position;
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getTransform</span>(<span class="hljs-params">position</span>) </span>{
     <span class="hljs-keyword">var</span> transform = <span class="hljs-string">''</span>;
 
     <span class="hljs-keyword">if</span>(_.isNumber(position.angle)) {
