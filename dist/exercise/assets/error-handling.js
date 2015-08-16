@@ -1,7 +1,7 @@
 /**
  * ## Error Handling functions
  */
-function doParametersFail(parameters, functionName){
+function isMissingParameters(parameters, functionName){
 
   var checkDirection = _.flow(_.indexOf.bind(this, ['left','right','up','down']), _.partialRight(_.gt, -1));
   var expectedParameters = {

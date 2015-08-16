@@ -82,7 +82,7 @@ function Robot(robotElement) {
    */
   function setBody(robotElement){
 
-    if(doParametersFail(arguments, 'setBody')){
+    if(isMissingParameters(arguments, 'setBody')){
       return;
     }
 
@@ -153,7 +153,7 @@ function Robot(robotElement) {
 
   function moveTo(x, y){
 
-    if(doParametersFail(arguments, 'moveTo')){
+    if(isMissingParameters(arguments, 'moveTo')){
       return;
     }
 
@@ -171,7 +171,7 @@ function Robot(robotElement) {
       up: moveUp
     };
 
-    if(doParametersFail(arguments, 'move')){
+    if(isMissingParameters(arguments, 'move')){
       return;
     }
 
@@ -226,7 +226,7 @@ function Robot(robotElement) {
   }
 
   function change(imageURL) {
-    if(doParametersFail(arguments, 'change')){
+    if(isMissingParameters(arguments, 'change')){
       return;
     }
 
@@ -247,7 +247,7 @@ function Robot(robotElement) {
   }
 
   function name(robotName) {
-    if(doParametersFail(arguments, 'name')){
+    if(isMissingParameters(arguments, 'name')){
       return;
     }
 

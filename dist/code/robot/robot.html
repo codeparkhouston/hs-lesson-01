@@ -49,7 +49,7 @@ animator.startLoop();
 <li><strong>robotElement must be a DOMElement.</strong><br/>(The HTML Element that the robot&#39;s capabilities should be attached to.)</li>
 </ul></div></div><div class="code"><div class="wrapper">  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setBody</span>(<span class="hljs-params">robotElement</span>)</span>{
 
-    <span class="hljs-keyword">if</span>(doParametersFail(<span class="hljs-built_in">arguments</span>, <span class="hljs-string">'setBody'</span>)){
+    <span class="hljs-keyword">if</span>(isMissingParameters(<span class="hljs-built_in">arguments</span>, <span class="hljs-string">'setBody'</span>)){
       <span class="hljs-keyword">return</span>;
     }
 
@@ -106,7 +106,7 @@ We can use <code>robot.defaults</code> later to be able to reset the robot to it
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">moveTo</span>(<span class="hljs-params">x, y</span>)</span>{
 
-    <span class="hljs-keyword">if</span>(doParametersFail(<span class="hljs-built_in">arguments</span>, <span class="hljs-string">'moveTo'</span>)){
+    <span class="hljs-keyword">if</span>(isMissingParameters(<span class="hljs-built_in">arguments</span>, <span class="hljs-string">'moveTo'</span>)){
       <span class="hljs-keyword">return</span>;
     }
 
@@ -124,7 +124,7 @@ We can use <code>robot.defaults</code> later to be able to reset the robot to it
       up: moveUp
     };
 
-    <span class="hljs-keyword">if</span>(doParametersFail(<span class="hljs-built_in">arguments</span>, <span class="hljs-string">'move'</span>)){
+    <span class="hljs-keyword">if</span>(isMissingParameters(<span class="hljs-built_in">arguments</span>, <span class="hljs-string">'move'</span>)){
       <span class="hljs-keyword">return</span>;
     }
 
@@ -170,7 +170,7 @@ it&#39;s the position for the center of the robot.</p></div></div><div class="co
   }
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">change</span>(<span class="hljs-params">imageURL</span>) </span>{
-    <span class="hljs-keyword">if</span>(doParametersFail(<span class="hljs-built_in">arguments</span>, <span class="hljs-string">'change'</span>)){
+    <span class="hljs-keyword">if</span>(isMissingParameters(<span class="hljs-built_in">arguments</span>, <span class="hljs-string">'change'</span>)){
       <span class="hljs-keyword">return</span>;
     }
 
@@ -191,7 +191,7 @@ it&#39;s the position for the center of the robot.</p></div></div><div class="co
   }
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">name</span>(<span class="hljs-params">robotName</span>) </span>{
-    <span class="hljs-keyword">if</span>(doParametersFail(<span class="hljs-built_in">arguments</span>, <span class="hljs-string">'name'</span>)){
+    <span class="hljs-keyword">if</span>(isMissingParameters(<span class="hljs-built_in">arguments</span>, <span class="hljs-string">'name'</span>)){
       <span class="hljs-keyword">return</span>;
     }
 
