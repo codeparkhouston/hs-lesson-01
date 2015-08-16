@@ -1,6 +1,6 @@
 function Position(body) {
   var bodyElement = body.getElement();
-  var wait = 10;
+  var wait = 0;
   var waitToDo = _.partial(_.debounce, _, wait);
   var position = body.getPosition();
   position.angle = 0;

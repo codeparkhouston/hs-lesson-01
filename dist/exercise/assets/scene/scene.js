@@ -46,8 +46,8 @@ function Scene(sceneElement){
 
   function checkRobot(moveEvent){
     // this is where checking maze collision can happen
-    console.info('moved to', moveEvent.detail.position.x, moveEvent.detail.position.y);
-    console.info('moved to', moveEvent.detail.box.left, moveEvent.detail.box.top);
+    // console.info('moved to', moveEvent.detail.position.x, moveEvent.detail.position.y);
+    // console.info('moved to', moveEvent.detail.box.left, moveEvent.detail.box.top);
   }
 
 }

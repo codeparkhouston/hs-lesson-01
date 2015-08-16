@@ -127,8 +127,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "pageTitle": "robot/position",
             "title": "position"
           },
-          "depth": 2,
-          "outline": []
+          "depth": 2
         }, {
           "type": "file",
           "data": {
@@ -192,9 +191,20 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "projectPath": "dist/exercise/assets/scene/scene.js",
             "targetPath": "scene/scene",
             "pageTitle": "scene/scene",
-            "title": "scene"
+            "firstHeader": {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "scene.js",
+                "slug": "scenejs",
+                "isFileHeader": true
+              },
+              "depth": 1
+            },
+            "title": "scene.js"
           },
-          "depth": 2
+          "depth": 2,
+          "outline": []
         }, {
           "type": "file",
           "data": {
