@@ -1,5 +1,7 @@
 function Position(body) {
   var bodyElement = body.getElement();
+  var bodySize = body.getSize();
+  var bodyImage = body.getImage();
   var wait = 0;
   var waitToDo = _.partial(_.debounce, _, wait);
   var position = body.getPosition();
@@ -119,7 +121,11 @@ function Position(body) {
   }
 
   function move(stepEvent){
-    body.animateMove(stepEvent.detail);
+    if(_.isFunction(body.animateMove)){
+      return body.animateMove(stepEvent.detail);
+    }
+
+    return animateMove(stepEvent.detail);
   }
 
   function orient(){
@@ -129,6 +135,26 @@ function Position(body) {
 
   function getDirection(distance) {
     return Math.sign(distance);
+  }
+
+  function animateMove(toPosition){
+    var transform = getTransform(toPosition);
+
+    bodyElement.style.left = toPosition.x - bodySize.width/2 + 'px';
+    bodyElement.style.top = toPosition.y - bodySize.height/2 + 'px';
+    bodyImage.style.transform = transform;
+  }
+
+  function getTransform(toPosition) {
+    var transform = '';
+
+    if(_.isNumber(toPosition.angle)) {
+      transform += 'rotate(' + toPosition.angle + 'deg)';
+    }
+    if(_.isNumber(toPosition.scale) && toPosition.scale !== 0) {
+      transform += ' scaleX(' + toPosition.scale + ')';
+    }
+    return transform;
   }
 
   function calculateAngle(previous, destination) {

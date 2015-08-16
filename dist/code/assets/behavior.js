@@ -72,6 +72,36 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
       "type": "file",
       "data": {
         "language": {
+          "nameMatchers": [".js"],
+          "pygmentsLexer": "javascript",
+          "multiLineComment": ["/*", "*", "*/"],
+          "singleLineComment": ["//"],
+          "ignorePrefix": "}",
+          "foldPrefix": "^",
+          "name": "JavaScript"
+        },
+        "sourcePath": "/Users/pandafulmanda/codepark/lesson-one/dist/exercise/assets/error-handling.js",
+        "projectPath": "dist/exercise/assets/error-handling.js",
+        "targetPath": "error-handling",
+        "pageTitle": "error-handling",
+        "title": "error-handling"
+      },
+      "depth": 1,
+      "outline": [
+        {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Error Handling functions",
+            "slug": "error-handling-functions"
+          },
+          "depth": 2
+        }
+      ]
+    }, {
+      "type": "file",
+      "data": {
+        "language": {
           "nameMatchers": [".css"],
           "pygmentsLexer": "css",
           "multiLineComment": ["/*", "*", "*/"],
@@ -191,20 +221,9 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "projectPath": "dist/exercise/assets/scene/scene.js",
             "targetPath": "scene/scene",
             "pageTitle": "scene/scene",
-            "firstHeader": {
-              "type": "heading",
-              "data": {
-                "level": 1,
-                "title": "scene.js",
-                "slug": "scenejs",
-                "isFileHeader": true
-              },
-              "depth": 1
-            },
-            "title": "scene.js"
+            "title": "scene"
           },
-          "depth": 2,
-          "outline": []
+          "depth": 2
         }, {
           "type": "file",
           "data": {

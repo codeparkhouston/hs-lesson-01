@@ -47,7 +47,7 @@ function Robot(robotElement) {
   robotMethods.name = name;
   robotMethods.flip = flip;
   robotMethods.getElement = getElement;
-  robotMethods.animateMove = animateMove;
+  robotMethods.getImage = getImage;
 
   /**
    * We are going to use `robot` to hold onto some private information about our robot.
@@ -152,6 +152,11 @@ function Robot(robotElement) {
   }
 
   function moveTo(x, y){
+
+    if(doParametersFail(arguments, 'moveTo')){
+      return;
+    }
+
     robot.position.x = x;
     robot.position.y = y;
     return robot.name + ' moving to ' + x + ', ' + y;
@@ -262,93 +267,8 @@ function Robot(robotElement) {
     return robot.element;
   }
 
-
-  function animateMove(position){
-    var transform = getTransform(position);
-
-    robot.element.style.left = position.x - robot.size.width/2 + 'px';
-    robot.element.style.top = position.y - robot.size.height/2 + 'px';
-    robot.img.style.transform = transform;
+  function getImage(){
+    return robot.img;
   }
 
-  function getTransform(position) {
-    var transform = '';
-
-    if(_.isNumber(position.angle)) {
-      transform += 'rotate(' + position.angle + 'deg)';
-    }
-    if(_.isNumber(position.scale) && position.scale !== 0) {
-      transform += ' scaleX(' + position.scale + ')';
-    }
-    return transform;
-  }
-
-
-
-
-  /**
-   * ## Error Handling functions
-   */
-  function doParametersFail(parameters, functionName){
-
-    var checkDirection = _.flow(_.indexOf.bind(this, ['left','right','up','down']), _.partialRight(_.gt, -1));
-    var expectedParameters = {
-      move: [{
-          name: 'direction',
-          test: checkDirection
-        },{
-          name: 'distance',
-          test: _.isNumber
-      }],
-      change: [{
-        name: 'the image url',
-        test: _.isString
-      }],
-      name: [{
-        name: 'the name',
-        test: _.isString
-      }],
-      setBody: [{
-        name: 'the robot\' HTML element',
-        test: _.isElement
-      }]
-    };
-
-
-    var examples = {
-      move: 'lion.move("left", 100)',
-      change: 'lion.change("http://www.clipartlord.com/wp-content/uploads/2014/04/robot20.png")',
-      name: 'lion.name("Leo")',
-      setBody: 'var robot = new Robot(document.getElementById("lion"))'
-    };
-
-    try {
-      checkParameters.call(this, parameters, expectedParameters[functionName], examples[functionName]);
-    } catch(error){
-      console.error(error.message);
-      return true;
-    }
-
-    return false;
-  }
-
-  function checkParameters(parameters, expectedParameters, example){
-
-    var missingParameters = _.reject(expectedParameters, function(expectedParameter, iteration){
-      return expectedParameter.test(parameters[iteration]);
-    });
-
-    if(missingParameters.length){
-      throw new MissingInformationError(_.pluck(missingParameters, 'name'), example);
-    }
-  }
-
-  function MissingInformationError(parameters, example){
-    this.name = 'MissingInformationError'
-    this.message = 'This function needs information about ' + parameters.join(' , ') + '. For example, try: ' + example;
-  }
-
-  MissingInformationError.prototype = Object.create(Error.prototype);
-  MissingInformationError.prototype.constructor = MissingInformationError;
 }
-
