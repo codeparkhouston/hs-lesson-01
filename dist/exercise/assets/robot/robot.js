@@ -11,6 +11,9 @@ var lion = new Robot(lionElement);
 
 
 var scene = new Scene(sceneElement);
+var animator = new Animator();
+
+animator.startLoop();
 
 function makeNewRobot(id, imageURL){
   var robotEl = makeNewRobotBody(id, imageURL);
@@ -131,7 +134,11 @@ function Robot(robotElement) {
    * @return {Object} with an x and y for where the robot is.
    */
   function getPosition(){
-    return robot.position.get();
+    var boundingRectangle = robot.element.getBoundingClientRect();
+    return {
+      x: boundingRectangle.left + boundingRectangle.width/2,
+      y: boundingRectangle.top + boundingRectangle.height/2
+    };
   }
 
   function getSize(){
@@ -145,10 +152,18 @@ function Robot(robotElement) {
   }
 
   function moveTo(x, y){
-    robot.position.x = x;
-    robot.position.y = y;
+    var movement = new Tween(animator)
+      .from(robot.position.x, robot.position.y)
+      .to(x, y)
+      .by(function(stepX, stepY){
+        var position;
+        robot.position.x = stepX;
+        robot.position.y = stepY;
 
-    return robot.name + ' moved to ' + x + ', ' + y;
+        robot.position.emitChange('moving');
+      });
+
+    return robot.name + ' moving to ' + x + ', ' + y;
   }
 
   function move(direction, distance){

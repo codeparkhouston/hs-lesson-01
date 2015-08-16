@@ -41,11 +41,13 @@ function Scene(sceneElement){
   }
 
   function listenToRobot(robot){
-    robot.addEventListener('moved', checkRobot);
+    robot.addEventListener('moving', checkRobot);
   }
 
   function checkRobot(moveEvent){
-    console.info('moved to', moveEvent.detail.position.x, moveEvent.detail.position.y);
+    // this is where checking maze collision can happen
+    // console.info('moved to', moveEvent.detail.position.x, moveEvent.detail.position.y);
+    // console.info('moved to', moveEvent.detail.box.left, moveEvent.detail.box.top);
   }
 
 }

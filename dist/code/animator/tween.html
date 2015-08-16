@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="en"><head><title>animator/tween</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="animator/tween"><meta name="groc-project-path" content="dist/exercise/assets/animator/tween.js"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">dist/exercise/assets/animator/tween.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Tween</span>(<span class="hljs-params">animator</span>)</span>{
+  <span class="hljs-keyword">this</span>.animator = animator;
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+}
+
+Tween.prototype.from = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">from</span>(<span class="hljs-params">x, y</span>)</span>{
+  <span class="hljs-keyword">this</span>.from = {
+    x: x,
+    y: y
+  };
+  <span class="hljs-keyword">this</span>.current = {
+    x: x,
+    y: y
+  };
+
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+}
+
+Tween.prototype.to = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">to</span>(<span class="hljs-params">x, y</span>)</span>{
+  <span class="hljs-keyword">this</span>.to = {
+    x: x,
+    y: y
+  };
+
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+}
+
+Tween.prototype.by = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">by</span>(<span class="hljs-params">stepFunction</span>)</span>{
+  <span class="hljs-keyword">var</span> tween = <span class="hljs-keyword">this</span>;
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.animator.add(stepToAdd, <span class="hljs-string">'tweening of '</span> + stepFunction.name);
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stepToAdd</span>(<span class="hljs-params">progress, deltaT</span>)</span>{
+    <span class="hljs-keyword">var</span> deltaPosition = calcDelta(tween.from, tween.to, deltaT);
+
+    tween.current.x = tween.current.x + deltaPosition.x;
+    tween.current.y = tween.current.y + deltaPosition.y;
+
+    <span class="hljs-keyword">if</span>(tween.isDestinationReached()){
+      stepFunction(tween.to.x, tween.to.y);
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    }
+    stepFunction(tween.current.x, tween.current.y);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+  }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>default linear easing.</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">calcDelta</span>(<span class="hljs-params">origin, destination, deltaT, fullT</span>)</span>{
+    <span class="hljs-keyword">var</span> fullT = fullT || <span class="hljs-number">100</span>;
+    <span class="hljs-keyword">var</span> stepProportion = deltaT/fullT;
+
+    <span class="hljs-keyword">var</span> deltaX = stepProportion * (destination.x - origin.x);
+    <span class="hljs-keyword">var</span> deltaY = stepProportion * (destination.y - origin.y);
+
+    <span class="hljs-keyword">return</span> {
+      x: deltaX,
+      y: deltaY
+    };
+  }
+}
+
+Tween.prototype.isDestinationReached = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isDestinationReached</span>(<span class="hljs-params"></span>)</span>{
+
+  <span class="hljs-keyword">return</span> calcIsReached(<span class="hljs-keyword">this</span>, <span class="hljs-string">'x'</span>) &amp;&amp; calcIsReached(<span class="hljs-keyword">this</span>, <span class="hljs-string">'y'</span>);
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">calcIsReached</span>(<span class="hljs-params">tween, xOrY</span>)</span>{
+    <span class="hljs-keyword">return</span> (tween.to[xOrY] - tween.current[xOrY]) * <span class="hljs-built_in">Math</span>.sign(tween.to[xOrY] - tween.from[xOrY]) &lt;= <span class="hljs-number">0</span>;
+  }
+}</div></div></div></div></body></html>

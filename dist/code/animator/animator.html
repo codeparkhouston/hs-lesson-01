@@ -1,0 +1,97 @@
+<!DOCTYPE html><html lang="en"><head><title>animator/animator</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="animator/animator"><meta name="groc-project-path" content="dist/exercise/assets/animator/animator.js"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">dist/exercise/assets/animator/animator.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Animator</span>(<span class="hljs-params"></span>)</span>{
+  <span class="hljs-keyword">var</span> framesHistory = [];
+  <span class="hljs-keyword">var</span> frameActions =[];
+  <span class="hljs-keyword">var</span> pause = <span class="hljs-literal">true</span>;
+  <span class="hljs-keyword">var</span> animationId;
+  <span class="hljs-keyword">var</span> lastTime;
+  <span class="hljs-keyword">var</span> start;
+
+  <span class="hljs-keyword">var</span> animatorMethods = {
+    startLoop: startLoop,
+    endLoop: endLoop,
+    log: log,
+    unlog: unlog,
+    add: add,
+    remove: remove,
+    isRunning: isRunning
+  };
+
+  <span class="hljs-keyword">return</span> animatorMethods;
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isRunning</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">return</span> !pause;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">log</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">return</span> add(<span class="hljs-built_in">console</span>.log.bind(<span class="hljs-built_in">console</span>), <span class="hljs-string">'console.log'</span>);
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">unlog</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">return</span> remove(<span class="hljs-built_in">console</span>.log.bind(<span class="hljs-built_in">console</span>), <span class="hljs-string">'console.log'</span>);
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add</span>(<span class="hljs-params">animateFunction, functionName</span>)</span>{
+    <span class="hljs-keyword">var</span> functionName = animateFunction.name || functionName;
+    frameActions.push(animateFunction);
+
+    <span class="hljs-keyword">return</span> functionName + <span class="hljs-string">' added to render.'</span>;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">remove</span>(<span class="hljs-params">animateFunction, functionName</span>)</span>{
+    <span class="hljs-keyword">var</span> animateIndex = frameActions.indexOf(animateFunction);
+    <span class="hljs-keyword">var</span> removedAction = frameActions.splice(animateIndex, <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">var</span> functionName = removedAction[<span class="hljs-number">0</span>].name || functionName;
+
+    <span class="hljs-keyword">return</span> functionName + <span class="hljs-string">' removed from render.'</span>;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">endLoop</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">if</span>(!pause){
+      pause = <span class="hljs-literal">true</span>;
+      <span class="hljs-keyword">return</span> <span class="hljs-string">'Animation loop ended.'</span>;
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-string">'Animation loop already ended.'</span>;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">render</span>(<span class="hljs-params">progress, deltaT</span>)</span>{
+    <span class="hljs-keyword">var</span> frameResults = _.map(frameActions, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">frameAction</span>)</span>{
+      <span class="hljs-keyword">var</span> continueFrame = frameAction(progress, deltaT);
+      <span class="hljs-keyword">if</span>(continueFrame === <span class="hljs-literal">false</span>){
+        remove(frameAction);
+      }
+    });
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">startLoop</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">if</span>(pause){
+      pause = <span class="hljs-literal">false</span>;
+      animationId = requestAnimationFrame(step, render);
+    }
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">step</span>(<span class="hljs-params">now</span>)</span>{
+    <span class="hljs-keyword">var</span> progress;
+
+    <span class="hljs-keyword">if</span>(pause){
+      start = <span class="hljs-literal">null</span>;
+      pause = <span class="hljs-literal">true</span>;
+      cancelAnimationFrame(animationId);
+      <span class="hljs-keyword">return</span>;
+    }
+
+    <span class="hljs-keyword">if</span>(!start){
+      start = now;
+      lastTime = now;
+    }
+
+    progress = now - start;
+    deltaT = now - lastTime;
+
+    render(progress, deltaT);
+    animationId = requestAnimationFrame(step, render);
+
+    lastTime = now;
+  }
+
+}</div></div></div></div></body></html>
