@@ -46,7 +46,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "pageTitle": "animator/animator",
             "title": "animator"
           },
-          "depth": 2
+          "depth": 2,
+          "outline": []
         }, {
           "type": "file",
           "data": {
@@ -65,7 +66,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "pageTitle": "animator/tween",
             "title": "tween"
           },
-          "depth": 2
+          "depth": 2,
+          "outline": []
         }
       ]
     }, {
@@ -157,7 +159,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "pageTitle": "robot/position",
             "title": "position"
           },
-          "depth": 2
+          "depth": 2,
+          "outline": []
         }, {
           "type": "file",
           "data": {
@@ -174,9 +177,57 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "projectPath": "dist/exercise/assets/robot/robot.js",
             "targetPath": "robot/robot",
             "pageTitle": "robot/robot",
-            "title": "robot"
+            "firstHeader": {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "robot.js",
+                "slug": "robotjs",
+                "isFileHeader": true
+              },
+              "depth": 1
+            },
+            "title": "robot.js"
           },
-          "depth": 2
+          "depth": 2,
+          "outline": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Functions",
+                "slug": "functions"
+              },
+              "depth": 1,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "setBody",
+                    "slug": "setbody"
+                  },
+                  "depth": 2
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "setDefaults",
+                    "slug": "setdefaults"
+                  },
+                  "depth": 2
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "getPosition",
+                    "slug": "getposition"
+                  },
+                  "depth": 2
+                }
+              ]
+            }
+          ]
         }, {
           "type": "file",
           "data": {
@@ -194,7 +245,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "pageTitle": "robot/style",
             "title": "style"
           },
-          "depth": 2
+          "depth": 2,
+          "outline": []
         }
       ]
     }, {
@@ -221,9 +273,20 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "projectPath": "dist/exercise/assets/scene/scene.js",
             "targetPath": "scene/scene",
             "pageTitle": "scene/scene",
-            "title": "scene"
+            "firstHeader": {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "scene.js",
+                "slug": "scenejs",
+                "isFileHeader": true
+              },
+              "depth": 1
+            },
+            "title": "scene.js"
           },
-          "depth": 2
+          "depth": 2,
+          "outline": []
         }, {
           "type": "file",
           "data": {
