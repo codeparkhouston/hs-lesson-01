@@ -1,15 +1,13 @@
 <!DOCTYPE html><html lang="en"><head><title>robot/position</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="robot/position"><meta name="groc-project-path" content="dist/exercise/assets/robot/position.js"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">dist/exercise/assets/robot/position.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Position</span>(<span class="hljs-params">body</span>) </span>{
-  <span class="hljs-keyword">var</span> bodySize = body.getSize();
   <span class="hljs-keyword">var</span> bodyElement = body.getElement();
-  <span class="hljs-keyword">var</span> wait = <span class="hljs-number">100</span>;
+  <span class="hljs-keyword">var</span> bodySize = body.getSize();
+  <span class="hljs-keyword">var</span> bodyImage = body.getImage();
+  <span class="hljs-keyword">var</span> wait = <span class="hljs-number">0</span>;
   <span class="hljs-keyword">var</span> waitToDo = _.partial(_.debounce, _, wait);
-  <span class="hljs-keyword">var</span> previous = {};
-  <span class="hljs-keyword">var</span> position = {
-    x: bodySize.width/<span class="hljs-number">2</span>,
-    y: bodySize.height/<span class="hljs-number">2</span>,
-    angle: <span class="hljs-number">0</span>,
-    scale: <span class="hljs-number">1</span>
-  };
+  <span class="hljs-keyword">var</span> position = body.getPosition();
+  position.angle = <span class="hljs-number">0</span>;
+  position.scale = <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">var</span> previous = _.clone(position);
 
   <span class="hljs-built_in">Object</span>.defineProperty(<span class="hljs-keyword">this</span>, <span class="hljs-string">'x'</span>, {
     get: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
@@ -18,7 +16,7 @@
     set: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>) </span>{
       previous.x = position.x;
       position.x = value;
-      emitChange(<span class="hljs-string">'xyChange'</span>);
+      emitChange(<span class="hljs-string">'destinationChange'</span>);
     }
   });
 
@@ -29,7 +27,27 @@
     set: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>) </span>{
       previous.y = position.y;
       position.y = value;
-      emitChange(<span class="hljs-string">'xyChange'</span>);
+      emitChange(<span class="hljs-string">'destinationChange'</span>);
+    }
+  });
+
+  <span class="hljs-built_in">Object</span>.defineProperty(<span class="hljs-keyword">this</span>, <span class="hljs-string">'stepX'</span>, {
+    get: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">return</span> position.stepX;
+    },
+    set: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>) </span>{
+      position.stepX = value;
+      emitChange(<span class="hljs-string">'stepChange'</span>);
+    }
+  });
+
+  <span class="hljs-built_in">Object</span>.defineProperty(<span class="hljs-keyword">this</span>, <span class="hljs-string">'stepY'</span>, {
+    get: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">return</span> position.stepY;
+    },
+    set: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>) </span>{
+      position.stepY = value;
+      emitChange(<span class="hljs-string">'stepChange'</span>);
     }
   });
 
@@ -39,7 +57,7 @@
     },
     set: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>) </span>{
       position.scale = value;
-      emitChange(<span class="hljs-string">'orientationChange'</span>);
+      emitChange(<span class="hljs-string">'stepMove'</span>, <span class="hljs-keyword">this</span>.getStep());
     }
   });
 
@@ -49,7 +67,7 @@
     },
     set: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>) </span>{
       position.angle = value;
-      emitChange(<span class="hljs-string">'orientationChange'</span>);
+      emitChange(<span class="hljs-string">'stepMove'</span>, <span class="hljs-keyword">this</span>.getStep());
     }
   });
 
@@ -57,13 +75,29 @@
     <span class="hljs-keyword">return</span> _.clone(position);
   }
 
-  bodyElement.addEventListener(<span class="hljs-string">'xyChange'</span>, waitToDo(orient).bind(<span class="hljs-keyword">this</span>));
-  bodyElement.addEventListener(<span class="hljs-string">'orientationChange'</span>, waitToDo(body.animateMove));
-  bodyElement.addEventListener(<span class="hljs-string">'transitionend'</span>, waitToDo(emitMoved));
+  <span class="hljs-keyword">this</span>.getStep = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+
+    <span class="hljs-keyword">var</span> step = {
+      x: position.stepX,
+      y: position.stepY,
+      angle: position.angle,
+      scale: position.scale
+    }
+
+    <span class="hljs-keyword">return</span> step;
+  }
+
+  <span class="hljs-keyword">this</span>.emitChange = emitChange;
+
+  bodyElement.addEventListener(<span class="hljs-string">'destinationChange'</span>, waitToDo(tween.bind(<span class="hljs-keyword">this</span>)));
+  bodyElement.addEventListener(<span class="hljs-string">'stepChange'</span>, waitToDo(orient.bind(<span class="hljs-keyword">this</span>)));
+  bodyElement.addEventListener(<span class="hljs-string">'stepMove'</span>, waitToDo(move));
+  bodyElement.addEventListener(<span class="hljs-string">'transitionend'</span>, waitToDo(emitChange.bind(<span class="hljs-keyword">this</span>, <span class="hljs-string">'moving'</span>)));
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">emitChange</span>(<span class="hljs-params">changeType, changedProperties</span>)</span>{
     <span class="hljs-keyword">var</span> changeEventData = {
-      position: position
+      position: body.getPosition(),
+      box: bodyElement.getBoundingClientRect()
     };
 
     changeEventData = _.assign(changeEventData, changedProperties)
@@ -72,14 +106,26 @@
     bodyElement.dispatchEvent(changeEvent);
   }
 
-  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">emitMoved</span>(<span class="hljs-params">transitionEvent</span>)</span>{
-    <span class="hljs-keyword">var</span> changeEventData = {
-      box: bodyElement.getBoundingClientRect(),
-      elapsedTime: transitionEvent.elapsedTime,
-      propertyName: transitionEvent.propertyName,
-      position: body.getPosition()
-    };
-    emitChange(<span class="hljs-string">'moved'</span>, changeEventData);
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">tween</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">var</span> position = <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">var</span> movement = <span class="hljs-keyword">new</span> Tween(animator)
+      .from(previous.x, previous.y)
+      .to(position.x, position.y)
+      .by(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">stepX, stepY</span>)</span>{
+        position.stepX = stepX;
+        position.stepY = stepY;
+        position.emitChange(<span class="hljs-string">'moving'</span>);
+      });
+
+    <span class="hljs-keyword">return</span> movement;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">move</span>(<span class="hljs-params">stepEvent</span>)</span>{
+    <span class="hljs-keyword">if</span>(_.isFunction(body.animateMove)){
+      <span class="hljs-keyword">return</span> body.animateMove(stepEvent.detail);
+    }
+
+    <span class="hljs-keyword">return</span> animateMove(stepEvent.detail);
   }
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">orient</span>(<span class="hljs-params"></span>)</span>{
@@ -89,6 +135,26 @@
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getDirection</span>(<span class="hljs-params">distance</span>) </span>{
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.sign(distance);
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">animateMove</span>(<span class="hljs-params">toPosition</span>)</span>{
+    <span class="hljs-keyword">var</span> transform = getTransform(toPosition);
+
+    bodyElement.style.left = toPosition.x - bodySize.width/<span class="hljs-number">2</span> + <span class="hljs-string">'px'</span>;
+    bodyElement.style.top = toPosition.y - bodySize.height/<span class="hljs-number">2</span> + <span class="hljs-string">'px'</span>;
+    bodyImage.style.transform = transform;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getTransform</span>(<span class="hljs-params">toPosition</span>) </span>{
+    <span class="hljs-keyword">var</span> transform = <span class="hljs-string">''</span>;
+
+    <span class="hljs-keyword">if</span>(_.isNumber(toPosition.angle)) {
+      transform += <span class="hljs-string">'rotate('</span> + toPosition.angle + <span class="hljs-string">'deg)'</span>;
+    }
+    <span class="hljs-keyword">if</span>(_.isNumber(toPosition.scale) &amp;&amp; toPosition.scale !== <span class="hljs-number">0</span>) {
+      transform += <span class="hljs-string">' scaleX('</span> + toPosition.scale + <span class="hljs-string">')'</span>;
+    }
+    <span class="hljs-keyword">return</span> transform;
   }
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">calculateAngle</span>(<span class="hljs-params">previous, destination</span>) </span>{
