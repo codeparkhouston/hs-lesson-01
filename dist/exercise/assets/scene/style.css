@@ -2,6 +2,10 @@
   position: relative;
   height: 100%;
   width: 60%;
+
+
+  -webkit-transition: width 100ms ease-in-out;
+  transition: width 100ms ease-in-out;
 }
 
 #scene::before {

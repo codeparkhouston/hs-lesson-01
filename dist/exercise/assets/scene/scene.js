@@ -11,6 +11,7 @@ function Scene(sceneElement){
 
   var sceneMethods = Object.create(null);
 
+  sceneMethods.addMaze = addMaze;
 
   var scene = {};
 
@@ -33,6 +34,21 @@ function Scene(sceneElement){
   }
 
   function getRobots(){
+
+  }
+
+  function addMaze(){
+    var sceneSize = scene.element.getBoundingClientRect();
+    var blockSize = 80;
+    var mazeSize = {
+      width: Math.floor(sceneSize.width/blockSize) - 2,
+      height: Math.floor(sceneSize.height/blockSize) - 2
+    };
+    var generatedMaze;
+
+    scene.element.classList.add('maze');
+
+    generatedMaze = new Maze(mazeSize.width, mazeSize.height).generate().display();
 
   }
 

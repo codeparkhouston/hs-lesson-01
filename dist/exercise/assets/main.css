@@ -14,13 +14,20 @@ body {
   top: 0;
   width: 40%;
   height: 400px;
+
+  -webkit-transition: right 100ms ease-in-out;
+  transition: right 100ms ease-in-out;
+}
+
+.maze ~ .instructions {
+  right: -40%;
 }
 
 .record-mode {
   background: #FBFEFE;
 }
 
-.record-mode #scene {
+.maze#scene, .record-mode #scene {
   width: 100%;
 }
 
