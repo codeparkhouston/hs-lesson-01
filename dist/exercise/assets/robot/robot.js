@@ -7,10 +7,11 @@
 
 var lionElement = document.getElementById('lion');
 var sceneElement = document.getElementById('scene');
+var scene = new Scene(sceneElement);
+scene.addMaze();
 var lion = new Robot(lionElement);
 
 
-var scene = new Scene(sceneElement);
 var animator = new Animator();
 
 animator.startLoop();

@@ -12,8 +12,42 @@ Maze.prototype.generate = function(){
 }
 
 Maze.prototype.display = function(){
-  console.info(display(this.maze));
+  var mazeArray = display(this.maze);
+  var mazeBox = document.getElementById('maze');
+  var mazeLineWidth = mazeArray[0].length;
+  var mazePieces = ['|', '-', '+'];
+  var mazeDOM = [];
+
+  _.each(mazeArray, function(line){
+    var mazeLine = document.createElement('div');
+    mazeLine.classList.add('line');
+
+    _.each(line, function(piece){
+      var imgEl = document.createElement('img');
+      imgEl.src = './assets/maze/maze-' + piece + '.png';
+      imgEl.style.width = Math.floor(100/mazeLineWidth) + '%';
+      if(mazePieces.indexOf(piece) > -1){
+        imgEl.classList.add('piece');
+        mazeDOM.push(imgEl);
+      }
+      mazeLine.appendChild(imgEl);
+    });
+
+    mazeBox.appendChild(mazeLine);
+  });
+
+  this.mazeDOM = mazeDOM;
+
   return this;
+}
+
+Maze.prototype.getBounds = function(){
+
+  this.bounds = _.map(this.mazeDOM, function(mazeBlock){
+    return _.omit(mazeBlock.getBoundingClientRect(),'width','height');
+  });
+
+  return this.bounds;
 }
 
 
@@ -77,7 +111,7 @@ function display(m) {
           line[k]= ' ';
     if (0 == j) line[1]= line[2]= line[3]= ' ';
     if (m.x*2-1 == j) line[4*m.y]= ' ';
-    text.push(line.join('')+'\r\n');
+    text.push(line);
   }
-  return text.join('');
+  return text;
 }
