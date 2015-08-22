@@ -9,73 +9,63 @@ function Position(body) {
   position.scale = 1;
   var previous = _.clone(position);
 
-  Object.defineProperty(this, 'x', {
-    get: function() {
+  var postionModel = {
+    get x() {
       return position.x;
     },
-    set: function(value) {
+    set x(value) {
       previous.x = position.x;
       position.x = value;
       emitChange('destinationChange');
-    }
-  });
+    },
 
-  Object.defineProperty(this, 'y', {
-    get: function() {
+    get y() {
       return position.y;
     },
-    set: function(value) {
+    set y(value) {
       previous.y = position.y;
       position.y = value;
       emitChange('destinationChange');
-    }
-  });
+    },
 
-  Object.defineProperty(this, 'stepX', {
-    get: function() {
+    get stepX() {
       return position.stepX;
     },
-    set: function(value) {
+    set stepX(value) {
       position.stepX = value;
       emitChange('stepChange');
-    }
-  });
+    },
 
-  Object.defineProperty(this, 'stepY', {
-    get: function() {
+    get stepY() {
       return position.stepY;
     },
-    set: function(value) {
+    set stepY(value) {
       position.stepY = value;
       emitChange('stepChange');
-    }
-  });
+    },
 
-  Object.defineProperty(this, 'scale', {
-    get: function() {
+    get scale() {
       return position.scale;
     },
-    set: function(value) {
+    set scale(value) {
       position.scale = value;
-      emitChange('stepMove', this.getStep());
-    }
-  });
+      emitChange('stepMove', postionModel.getStep());
+    },
 
-  Object.defineProperty(this, 'angle', {
-    get: function() {
+    get angle() {
       return position.angle;
     },
-    set: function(value) {
+    set angle(value) {
       position.angle = value;
-      emitChange('stepMove', this.getStep());
+      emitChange('stepMove', postionModel.getStep());
     }
-  });
+  };
 
-  this.get = function(){
+  postionModel.get = function(){
     return _.clone(position);
   }
 
-  this.getStep = function(){
+  postionModel.getStep = function(){
 
     var step = {
       x: position.stepX,
@@ -87,12 +77,28 @@ function Position(body) {
     return step;
   }
 
-  this.emitChange = emitChange;
+  postionModel.emitChange = emitChange;
 
-  bodyElement.addEventListener('destinationChange', waitToDo(tween.bind(this)));
-  bodyElement.addEventListener('stepChange', waitToDo(orient.bind(this)));
-  bodyElement.addEventListener('stepMove', waitToDo(move));
-  bodyElement.addEventListener('transitionend', waitToDo(emitChange.bind(this, 'moving')));
+  positionTween = waitToDo(tween.bind(postionModel));
+  positionOrient = waitToDo(orient.bind(postionModel));
+  positionMove = waitToDo(move);
+  positionEnd = waitToDo(emitChange.bind(postionModel, 'moving'));
+
+
+  postionModel.unset = function(){
+    bodyElement.removeEventListener('destinationChange', positionTween);
+    bodyElement.removeEventListener('stepChange', positionOrient);
+    bodyElement.removeEventListener('stepMove', positionMove);
+    bodyElement.removeEventListener('transitionend', positionEnd);
+  }
+
+  bodyElement.addEventListener('destinationChange', positionTween);
+  bodyElement.addEventListener('stepChange', positionOrient);
+  bodyElement.addEventListener('stepMove', positionMove);
+  bodyElement.addEventListener('transitionend', positionEnd);
+
+
+  return postionModel;
 
   function emitChange(changeType, changedProperties){
     var changeEventData = {
@@ -125,7 +131,7 @@ function Position(body) {
       return body.animateMove(stepEvent.detail);
     }
 
-    return animateMove(stepEvent.detail);
+    return animateMove(stepEvent.detail);      
   }
 
   function orient(){
@@ -143,6 +149,11 @@ function Position(body) {
     bodyElement.style.left = toPosition.x - bodySize.width/2 + 'px';
     bodyElement.style.top = toPosition.y - bodySize.height/2 + 'px';
     bodyImage.style.transform = transform;
+
+    var trailElement = bodyElement.cloneNode(true);
+    trailElement.className = 'trail';
+    trailElement.removeAttribute('id');
+    sceneElement.appendChild(trailElement);
   }
 
   function getTransform(toPosition) {

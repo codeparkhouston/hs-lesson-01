@@ -1,8 +1,14 @@
+.light #scene {
+  background-image: url(./congruent_pentagon.png);
+  background-blend-mode: screen;
+  background-color: #888;
+}
+
 #scene {
   position: relative;
   height: 100%;
   width: 60%;
-
+  background-image: url(./congruent_outline.png);
 
   -webkit-transition: width 100ms ease-in-out;
   transition: width 100ms ease-in-out;

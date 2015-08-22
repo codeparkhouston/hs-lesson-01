@@ -40,7 +40,7 @@ function Scene(sceneElement){
 
   function addMaze(){
     var sceneSize = scene.element.getBoundingClientRect();
-    var blockSize = 80;
+    var blockSize = 100;
     var mazeSize = {
       width: Math.floor(sceneSize.width/blockSize) - 2,
       height: Math.floor(sceneSize.height/blockSize) - 2

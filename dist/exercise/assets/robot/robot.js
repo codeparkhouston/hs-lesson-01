@@ -49,6 +49,7 @@ function Robot(robotElement) {
   robotMethods.flip = flip;
   robotMethods.getElement = getElement;
   robotMethods.getImage = getImage;
+  robotMethods.solve = solve;
 
   /**
    * We are going to use `robot` to hold onto some private information about our robot.
@@ -103,6 +104,9 @@ function Robot(robotElement) {
 
   function setSizeAndPosition(){
     robot.size = getSize();
+    if(robot.position){
+      robot.position.unset();
+    }
     robot.position = new Position(robotMethods);
 
     if(!robot.defaults){    

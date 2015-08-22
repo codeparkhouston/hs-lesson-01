@@ -1,0 +1,49 @@
+#maze {
+  position: absolute;
+  width: 100%;
+  top: 80px;
+  left: 0;
+}
+
+#maze .piece {
+  background: url(./white_brick_wall_@2X.png);
+  display: inline-block;
+  height: inherit;
+}
+
+.light #maze .piece {
+  background: url(./dark_brick_wall_@2X.png);
+}
+
+#maze .piece-e {
+  background: url(./maze- .png);
+  display: inline-block;
+  height: inherit;
+  position: relative;
+  cursor: pointer;
+  z-index: 0;
+
+  -webkit-transition: background-color 100ms ease-in-out;
+  transition: background-color 100ms ease-in-out;
+
+}
+#maze .piece-e:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+#maze .piece-e.active[data-position-x]::after {
+  content: '('attr(data-position-x)', 'attr(data-position-y)')';
+  color: rgba(255, 255, 255, 0.6);
+  position: absolute;
+  text-align: center;
+  font-size: 0.75em;
+  top: 1em;
+}
+
+
+
+#maze .line {
+  margin: 0 auto;
+  width: 100%;
+  height: 55px;
+}

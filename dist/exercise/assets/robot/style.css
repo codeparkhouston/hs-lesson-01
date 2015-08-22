@@ -1,8 +1,24 @@
+.trail {
+  opacity: 0.5;
+  z-index: 2;
+
+  -webkit-transition: opacity 100ms ease-in-out;
+  transition: opacity 100ms ease-in-out;
+}
+
+.trail:hover {
+  opacity: 0.75;
+}
+
 .robot {
+  z-index: 3;
+}
+
+.robot, .trail {
   position: absolute;
 }
 
-.robot img {
+.robot img, .trail img {
   width: 200px;
 }
 
@@ -11,15 +27,15 @@
   width: 50px;
 }
 
-#maze {
-  position: absolute;
-  top: 80px;
-  left: 0;
+.trail img {
+  width: 30px;
+  margin-top: 20px;
 }
 
-#maze .line {
-  width: 100%;
+.robot.flip, .trail  {
+  transform: scaleX(-1);
 }
+
 
 .robot::after {
   content: attr(data-name);
@@ -41,10 +57,6 @@
 .robot, .robot::after, .robot img {
   -webkit-transition: transform 100ms ease-in-out, width 100ms ease-in-out;
   transition: transform 100ms ease-in-out, width 100ms ease-in-out;
-}
-
-.robot.flip {
-  transform: scaleX(-1);
 }
 
 .robot.flip::after {

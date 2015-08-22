@@ -6,7 +6,8 @@ function Maze(width, height){
 }
 
 Maze.prototype.generate = function(){
-  this.maze = maze(this.height, this.width);
+  var previousMaze = JSON.parse(localStorage.getItem('maze'));
+  this.maze = previousMaze || maze(this.height, this.width);
 
   return this;
 }
@@ -23,14 +24,25 @@ Maze.prototype.display = function(){
     mazeLine.classList.add('line');
 
     _.each(line, function(piece){
-      var imgEl = document.createElement('img');
-      imgEl.src = './assets/maze/maze-' + piece + '.png';
-      imgEl.style.width = Math.floor(100/mazeLineWidth) + '%';
+      var mazePiece = document.createElement('div');
+      mazePiece.classList.add('piece-'+piece);
+      mazePiece.innerText = ' ';
+      mazePiece.style.width = 100/mazeLineWidth + '%';
       if(mazePieces.indexOf(piece) > -1){
-        imgEl.classList.add('piece');
-        mazeDOM.push(imgEl);
+        mazePiece.classList.add('piece');
+        mazeDOM.push(mazePiece);
+      } else {
+        mazePiece.addEventListener('click', function(){
+          var position;
+          this.classList.toggle('active');
+          if (typeof this.dataset.positionX == 'undefined'){
+            position = this.getBoundingClientRect();
+            this.dataset.positionX = (position.left + position.width/2).toFixed(1);
+            this.dataset.positionY = (position.top + position.height/2).toFixed(1);
+          }
+        });
       }
-      mazeLine.appendChild(imgEl);
+      mazeLine.appendChild(mazePiece);
     });
 
     mazeBox.appendChild(mazeLine);
@@ -50,6 +62,13 @@ Maze.prototype.getBounds = function(){
   return this.bounds;
 }
 
+Maze.prototype.save = function(){
+  localStorage.setItem('maze', JSON.stringify(this.maze));
+}
+
+Maze.prototype.clear = function(){
+  localStorage.clear();
+}
 
 // http://rosettacode.org/wiki/Maze_generation#JavaScript
 function maze(x,y) {
@@ -97,20 +116,20 @@ function display(m) {
           line[k]= '+';
         else
           if (j>0 && m.verti[j/2-1][Math.floor(k/4)])
-            line[k]= ' ';
+            line[k]= 'e';
           else
             line[k]= '-';
     else
       for (var k=0; k<m.y*4+1; k++)
         if (0 == k%4)
           if (k>0 && m.horiz[(j-1)/2][k/4-1])
-            line[k]= ' ';
+            line[k]= 'e';
           else
             line[k]= '|';
         else
-          line[k]= ' ';
-    if (0 == j) line[1]= line[2]= line[3]= ' ';
-    if (m.x*2-1 == j) line[4*m.y]= ' ';
+          line[k]= 'e';
+    if (0 == j) line[1]= line[2]= line[3]= 'e';
+    if (m.x*2-1 == j) line[4*m.y]= 'e';
     text.push(line);
   }
   return text;
