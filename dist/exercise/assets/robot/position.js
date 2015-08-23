@@ -8,74 +8,80 @@ function Position(body) {
   position.angle = 0;
   position.scale = 1;
   var previous = _.clone(position);
+  var destinations = [];
+  var destinationsHistory = [];
+  destinations.push(_.pick(position, 'x', 'y'));
+  destinationsHistory.push(_.pick(position, 'x', 'y'));
+  var state = 'paused';
 
-  Object.defineProperty(this, 'x', {
-    get: function() {
+  var positionModel = {
+    get coordinates() {
+      return _.pick(position, 'x', 'y');
+    },
+    set coordinates(value) {
+      if(!_.isEqual(_.last(destinations), value)){
+        destinations.push(value);
+        destinationsHistory.push(value);
+        emitChange('destinationUpdate', value);
+      }
+    },
+
+    get x() {
       return position.x;
     },
-    set: function(value) {
+    set x(value) {
       previous.x = position.x;
       position.x = value;
-      emitChange('destinationChange');
-    }
-  });
+      // emitChange('destinationSet');
+    },
 
-  Object.defineProperty(this, 'y', {
-    get: function() {
+    get y() {
       return position.y;
     },
-    set: function(value) {
+    set y(value) {
       previous.y = position.y;
       position.y = value;
-      emitChange('destinationChange');
-    }
-  });
+      emitChange('destinationSet');
+    },
 
-  Object.defineProperty(this, 'stepX', {
-    get: function() {
+    get stepX() {
       return position.stepX;
     },
-    set: function(value) {
+    set stepX(value) {
       position.stepX = value;
       emitChange('stepChange');
-    }
-  });
+    },
 
-  Object.defineProperty(this, 'stepY', {
-    get: function() {
+    get stepY() {
       return position.stepY;
     },
-    set: function(value) {
+    set stepY(value) {
       position.stepY = value;
       emitChange('stepChange');
-    }
-  });
+    },
 
-  Object.defineProperty(this, 'scale', {
-    get: function() {
+    get scale() {
       return position.scale;
     },
-    set: function(value) {
+    set scale(value) {
       position.scale = value;
-      emitChange('stepMove', this.getStep());
-    }
-  });
+      emitChange('stepMove', positionModel.getStep());
+    },
 
-  Object.defineProperty(this, 'angle', {
-    get: function() {
+    get angle() {
       return position.angle;
     },
-    set: function(value) {
+    set angle(value) {
       position.angle = value;
-      emitChange('stepMove', this.getStep());
+      emitChange('stepMove', positionModel.getStep());
     }
-  });
+  };
 
-  this.get = function(){
+  positionModel.get = function(){
     return _.clone(position);
   }
 
-  this.getStep = function(){
+  positionModel.getStep = function(){
 
     var step = {
       x: position.stepX,
@@ -87,12 +93,27 @@ function Position(body) {
     return step;
   }
 
-  this.emitChange = emitChange;
+  positionModel.emitChange = emitChange;
 
-  bodyElement.addEventListener('destinationChange', waitToDo(tween.bind(this)));
-  bodyElement.addEventListener('stepChange', waitToDo(orient.bind(this)));
-  bodyElement.addEventListener('stepMove', waitToDo(move));
-  bodyElement.addEventListener('transitionend', waitToDo(emitChange.bind(this, 'moving')));
+  positionTween = tween.bind(positionModel);
+  positionOrient = waitToDo(orient.bind(positionModel));
+  positionMove = waitToDo(move);
+
+  positionPlot = storeDestinations;
+
+  positionModel.unset = function(){
+    bodyElement.removeEventListener('destinationUpdate', positionPlot);
+    bodyElement.removeEventListener('destinationSet', positionTween);
+    bodyElement.removeEventListener('stepChange', positionOrient);
+    bodyElement.removeEventListener('stepMove', positionMove);
+  }
+
+  bodyElement.addEventListener('destinationUpdate', positionPlot);
+  bodyElement.addEventListener('destinationSet', positionTween);
+  bodyElement.addEventListener('stepChange', positionOrient);
+  bodyElement.addEventListener('stepMove', positionMove);
+
+  return positionModel;
 
   function emitChange(changeType, changedProperties){
     var changeEventData = {
@@ -106,15 +127,30 @@ function Position(body) {
     bodyElement.dispatchEvent(changeEvent);
   }
 
+  function storeDestinations(){
+    var currentPosition = positionModel.get();
+    var destinationIndex = _.findIndex(destinations, _.pick(currentPosition, 'x', 'y'));
+    if(destinationIndex >= 0 && destinations.length > 1 &&  destinationIndex != destinations.length - 1 && state !== 'moving'){
+      positionModel.x = destinations[destinationIndex + 1].x;
+      positionModel.y = destinations[destinationIndex + 1].y;
+      destinations.shift();
+    }
+  }
+
   function tween(){
+    state = 'moving';
     var position = this;
     var movement = new Tween(animator)
       .from(previous.x, previous.y)
       .to(position.x, position.y)
-      .by(function(stepX, stepY){
+      .by(function(stepX, stepY, end){
         position.stepX = stepX;
         position.stepY = stepY;
         position.emitChange('moving');
+        if(end === true){
+          state = 'paused';
+          _.delay(position.emitChange.bind(position, 'destinationUpdate'), 300);
+        }
       });
 
     return movement;
@@ -125,7 +161,7 @@ function Position(body) {
       return body.animateMove(stepEvent.detail);
     }
 
-    return animateMove(stepEvent.detail);
+    return animateMove(stepEvent.detail);      
   }
 
   function orient(){

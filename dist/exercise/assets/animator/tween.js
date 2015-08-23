@@ -36,7 +36,7 @@ Tween.prototype.by = function by(stepFunction){
     tween.current.y = tween.current.y + deltaPosition.y;
 
     if(tween.isDestinationReached()){
-      stepFunction(tween.to.x, tween.to.y);
+      stepFunction(tween.to.x, tween.to.y, true);
       return false;
     }
     stepFunction(tween.current.x, tween.current.y);
@@ -46,7 +46,7 @@ Tween.prototype.by = function by(stepFunction){
 
   // default linear easing.
   function calcDelta(origin, destination, deltaT, fullT){
-    var fullT = fullT || 100;
+    var fullT = fullT || 200;
     var stepProportion = deltaT/fullT;
 
     var deltaX = stepProportion * (destination.x - origin.x);

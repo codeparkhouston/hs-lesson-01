@@ -5,12 +5,12 @@
  */
 'use strict';
 
-var lionElement = document.getElementById('lion');
+var robotElement = document.getElementById('robot');
 var sceneElement = document.getElementById('scene');
-var lion = new Robot(lionElement);
-
-
 var scene = new Scene(sceneElement);
+var robot = new Robot(robotElement);
+
+
 var animator = new Animator();
 
 animator.startLoop();
@@ -48,6 +48,7 @@ function Robot(robotElement) {
   robotMethods.flip = flip;
   robotMethods.getElement = getElement;
   robotMethods.getImage = getImage;
+  robotMethods.solve = solve;
 
   /**
    * We are going to use `robot` to hold onto some private information about our robot.
@@ -98,10 +99,15 @@ function Robot(robotElement) {
     scene.element = sceneElement;
     setSceneSize();
     window.onresize = _.throttle(setSceneSize, 100);
+
+    scene.element.addEventListener('mazed', reset);
   }
 
   function setSizeAndPosition(){
     robot.size = getSize();
+    if(robot.position){
+      robot.position.unset();
+    }
     robot.position = new Position(robotMethods);
 
     if(!robot.defaults){    
@@ -157,8 +163,7 @@ function Robot(robotElement) {
       return;
     }
 
-    robot.position.x = x;
-    robot.position.y = y;
+    robot.position.coordinates = {x: x, y: y};
     return robot.name + ' moving to ' + x + ', ' + y;
   }
 
