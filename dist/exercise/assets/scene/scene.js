@@ -12,30 +12,29 @@ function Scene(sceneElement){
   var sceneMethods = Object.create(null);
   var mazeBounds = [];
   var scene = {};
+  var maze;
 
   sceneMethods.addMaze = addMaze;
-
-
+  sceneMethods.clearMaze = clearMaze;
+  sceneMethods.setMaze = setMaze;
 
   setBody(sceneElement);
   listenToRobots();
 
-
-
   return sceneMethods;
+
+
+  function setMaze(){
+    if(maze){
+      clearMaze();      
+    }
+    addMaze();
+  }
 
 
   function setBody(sceneElement){
     scene.element = sceneElement;
     scene.robots = sceneElement.getElementsByClassName('robot');
-  }
-
-  function addRobot(){
-
-  }
-
-  function getRobots(){
-
   }
 
   function addMaze(){
@@ -47,11 +46,26 @@ function Scene(sceneElement){
     };
 
     scene.element.classList.add('maze');
+    maze = new Maze(mazeSize.width, mazeSize.height).generate().display();
 
-    maze = new Maze(mazeSize.width, mazeSize.height).generate().display()
+    var changeEvent = new CustomEvent('mazed');
+
     setTimeout(function(){
       mazeBounds = maze.getBounds();
+      scene.element.dispatchEvent(changeEvent);
     }, 1000);
+  }
+
+  function clearMaze(){
+    maze.clear();
+  }
+
+  function refreshRobots(){
+    _.each(scene.robots, refreshRobot);
+  }
+
+  function refreshRobot(robot){
+    robot.src = robot.src;
   }
 
   function listenToRobots(){
@@ -60,6 +74,17 @@ function Scene(sceneElement){
 
   function listenToRobot(robot){
     robot.addEventListener('moving', checkRobot);
+  }
+
+  function trailRobots(){
+    _.each(scene.robots, trailRobot);
+  }
+
+  function trailRobot(robot){
+    var trailElement = robot.cloneNode(true);
+    trailElement.className = 'trail';
+    trailElement.removeAttribute('id');
+    sceneElement.appendChild(trailElement);
   }
 
   function isBetween(compare, boundOne, boundTwo){
@@ -91,21 +116,20 @@ function Scene(sceneElement){
   }
 
   function checkRobot(moveEvent){
-    var overlapsMaze = _.find(mazeBounds, function(mazeBound){
-      return hasOverlap(moveEvent.detail.box, mazeBound);
-    });
-    var positions = {
-      lion: moveEvent.detail.box,
-      mazeBox: overlapsMaze
-    };
-    if(!_.isUndefined(overlapsMaze)){
-      console.info('overlapsMaze');
-      console.info(positions);
-      
-    }
-    // this is where checking maze collision can happen
-    // console.info('moved to', moveEvent.detail.position.x, moveEvent.detail.position.y);
-    // console.info('moved to', moveEvent.detail.box.left, moveEvent.detail.box.top);
-  }
+    if(mazeBounds.length> 0){
+      trailRobots();
 
+      var overlapsMaze = _.find(mazeBounds, function(mazeBound){
+        return hasOverlap(moveEvent.detail.box, mazeBound);
+      });
+      var positions = {
+        lion: moveEvent.detail.box,
+        mazeBox: overlapsMaze
+      };
+      if(!_.isUndefined(overlapsMaze)){
+        console.info('overlapsMaze');
+        console.info(positions);
+      }
+    }
+  }
 }

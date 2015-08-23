@@ -1,12 +1,15 @@
 function Maze(width, height){
+  var mazeBox = document.getElementById('maze');
 
   this.width = width;
   this.height = height;
+  this.element = mazeBox;
 
+  return this;
 }
 
 Maze.prototype.generate = function(){
-  var previousMaze = JSON.parse(localStorage.getItem('maze'));
+  var previousMaze = this.get();
   this.maze = previousMaze || maze(this.height, this.width);
 
   return this;
@@ -14,12 +17,11 @@ Maze.prototype.generate = function(){
 
 Maze.prototype.display = function(){
   var mazeArray = display(this.maze);
-  var mazeBox = document.getElementById('maze');
   var mazeLineWidth = mazeArray[0].length;
   var mazePieces = ['|', '-', '+'];
   var mazeDOM = [];
 
-  _.each(mazeArray, function(line){
+  _.each(mazeArray, function(line, lineIter){
     var mazeLine = document.createElement('div');
     mazeLine.classList.add('line');
 
@@ -45,8 +47,8 @@ Maze.prototype.display = function(){
       mazeLine.appendChild(mazePiece);
     });
 
-    mazeBox.appendChild(mazeLine);
-  });
+    this.element.appendChild(mazeLine);
+  }, this);
 
   this.mazeDOM = mazeDOM;
 
@@ -67,7 +69,17 @@ Maze.prototype.save = function(){
 }
 
 Maze.prototype.clear = function(){
+  var mazeBox = document.getElementById('maze');
+
+  while (mazeBox.firstChild) {
+    mazeBox.removeChild(mazeBox.firstChild);
+  }
+
   localStorage.clear();
+}
+
+Maze.prototype.get = function(){
+  return JSON.parse(localStorage.getItem('maze'));
 }
 
 // http://rosettacode.org/wiki/Maze_generation#JavaScript

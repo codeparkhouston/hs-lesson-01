@@ -46,7 +46,7 @@ Tween.prototype.by = function by(stepFunction){
 
   // default linear easing.
   function calcDelta(origin, destination, deltaT, fullT){
-    var fullT = fullT || 100;
+    var fullT = fullT || 200;
     var stepProportion = deltaT/fullT;
 
     var deltaX = stepProportion * (destination.x - origin.x);

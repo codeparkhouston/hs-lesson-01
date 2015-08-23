@@ -8,7 +8,6 @@
 var lionElement = document.getElementById('lion');
 var sceneElement = document.getElementById('scene');
 var scene = new Scene(sceneElement);
-scene.addMaze();
 var lion = new Robot(lionElement);
 
 
@@ -100,6 +99,8 @@ function Robot(robotElement) {
     scene.element = sceneElement;
     setSceneSize();
     window.onresize = _.throttle(setSceneSize, 100);
+
+    scene.element.addEventListener('mazed', reset);
   }
 
   function setSizeAndPosition(){

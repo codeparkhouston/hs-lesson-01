@@ -22,7 +22,7 @@ function Position(body) {
       if(!_.isEqual(_.last(destinations), value)){
         destinations.push(value);
         destinationsHistory.push(value);
-        emitChange('destinationCheck', value);
+        emitChange('destinationUpdate', value);
       }
     },
 
@@ -32,7 +32,7 @@ function Position(body) {
     set x(value) {
       previous.x = position.x;
       position.x = value;
-      // emitChange('destinationChange');
+      // emitChange('destinationSet');
     },
 
     get y() {
@@ -41,7 +41,7 @@ function Position(body) {
     set y(value) {
       previous.y = position.y;
       position.y = value;
-      emitChange('destinationChange');
+      emitChange('destinationSet');
     },
 
     get stepX() {
@@ -102,17 +102,16 @@ function Position(body) {
   positionPlot = storeDestinations;
 
   positionModel.unset = function(){
-    bodyElement.removeEventListener('destinationCheck', positionPlot);
-    bodyElement.removeEventListener('destinationChange', positionTween);
+    bodyElement.removeEventListener('destinationUpdate', positionPlot);
+    bodyElement.removeEventListener('destinationSet', positionTween);
     bodyElement.removeEventListener('stepChange', positionOrient);
     bodyElement.removeEventListener('stepMove', positionMove);
   }
 
-  bodyElement.addEventListener('destinationCheck', positionPlot);
-  bodyElement.addEventListener('destinationChange', positionTween);
+  bodyElement.addEventListener('destinationUpdate', positionPlot);
+  bodyElement.addEventListener('destinationSet', positionTween);
   bodyElement.addEventListener('stepChange', positionOrient);
   bodyElement.addEventListener('stepMove', positionMove);
-
 
   return positionModel;
 
@@ -150,7 +149,7 @@ function Position(body) {
         position.emitChange('moving');
         if(end === true){
           state = 'paused';
-          position.emitChange('destinationCheck');
+          _.delay(position.emitChange.bind(position, 'destinationUpdate'), 300);
         }
       });
 
@@ -180,11 +179,6 @@ function Position(body) {
     bodyElement.style.left = toPosition.x - bodySize.width/2 + 'px';
     bodyElement.style.top = toPosition.y - bodySize.height/2 + 'px';
     bodyImage.style.transform = transform;
-
-    var trailElement = bodyElement.cloneNode(true);
-    trailElement.className = 'trail';
-    trailElement.removeAttribute('id');
-    sceneElement.appendChild(trailElement);
   }
 
   function getTransform(toPosition) {

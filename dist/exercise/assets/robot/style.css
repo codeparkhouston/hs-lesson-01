@@ -18,16 +18,21 @@
   position: absolute;
 }
 
-.robot img, .trail img {
+.robot img {
   width: 200px;
 }
 
+.trail img {
+  width: 100px;
+  margin-top: 50px;
+}
 
-.robot img {
+
+.maze .robot img {
   width: 50px;
 }
 
-.trail img {
+.maze .trail img {
   width: 30px;
   margin-top: 20px;
 }
