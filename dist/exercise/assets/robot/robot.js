@@ -223,8 +223,8 @@ function Robot(robotElement) {
     // 
     // Adding the robot center helps offsets the position so that
     // it's the position for the center of the robot.
-    var randomX = Math.random() * maxRandomX + xRobotCenter;
-    var randomY = Math.random() * maxRandomY + yRobotCenter;
+    var randomX = parseFloat((Math.random() * maxRandomX + xRobotCenter).toFixed(1));
+    var randomY = parseFloat((Math.random() * maxRandomY + yRobotCenter).toFixed(1));
 
     // Use the previously defined ```moveTo``` to do the moving.
     return moveTo(randomX, randomY);
