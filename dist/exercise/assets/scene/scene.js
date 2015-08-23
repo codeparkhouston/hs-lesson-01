@@ -17,6 +17,7 @@ function Scene(sceneElement){
   sceneMethods.addMaze = addMaze;
   sceneMethods.clearMaze = clearMaze;
   sceneMethods.setMaze = setMaze;
+  sceneMethods.toggleRecordingMode = toggleRecordingMode;
 
   setBody(sceneElement);
   listenToRobots();
@@ -35,6 +36,10 @@ function Scene(sceneElement){
   function setBody(sceneElement){
     scene.element = sceneElement;
     scene.robots = sceneElement.getElementsByClassName('robot');
+  }
+
+  function toggleRecordingMode(){
+    scene.element.parentNode.classList.toggle('record-mode');
   }
 
   function addMaze(){

@@ -35,11 +35,11 @@ function isMissingParameters(parameters, functionName){
 
 
   var examples = {
-    move: 'lion.move("left", 100)',
-    moveTo: 'lion.moveTo(300, 500)',
-    change: 'lion.change("http://www.clipartlord.com/wp-content/uploads/2014/04/robot20.png")',
-    name: 'lion.name("Leo")',
-    setBody: 'var robot = new Robot(document.getElementById("lion"))'
+    move: 'robot.move("left", 100)',
+    moveTo: 'robot.moveTo(300, 500)',
+    change: 'robot.change("http://www.clipartlord.com/wp-content/uploads/2014/04/robot20.png")',
+    name: 'robot.name("Leo")',
+    setBody: 'var robot = new Robot(document.getElementById("robot"))'
   };
 
   try {

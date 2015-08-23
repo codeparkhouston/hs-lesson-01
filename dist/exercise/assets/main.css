@@ -5,6 +5,7 @@ html, body {
 
 body {
   position: relative;
+  background-image: url(./congruent_outline.png);
 }
 
 .instructions {
@@ -18,12 +19,14 @@ body {
   transition: right 100ms ease-in-out;
 }
 
-.maze ~ .instructions {
+.maze ~ .instructions, .record-mode .instructions {
   right: -40%;
 }
 
-.record-mode {
-  background: #FBFEFE;
+.light, .record-mode {
+  background-image: url(./congruent_pentagon.png);
+  background-blend-mode: screen;
+  background-color: #888;
 }
 
 .maze#scene, .record-mode #scene {
@@ -31,6 +34,7 @@ body {
 }
 
 .record-mode #scene::after, .record-mode #scene::before {
+  opacity: 0.75;
   color: #333;
 }
 

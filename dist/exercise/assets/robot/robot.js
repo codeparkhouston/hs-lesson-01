@@ -5,10 +5,10 @@
  */
 'use strict';
 
-var lionElement = document.getElementById('lion');
+var robotElement = document.getElementById('robot');
 var sceneElement = document.getElementById('scene');
 var scene = new Scene(sceneElement);
-var lion = new Robot(lionElement);
+var robot = new Robot(robotElement);
 
 
 var animator = new Animator();
