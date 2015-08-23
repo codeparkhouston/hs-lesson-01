@@ -162,8 +162,7 @@ function Robot(robotElement) {
       return;
     }
 
-    robot.position.x = x;
-    robot.position.y = y;
+    robot.position.coordinates = {x: x, y: y};
     return robot.name + ' moving to ' + x + ', ' + y;
   }
 

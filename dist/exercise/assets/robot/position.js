@@ -8,15 +8,31 @@ function Position(body) {
   position.angle = 0;
   position.scale = 1;
   var previous = _.clone(position);
+  var destinations = [];
+  var destinationsHistory = [];
+  destinations.push(_.pick(position, 'x', 'y'));
+  destinationsHistory.push(_.pick(position, 'x', 'y'));
+  var state = 'paused';
 
-  var postionModel = {
+  var positionModel = {
+    get coordinates() {
+      return _.pick(position, 'x', 'y');
+    },
+    set coordinates(value) {
+      if(!_.isEqual(_.last(destinations), value)){
+        destinations.push(value);
+        destinationsHistory.push(value);
+        emitChange('destinationCheck', value);
+      }
+    },
+
     get x() {
       return position.x;
     },
     set x(value) {
       previous.x = position.x;
       position.x = value;
-      emitChange('destinationChange');
+      // emitChange('destinationChange');
     },
 
     get y() {
@@ -49,7 +65,7 @@ function Position(body) {
     },
     set scale(value) {
       position.scale = value;
-      emitChange('stepMove', postionModel.getStep());
+      emitChange('stepMove', positionModel.getStep());
     },
 
     get angle() {
@@ -57,15 +73,15 @@ function Position(body) {
     },
     set angle(value) {
       position.angle = value;
-      emitChange('stepMove', postionModel.getStep());
+      emitChange('stepMove', positionModel.getStep());
     }
   };
 
-  postionModel.get = function(){
+  positionModel.get = function(){
     return _.clone(position);
   }
 
-  postionModel.getStep = function(){
+  positionModel.getStep = function(){
 
     var step = {
       x: position.stepX,
@@ -77,28 +93,28 @@ function Position(body) {
     return step;
   }
 
-  postionModel.emitChange = emitChange;
+  positionModel.emitChange = emitChange;
 
-  positionTween = waitToDo(tween.bind(postionModel));
-  positionOrient = waitToDo(orient.bind(postionModel));
+  positionTween = tween.bind(positionModel);
+  positionOrient = waitToDo(orient.bind(positionModel));
   positionMove = waitToDo(move);
-  positionEnd = waitToDo(emitChange.bind(postionModel, 'moving'));
 
+  positionPlot = storeDestinations;
 
-  postionModel.unset = function(){
+  positionModel.unset = function(){
+    bodyElement.removeEventListener('destinationCheck', positionPlot);
     bodyElement.removeEventListener('destinationChange', positionTween);
     bodyElement.removeEventListener('stepChange', positionOrient);
     bodyElement.removeEventListener('stepMove', positionMove);
-    bodyElement.removeEventListener('transitionend', positionEnd);
   }
 
+  bodyElement.addEventListener('destinationCheck', positionPlot);
   bodyElement.addEventListener('destinationChange', positionTween);
   bodyElement.addEventListener('stepChange', positionOrient);
   bodyElement.addEventListener('stepMove', positionMove);
-  bodyElement.addEventListener('transitionend', positionEnd);
 
 
-  return postionModel;
+  return positionModel;
 
   function emitChange(changeType, changedProperties){
     var changeEventData = {
@@ -112,15 +128,30 @@ function Position(body) {
     bodyElement.dispatchEvent(changeEvent);
   }
 
+  function storeDestinations(){
+    var currentPosition = positionModel.get();
+    var destinationIndex = _.findIndex(destinations, _.pick(currentPosition, 'x', 'y'));
+    if(destinationIndex >= 0 && destinations.length > 1 &&  destinationIndex != destinations.length - 1 && state !== 'moving'){
+      positionModel.x = destinations[destinationIndex + 1].x;
+      positionModel.y = destinations[destinationIndex + 1].y;
+      destinations.shift();
+    }
+  }
+
   function tween(){
+    state = 'moving';
     var position = this;
     var movement = new Tween(animator)
       .from(previous.x, previous.y)
       .to(position.x, position.y)
-      .by(function(stepX, stepY){
+      .by(function(stepX, stepY, end){
         position.stepX = stepX;
         position.stepY = stepY;
         position.emitChange('moving');
+        if(end === true){
+          state = 'paused';
+          position.emitChange('destinationCheck');
+        }
       });
 
     return movement;

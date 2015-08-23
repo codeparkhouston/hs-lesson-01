@@ -56,9 +56,11 @@ function Animator(){
 
   function render(progress, deltaT){
     var frameResults = _.map(frameActions, function(frameAction){
-      var continueFrame = frameAction(progress, deltaT);
-      if(continueFrame === false){
-        remove(frameAction);
+      if(_.isFunction(frameAction)){
+        var continueFrame = frameAction(progress, deltaT);
+        if(continueFrame === false){
+          remove(frameAction);
+        }
       }
     });
   }

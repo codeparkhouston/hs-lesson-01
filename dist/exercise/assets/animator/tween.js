@@ -36,7 +36,7 @@ Tween.prototype.by = function by(stepFunction){
     tween.current.y = tween.current.y + deltaPosition.y;
 
     if(tween.isDestinationReached()){
-      stepFunction(tween.to.x, tween.to.y);
+      stepFunction(tween.to.x, tween.to.y, true);
       return false;
     }
     stepFunction(tween.current.x, tween.current.y);
