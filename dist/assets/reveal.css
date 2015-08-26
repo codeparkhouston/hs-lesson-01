@@ -1996,6 +1996,7 @@ strike {
   background: #000;
 }
 .reveal kbd {
+  font-family: Consolas, Monaco, 'Andale Mono', monospace;
   background-color: #fbfefe;
   border: 1px solid #ccc;
   color: #333333;
