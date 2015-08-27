@@ -75,7 +75,7 @@ Maze.prototype.clear = function(){
     mazeBox.removeChild(mazeBox.firstChild);
   }
 
-  localStorage.clear();
+  localStorage.setItem('maze', null);
 }
 
 Maze.prototype.get = function(){
