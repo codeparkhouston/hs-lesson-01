@@ -59,13 +59,11 @@ var checkpoints = [
 
 var robotElement = document.getElementById('robot');
 var sceneElement = document.getElementById('scene');
+
 var scene = new Scene(sceneElement);
 var robot = new Robot(robotElement);
-
-
 var animator = new Animator();
 
 animator.startLoop();
 
-var instructionsController = videoController('instructions', {videoId: '2s9doCDVQhc', checkpoints: checkpoints});
-var onYouTubeIframeAPIReady = instructionsController.setupPlayer;
+videoController('instructions', {videoId: '2s9doCDVQhc', checkpoints: checkpoints});

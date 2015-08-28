@@ -33,9 +33,6 @@ function videoController(name, options){
     }
   };
 
-  var videoStuff = {};
-  videoStuff.setupPlayer = onYouTubeIframeAPIReady;
-
   var consoleCleared = false;
   var videoIframe, checklistElement, player;
 
@@ -46,9 +43,7 @@ function videoController(name, options){
   checklistElement = makeSteps(checkpoints);
   updateStepsActive(videoData.checkpoint.identifier, checklistElement);
 
-  return videoStuff;
-
-
+  return;
 
   function initializeCheckpoint(){
     if(location.hash.length){
@@ -62,7 +57,9 @@ function videoController(name, options){
     var instructionsIframe = document.getElementById(name)
     instructionsIframe.src = "https://www.youtube.com/embed/" + options.videoId + "?enablejsapi=1&origin=" + location.origin;
 
-    return instructions;
+    window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+
+    return instructionsIframe;
   }
 
   function initializeVideoData(){
