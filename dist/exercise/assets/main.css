@@ -63,6 +63,7 @@ body {
 #checklist {
   overflow: auto;
   height: calc(100% - 360px);
+  position: relative;
 }
 
 #checklist.list-group .list-group-item {

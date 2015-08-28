@@ -67,5 +67,5 @@ var animator = new Animator();
 
 animator.startLoop();
 
-var instructionsController = videoController('instructions', {videoId: '2s9doCDVQhc'}, checkpoints);
+var instructionsController = videoController('instructions', {videoId: '2s9doCDVQhc', checkpoints: checkpoints});
 var onYouTubeIframeAPIReady = instructionsController.setupPlayer;

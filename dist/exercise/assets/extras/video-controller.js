@@ -1,4 +1,6 @@
-function videoController(name, options, checkpoints){
+function videoController(name, options){
+
+  var checkpoints = _.clone(options.checkpoints);
 
   var videoData = {
     get playbackRate() {
@@ -22,6 +24,7 @@ function videoController(name, options, checkpoints){
       if(_.isObject(checkpoints[currentIndex + 1])){
         return checkpoints[currentIndex + 1];
       } else if (currentIndex == checkpoints.length - 1) {
+        // loop back to the beginning
         return _.first(checkpoints);
       } else {
         videoData.checkpoint = _.first(checkpoints).identifier;
@@ -30,20 +33,22 @@ function videoController(name, options, checkpoints){
     }
   };
 
-
-  initializeVideoData();
   var videoStuff = {};
-  var consoleCleared = false;
-
-  var videoIframe = initializeIframe(name);
-  var checklistElement = makeSteps();
-  initializeCheckpoint();
-
-  var player;
-
   videoStuff.setupPlayer = onYouTubeIframeAPIReady;
 
+  var consoleCleared = false;
+  var videoIframe, checklistElement, player;
+
+  initializeVideoData();
+  initializeCheckpoint();
+
+  videoIframe = initializeIframe(name, options);
+  checklistElement = makeSteps(checkpoints);
+  updateStepsActive(videoData.checkpoint.identifier, checklistElement);
+
   return videoStuff;
+
+
 
   function initializeCheckpoint(){
     if(location.hash.length){
@@ -53,8 +58,7 @@ function videoController(name, options, checkpoints){
     }
   }
 
-
-  function initializeIframe(name){
+  function initializeIframe(name, options){
     var instructionsIframe = document.getElementById(name)
     instructionsIframe.src = "https://www.youtube.com/embed/" + options.videoId + "?enablejsapi=1&origin=" + location.origin;
 
@@ -104,49 +108,56 @@ function videoController(name, options, checkpoints){
   }
 
   function onStateChange(event) {
+    var checkpointByTime;
+
     if (event.data == YT.PlayerState.CUED && !consoleCleared){
       console.clear();
       consoleCleared = true;
-    }else if (event.data == YT.PlayerState.PLAYING){
-      setPlaying();
 
-      if(player.getCurrentTime() >= videoData.checkpoint.end) {
-        updatePlaying(videoData.nextCheckpoint.identifier);
+    } else if (event.data == YT.PlayerState.PLAYING){
+      setPlaying();
+      checkpointByTime = getCheckpointByTime(player.getCurrentTime());
+
+      if(checkpointByTime.identifier != videoData.checkpoint.identifier) {
+        updatePlaying(checkpointByTime.identifier);
       }
 
-    }else if (event.data == YT.PlayerState.PAUSED) {
-      setPlayNext();
-
+    } else if (event.data == YT.PlayerState.ENDED){
       if (player.getCurrentTime() >= videoData.checkpoint.end){
-        var nextCheckpoint = videoData.nextCheckpoint;
-        if(!_.isUndefined(nextCheckpoint)){
-          updateNextPlay();
-        }
+        setPlayNext();
+        updateNextPlay();
       }
     }
   }
 
+  function getCheckpointByTime(playTime){
+    var checkpointByTime = _.find(checkpoints, function(checkpoint){
+      return playTime <= checkpoint.start && playTime <= checkpoint.end;
+    });
 
-  function makeSteps(){
+    return checkpointByTime;
+  }
+
+
+  function makeSteps(checkpoints){
     var listElement = document.getElementById('checklist');
     _.each(checkpoints, _.partial(makeStep, listElement));
-    updateStepsActive(videoData.checkpoint.identifier, listElement);
-
     return listElement;
   }
 
-  function makeStep(listElement, checkpoint, count){
+  function makeStep(listElement, checkpoint){
     var stepElement = document.createElement('a');
-    stepElement.href = '#' + checkpoint.identifier;
-    stepElement.dataset.identifier = checkpoint.identifier;
-    stepElement.dataset.fromTop = 42 * count;
     stepElement.className = 'list-group-item';
+
+    stepElement.href = '#' + checkpoint.identifier;
+    stepElement.id = checkpoint.identifier;
     stepElement.innerText = checkpoint.name;
-    stepElement.addEventListener('click', _.partial(setCurrent, checkpoint.identifier));
+    stepElement.addEventListener('click', _.partial(playThisStep, checkpoint.identifier));
+
     listElement.appendChild(stepElement);
   }
 
-  function setCurrent(identifier, clickEvent){
+  function playThisStep(identifier, clickEvent){
     var actives;
     clickEvent.preventDefault();
 
@@ -168,7 +179,7 @@ function videoController(name, options, checkpoints){
       active.classList.remove('active');
     });
     stepElement.classList.add('active');
-    stepElement.parentNode.scrollTop = stepElement.dataset.fromTop;
+    stepElement.parentNode.scrollTop = stepElement.offsetTop;
   }
 
   function updatePlaying(identifier){
