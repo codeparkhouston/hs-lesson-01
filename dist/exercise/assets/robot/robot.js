@@ -5,16 +5,6 @@
  */
 'use strict';
 
-var robotElement = document.getElementById('robot');
-var sceneElement = document.getElementById('scene');
-var scene = new Scene(sceneElement);
-var robot = new Robot(robotElement);
-
-
-var animator = new Animator();
-
-animator.startLoop();
-
 function makeNewRobot(id, imageURL){
   var robotEl = makeNewRobotBody(id, imageURL);
   return new Robot(robotEl);

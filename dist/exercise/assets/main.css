@@ -64,6 +64,15 @@ body {
   transition: background-color 100ms ease-in-out;
 }
 
+#checklist.list-group {
+  counter-reset: checklist;
+}
+
+#checklist.list-group .list-group-item::before {
+  counter-increment: checklist;
+  content: counter(checklist) ". ";
+}
+
 #checklist.list-group .list-group-item:not(.active) {
   color: rgba(100, 100, 100, 0.75);
 }
