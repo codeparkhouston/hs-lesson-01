@@ -33,6 +33,7 @@ function videoController(name, options, checkpoints){
 
   initializeVideoData();
   var videoStuff = {};
+  var consoleCleared = false;
 
   var videoIframe = initializeIframe(name);
   var checklistElement = makeSteps();
@@ -59,7 +60,6 @@ function videoController(name, options, checkpoints){
 
     return instructions;
   }
-
 
   function initializeVideoData(){
     var defaultSettings = {
@@ -88,12 +88,44 @@ function videoController(name, options, checkpoints){
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('instructions', {
       events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange,
+        'onReady': onReady,
+        'onStateChange': onStateChange,
         'onPlaybackRateChange': onPlaybackRateChange
       }
     });
   }
+
+  function onReady(){
+    cue(videoData.checkpoint);
+  }
+
+  function onPlaybackRateChange(){
+    videoData.playbackRate = player.getPlaybackRate();
+  }
+
+  function onStateChange(event) {
+    if (event.data == YT.PlayerState.CUED && !consoleCleared){
+      console.clear();
+      consoleCleared = true;
+    }else if (event.data == YT.PlayerState.PLAYING){
+      setPlaying();
+
+      if(player.getCurrentTime() >= videoData.checkpoint.end) {
+        updatePlaying(videoData.nextCheckpoint.identifier);
+      }
+
+    }else if (event.data == YT.PlayerState.PAUSED) {
+      setPlayNext();
+
+      if (player.getCurrentTime() >= videoData.checkpoint.end){
+        var nextCheckpoint = videoData.nextCheckpoint;
+        if(!_.isUndefined(nextCheckpoint)){
+          updateNextPlay();
+        }
+      }
+    }
+  }
+
 
   function makeSteps(){
     var listElement = document.getElementById('checklist');
@@ -122,9 +154,9 @@ function videoController(name, options, checkpoints){
       return;
     }
     updateStepsActive(this);
-    videoData.checkpoint = identifier;
-    play(videoData.checkpoint);
-    history.pushState({checkpoint: videoData.checkpoint}, videoData.checkpoint.name, '#' + videoData.checkpoint.identifier);
+    updatePlaying(identifier);
+    cue(videoData.checkpoint);
+    playVideo();
   }
 
   function updateStepsActive(stepElement, checklistElement){
@@ -139,21 +171,14 @@ function videoController(name, options, checkpoints){
     stepElement.parentNode.scrollTop = stepElement.dataset.fromTop;
   }
 
-  function onPlayerReady(){
-    cueCurrent();
+  function updatePlaying(identifier){
+    videoData.checkpoint = identifier;
+    history.pushState({checkpoint: videoData.checkpoint}, videoData.checkpoint.name, '#' + videoData.checkpoint.identifier);
   }
 
-  function onPlaybackRateChange(){
-    videoData.playbackRate = player.getPlaybackRate();
-  }
-
-  function cueCurrent(){
-    cue(videoData.checkpoint);
-  }
-
-  function cueNext(){
+  function updateNextPlay(){
     cue(videoData.nextCheckpoint);
-    updateStepsActive(videoData.nextCheckpoint.identifier);
+    updateStepsActive(videoData.nextCheckpoint.identifier, checklistElement);
   }
 
   function cue(checkpoint){
@@ -161,34 +186,20 @@ function videoController(name, options, checkpoints){
     player.setPlaybackRate(videoData.playbackRate);
   }
 
-  function play(checkpoint){
-    player.loadVideoById({videoId: options.videoId, startSeconds: checkpoint.start, endSeconds: checkpoint.end});
-    setPlaying();
-    player.setPlaybackRate(videoData.playbackRate);
-  }
-
   function setPlayNext(){
     videoIframe.parentNode.classList.add('play-next');
-    videoIframe.parentNode.addEventListener('click', player.playVideo.bind(player));
+    videoIframe.parentNode.addEventListener('click', playVideo);
   }
 
   function setPlaying(){
-    videoIframe.parentNode.classList.remove('play-next');
-    videoIframe.parentNode.removeEventListener('click', player.playVideo.bind(player));
+    videoIframe.parentNode.classList.remove('loading');
+    videoIframe.parentNode.removeEventListener('click', playVideo);
   }
 
-  function onPlayerStateChange(event) {
-    if (event.data == YT.PlayerState.PLAYING && player.getCurrentTime() >= videoData.checkpoint.end) {
-      setPlaying();
-      videoData.checkpoint = videoData.nextCheckpoint.identifier;
-      history.pushState({checkpoint: videoData.checkpoint}, videoData.checkpoint.name, '#' + videoData.checkpoint.identifier);
-    }
-    if (event.data == YT.PlayerState.PAUSED && player.getCurrentTime() >= videoData.checkpoint.end) {
-      var nextCheckpoint = videoData.nextCheckpoint;
-      if(!_.isUndefined(nextCheckpoint)){
-        cueNext();
-        setPlayNext();
-      }
-    }
+  function playVideo(){
+    player.playVideo();
+    videoIframe.parentNode.classList.remove('play-next');
+    videoIframe.parentNode.classList.add('loading');
   }
+
 }

@@ -53,6 +53,12 @@ body {
   opacity: 1;
 }
 
+.instructions.loading::after {
+  content: "Loading...";
+  display: block;
+  opacity: 1;
+}
+
 
 #checklist {
   overflow: auto;
