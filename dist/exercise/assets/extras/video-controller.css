@@ -69,6 +69,7 @@
 #checklist.list-group .list-group-item::before {
   counter-increment: checklist;
   content: counter(checklist) ". ";
+  opacity: 0.5;
 }
 
 #checklist.list-group .list-group-item:not(.active) {

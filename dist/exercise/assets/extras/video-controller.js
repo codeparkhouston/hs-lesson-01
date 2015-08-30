@@ -121,15 +121,15 @@ function videoController(name, options){
 
     } else if (event.data == YT.PlayerState.ENDED){
       if (player.getCurrentTime() >= videoData.checkpoint.end){
+        cue(videoData.nextCheckpoint);
         setPlayNext();
-        updateNextPlay();
       }
     }
   }
 
   function getCheckpointByTime(playTime){
     var checkpointByTime = _.find(checkpoints, function(checkpoint){
-      return playTime <= checkpoint.start && playTime <= checkpoint.end;
+      return checkpoint.start <= playTime && playTime < checkpoint.end;
     });
 
     return checkpointByTime;
@@ -161,7 +161,6 @@ function videoController(name, options){
     if(videoData.checkpoint == identifier){
       return;
     }
-    updateStepsActive(this);
     updatePlaying(identifier);
     cue(videoData.checkpoint);
     playVideo();
@@ -181,12 +180,8 @@ function videoController(name, options){
 
   function updatePlaying(identifier){
     videoData.checkpoint = identifier;
+    updateStepsActive(videoData.checkpoint.identifier, checklistElement);
     history.pushState({checkpoint: videoData.checkpoint}, videoData.checkpoint.name, '#' + videoData.checkpoint.identifier);
-  }
-
-  function updateNextPlay(){
-    cue(videoData.nextCheckpoint);
-    updateStepsActive(videoData.nextCheckpoint.identifier, checklistElement);
   }
 
   function cue(checkpoint){
