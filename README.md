@@ -1,3 +1,3 @@
 ## Lessons
 
-* [Lesson One](blob/master/dist/lesson-one/README.md)
+* [Lesson One](../../tree/master/dist/lesson-one)
