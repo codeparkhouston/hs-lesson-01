@@ -45,9 +45,9 @@
 }
 #checklist {
   overflow: auto;
-  height: calc(-260%);
+  height: calc(100% - 360px);
   position: relative;
-  right: calc(-68%);
+  right: calc(-100% + 32px);
   -webkit-transition: right 100ms ease-in-out;
   transition: right 100ms ease-in-out;
 }
