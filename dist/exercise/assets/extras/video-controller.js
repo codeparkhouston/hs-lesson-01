@@ -175,7 +175,9 @@ function videoController(name, options){
       active.classList.remove('active');
     });
     stepElement.classList.add('active');
-    stepElement.parentNode.scrollTop = stepElement.offsetTop;
+    if (stepElement.parentNode.clientHeight < (stepElement.offsetTop + stepElement.clientHeight)){
+      stepElement.parentNode.scrollTop = ((stepElement.offsetTop + stepElement.clientHeight) - stepElement.parentNode.clientHeight);
+    }
   }
 
   function updatePlaying(identifier){
