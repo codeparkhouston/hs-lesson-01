@@ -1,3 +1,5 @@
+window.videoController = videoController;
+
 function videoController(name, options){
 
   var checkpoints = _.clone(options.checkpoints);
