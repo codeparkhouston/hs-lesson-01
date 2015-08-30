@@ -161,12 +161,14 @@ function videoController(name, options){
     if(videoData.checkpoint == identifier){
       return;
     }
-    updatePlaying(identifier);
+    updatePlaying(identifier, true);
     cue(videoData.checkpoint);
     playVideo();
   }
 
-  function updateStepsActive(stepElement, checklistElement){
+  function updateStepsActive(stepElement, checklistElement, isClick){
+    var isClick = isClick || false;
+
     if(!_.isElement(stepElement)){
       stepElement = checklistElement.querySelector('a.list-group-item[href="#' + stepElement + '"]')
     }
@@ -175,14 +177,20 @@ function videoController(name, options){
       active.classList.remove('active');
     });
     stepElement.classList.add('active');
-    if (stepElement.parentNode.clientHeight < (stepElement.offsetTop + stepElement.clientHeight)){
-      stepElement.parentNode.scrollTop = ((stepElement.offsetTop + stepElement.clientHeight) - stepElement.parentNode.clientHeight);
+    if (!isClick){
+      if ((stepElement.offsetTop + stepElement.clientHeight) > stepElement.parentNode.clientHeight){
+        stepElement.parentNode.style.marginBottom = stepElement.parentNode.clientHeight + 'px';
+      } else {
+        stepElement.parentNode.style.marginBottom = 0;
+      }
+
+      stepElement.parentNode.scrollTop = stepElement.offsetTop;        
     }
   }
 
-  function updatePlaying(identifier){
+  function updatePlaying(identifier, isClick){
     videoData.checkpoint = identifier;
-    updateStepsActive(videoData.checkpoint.identifier, checklistElement);
+    updateStepsActive(videoData.checkpoint.identifier, checklistElement, isClick);
     history.pushState({checkpoint: videoData.checkpoint}, videoData.checkpoint.name, '#' + videoData.checkpoint.identifier);
   }
 

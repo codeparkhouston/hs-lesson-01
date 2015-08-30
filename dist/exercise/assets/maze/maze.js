@@ -21,6 +21,8 @@ Maze.prototype.display = function(){
   var mazePieces = ['|', '-', '+'];
   var mazeDOM = [];
 
+  this.element.innerHTML = '';
+
   _.each(mazeArray, function(line, lineIter){
     var mazeLine = document.createElement('div');
     mazeLine.classList.add('line');
@@ -66,6 +68,13 @@ Maze.prototype.getBounds = function(){
 
 Maze.prototype.save = function(){
   localStorage.setItem('maze', JSON.stringify(this.maze));
+}
+
+Maze.prototype.set = function(mazeSettings){
+  if (_.isObject(mazeSettings)){
+    mazeSettings = JSON.stringify(mazeSettings);
+  }
+  localStorage.setItem('maze', mazeSettings);
 }
 
 Maze.prototype.clear = function(){

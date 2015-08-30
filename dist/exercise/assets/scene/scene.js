@@ -17,7 +17,6 @@ function Scene(sceneElement){
   sceneMethods.addMaze = addMaze;
   sceneMethods.clearMaze = clearMaze;
   sceneMethods.setMaze = setMaze;
-  sceneMethods.toggleRecordingMode = toggleRecordingMode;
 
   setBody(sceneElement);
   listenToRobots();
@@ -27,7 +26,7 @@ function Scene(sceneElement){
 
   function setMaze(){
     if(maze){
-      clearMaze();      
+      clearMaze();
     }
     addMaze();
   }
@@ -43,17 +42,19 @@ function Scene(sceneElement){
   }
 
   function addMaze(){
-    var sceneSize = scene.element.getBoundingClientRect();
     var blockSize = 100;
-    var mazeSize = {
-      width: Math.floor(sceneSize.width/blockSize) - 2,
+    var changeEvent = new CustomEvent('mazed');
+    var mazeSize, sceneSize;
+
+    scene.element.classList.add('maze');
+    sceneSize = scene.element.getBoundingClientRect();
+
+    mazeSize = {
+      width: Math.floor(sceneSize.width/(blockSize * 1.5)) - 2,
       height: Math.floor(sceneSize.height/blockSize) - 2
     };
 
-    scene.element.classList.add('maze');
     maze = new Maze(mazeSize.width, mazeSize.height).generate().display();
-
-    var changeEvent = new CustomEvent('mazed');
 
     setTimeout(function(){
       mazeBounds = maze.getBounds();

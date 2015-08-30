@@ -38,7 +38,10 @@ function Robot(robotElement) {
   robotMethods.flip = flip;
   robotMethods.getElement = getElement;
   robotMethods.getImage = getImage;
-  robotMethods.solve = solve;
+
+  if(typeof solve !== 'undefined'){
+    robotMethods.solve = solve;
+  }
 
   /**
    * We are going to use `robot` to hold onto some private information about our robot.
