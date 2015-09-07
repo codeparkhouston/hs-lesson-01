@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "bootstrap": "^3.3.5",
+    "brace": "^0.5.1",
     "headjs": "git://github.com/headjs/headjs",
     "highlight.js": "^8.7.0",
     "jquery": "^2.1.4",
@@ -15,6 +16,7 @@
   },
   "devDependencies": {
     "groc": "^0.8.0",
+    "jade": "^1.11.0",
     "less": "^2.5.1",
     "less-fixed": "0.0.4",
     "parallelshell": "^2.0.0",
