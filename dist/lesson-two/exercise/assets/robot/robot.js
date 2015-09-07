@@ -39,14 +39,14 @@ function Robot(robotElement) {
   robotMethods.getElement = getElement;
   robotMethods.getImage = getImage;
 
+
   if(typeof solve !== 'undefined'){
     robotMethods.solve = solve;
   }
 
-  if(typeof watchMouse !== 'undefined'){
-    console.info('yey!')
-    robotMethods.watchMouse = watchMouse;
-  }
+  // if(typeof watchMouse !== 'undefined'){
+  //   robotMethods.watchMouse = watchMouse;
+  // }
 
   /**
    * We are going to use `robot` to hold onto some private information about our robot.
@@ -99,6 +99,15 @@ function Robot(robotElement) {
     window.onresize = _.throttle(setSceneSize, 100);
 
     scene.element.addEventListener('mazed', reset);
+    scene.element.addEventListener('mousemove', _watchMouse);
+  }
+
+  function _watchMouse(mouseEvent){
+    var mousePosition = _.pick(mouseEvent, 'x', 'y');
+    // var robotPosition = _.pick(robot.position, 'x', 'y', 'direction', 'angle');
+    if(robotMethods.watchMouse){
+      return robotMethods.watchMouse(robot.position, mousePosition);
+    }
   }
 
   function setSizeAndPosition(){

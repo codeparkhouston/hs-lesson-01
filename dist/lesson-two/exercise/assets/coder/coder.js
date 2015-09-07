@@ -9,7 +9,8 @@ function _initCodeBotSandbox() {
 
   sandbox.addEventListener('message', function(e) {
     _initCodeBotSandbox();
-    console.log(e.data.code + ' was run.');
+    eval(e.data.code);
+    robot.watchMouse = watchMouse;
   });
 
   sandbox.addEventListener('error', function(e) {
@@ -19,8 +20,11 @@ function _initCodeBotSandbox() {
 }
 
 function runCode(){
-  sandbox.postMessage(editor.getValue());
+  sandbox.postMessage({type: 'runCode', code: editor.getValue()});
 }
 
 _initCodeBotSandbox();
 editor.runCode = runCode;
+
+var runCodeButton = document.getElementById('run-code');
+runCodeButton.addEventListener('click', runCode);

@@ -12,11 +12,11 @@ function Scene(sceneElement){
   var sceneMethods = Object.create(null);
   var scene = {};
 
-  sceneMethods.startMouseWatch = startMouseWatch;
-  sceneMethods.stopMouseWatch = stopMouseWatch;
+  // sceneMethods.startMouseWatch = startMouseWatch;
+  // sceneMethods.stopMouseWatch = stopMouseWatch;
 
   setBody(sceneElement);
-  startMouseWatch();
+  // startMouseWatch();
 
   return sceneMethods;
 
@@ -46,24 +46,24 @@ function Scene(sceneElement){
     robot.src = robot.src;
   }
 
-  function startMouseWatch(){
-    _.each(scene.robots, watchMouse);
-  }
+  // function startMouseWatch(){
+  //   _.each(scene.robots, watchMouse);
+  // }
 
-  function watchMouse(robot){
-    if(_.isFunction(robot.watchMouse)){
-      sceneElement.addEventListener('mousemove', robot.watchMouse);      
-    }
-  }
+  // function watchMouse(robot){
+  //   if(_.isFunction(robot.watchMouse)){
+  //     sceneElement.addEventListener('mousemove', robot.watchMouse);      
+  //   }
+  // }
 
-  function stopMouseWatch(){
-    _.each(scene.robots, watchMouse);
-  }
+  // function stopMouseWatch(){
+  //   _.each(scene.robots, watchMouse);
+  // }
 
-  function removeWatchMouse(robot){
-    if(_.isFunction(robot.watchMouse)){
-      sceneElement.removeEventListener('mousemove', robot.watchMouse);      
-    }
-  }
+  // function removeWatchMouse(robot){
+  //   if(_.isFunction(robot.watchMouse)){
+  //     sceneElement.removeEventListener('mousemove', robot.watchMouse);      
+  //   }
+  // }
 
 }

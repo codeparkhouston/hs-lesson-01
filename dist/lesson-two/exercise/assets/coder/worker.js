@@ -1,11 +1,16 @@
 
 self.onmessage = function (msg) {
-  runCode(msg.data);
-  console.info(msg.data);
-  self.postMessage({
-    code: msg.data,
-    result: 'yay!'
-  });
+  var canRun;
+  if(msg.data.type == 'runCode'){
+    canRun = runCode(msg.data.code);
+
+    if(canRun){
+      self.postMessage({
+        code: msg.data.code,
+        result: 'yay!'
+      });
+    }
+  }
 };
 
 self.onerror = function(){
@@ -14,5 +19,5 @@ self.onerror = function(){
 
 function runCode (code) {
   eval(code);
-  console.info(typeof watchMouse)
+  return typeof watchMouse == 'function';
 }

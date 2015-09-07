@@ -35,3 +35,9 @@ body {
   position: absolute;
   height: 100%;
 }
+
+#run-code {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
