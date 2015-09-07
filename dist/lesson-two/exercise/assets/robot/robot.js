@@ -44,10 +44,6 @@ function Robot(robotElement) {
     robotMethods.solve = solve;
   }
 
-  // if(typeof watchMouse !== 'undefined'){
-  //   robotMethods.watchMouse = watchMouse;
-  // }
-
   /**
    * We are going to use `robot` to hold onto some private information about our robot.
    */
@@ -104,9 +100,8 @@ function Robot(robotElement) {
 
   function _watchMouse(mouseEvent){
     var mousePosition = _.pick(mouseEvent, 'x', 'y');
-    // var robotPosition = _.pick(robot.position, 'x', 'y', 'direction', 'angle');
-    if(robotMethods.watchMouse){
-      return robotMethods.watchMouse(robot.position, mousePosition);
+    if(typeof watchMouse !== 'undefined' && _.isFunction(watchMouse)){
+      return watchMouse(robot.position, mousePosition);
     }
   }
 
