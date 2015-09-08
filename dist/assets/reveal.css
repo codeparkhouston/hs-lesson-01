@@ -1923,7 +1923,10 @@ body {
 .reveal .emphasize {
   font-size: 1.25em;
 }
-.reveal li pre {
+.reveal .small-text {
+  font-size: 20px;
+}
+.reveal pre {
   width: 100%;
 }
 .reveal pre {
@@ -2019,6 +2022,9 @@ strike {
 }
 .reveal span.fragment.fill-in-the-blank.visible {
   color: rgba(51, 51, 51, 0.75);
+}
+.reveal [class^='col-'] {
+  padding: 0 15px;
 }
 pre code .line.focus {
   background: rgba(0, 0, 0, 0.5);

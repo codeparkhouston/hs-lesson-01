@@ -190,24 +190,3 @@ function Position(body) {
   }
 
 }
-
-function calculateAngle(from, to) {
-  var xDist = to.x - from.x;
-  var yDist = from.y - to.y;
-
-  if(xDist == 0){
-    return getDirection(yDist) * 90;
-  }
-
-  return Math.atan(yDist/xDist) / Math.PI * 180;
-}
-
-function calculateDirection(from, to) {
-  var xDist = to.x - from.x;
-
-  return getDirection(xDist);
-}
-
-function getDirection(distance) {
-  return Math.sign(distance);
-}

@@ -29,6 +29,7 @@ function Robot(robotElement) {
   var robotMethods = Object.create(null);
   robotMethods.getPosition = getPosition;
   robotMethods.getSize = getSize;
+  robotMethods.getOrientation = getOrientation;
   robotMethods.moveTo = moveTo;
   robotMethods.move = move;
   robotMethods.moveRandom = moveRandom;
@@ -38,11 +39,6 @@ function Robot(robotElement) {
   robotMethods.flip = flip;
   robotMethods.getElement = getElement;
   robotMethods.getImage = getImage;
-
-
-  if(typeof solve !== 'undefined'){
-    robotMethods.solve = solve;
-  }
 
   /**
    * We are going to use `robot` to hold onto some private information about our robot.
@@ -95,14 +91,20 @@ function Robot(robotElement) {
     window.onresize = _.throttle(setSceneSize, 100);
 
     scene.element.addEventListener('mazed', reset);
-    scene.element.addEventListener('mousemove', _watchMouse);
+    // Whenever the mouse moves, the 
+    scene.element.addEventListener('mousemove', handleMouseMove);
   }
 
-  function _watchMouse(mouseEvent){
+  function handleMouseMove(mouseEvent){
+    // The robot's position -- we can update the direction and angle
+    var robotPosition = robot.position;
+
+    // We only need the mouse position. We can leave out all over information about
+    // the how the mouse moves and only tell watchMouse the x and y of the mouse.
     var mousePosition = _.pick(mouseEvent, 'x', 'y');
-    if(typeof watchMouse !== 'undefined' && _.isFunction(watchMouse)){
-      return watchMouse(robot.position, mousePosition);
-    }
+
+    // This is were watchMouse gets called.
+    watchMouse(robotPosition, mousePosition);
   }
 
   function setSizeAndPosition(){
@@ -146,6 +148,13 @@ function Robot(robotElement) {
     return {
       x: boundingRectangle.left + boundingRectangle.width/2,
       y: boundingRectangle.top + boundingRectangle.height/2
+    };
+  }
+
+  function getOrientation(){
+    return {
+      direction: robot.position.direction,
+      angle: robot.position.angle
     };
   }
 
@@ -244,7 +253,7 @@ function Robot(robotElement) {
 
   function reset() {
     robot.position.angle = robot.defaults.position.angle;
-    robot.position.scale = robot.defaults.position.scale;
+    robot.position.direction = robot.defaults.position.direction;
     robot.position.x = robot.defaults.position.x;
     robot.position.y = robot.defaults.position.y;
 

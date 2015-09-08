@@ -32,8 +32,12 @@ body {
   font-size: 1.25em;
 }
 
-.reveal li pre {
-    width: 100%;
+.reveal .small-text {
+  font-size: 20px;
+}
+
+.reveal pre {
+  width: 100%;
 }
 
 .reveal pre {
@@ -144,6 +148,10 @@ strike{
   &.visible {
     color: fade(@theme-neutral-dark, 75%);
   }
+}
+
+.reveal [class^='col-'] {
+  padding: 0 15px;
 }
 
 
