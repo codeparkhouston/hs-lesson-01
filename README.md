@@ -1,3 +1,3 @@
 ## Lessons
 
-* [Lesson One](../../tree/master/dist/lesson-one)
+* [Lesson One](../../tree/master/lesson-one)
