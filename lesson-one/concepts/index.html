@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Using functions -- concept</title>
+  <link rel="stylesheet" type="text/css" href="../../../hs-utils/assets/lib.css">
+  <link rel="stylesheet" type="text/css" href="../../../hs-utils/assets/reveal.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <p>Today...</p>
+        <h2 class="fragment">Use the <i><strong>console</strong></i></h2>
+        <h2 class="fragment">Call <i><strong>function</strong></i>s</h2>
+      </section>
+      <section>
+        <p>Coding is a way of <span class="fragment fill-in-the-blank">giving instructions</span> to the computer</p>
+      </section>
+      <section>
+        <p class="fragment">A way to try out code one line at a time</p>
+        <h2><i>the <strong>console</strong></i></h2>
+        <p class="fragment">Press <kbd>Ctrl</kbd> +  <kbd>Shift</kbd> + <kbd>i</kbd> to open up</p>
+      </section>
+      <section>
+        <p class="fragment"><i>a closer look at</i></p>
+        <pre><code data-trim class="language-javascript">robot.moveRandom()</code></pre>
+      </section>
+      <section>
+        <h2>functions</h2>
+        <p>instructions the computer remembers</p>
+      </section>
+      <section>
+        <h2>"Calling" a function</h2>
+        <p>runs the instructions</p>
+      </section>
+      <section data-assign-popovers='functions'>
+        <p>What calling a function looks like</p>
+        <pre class="emphasize language-javascript"><code data-trim class="language-javascript" data-manual-highlight='true'><span class="tip" title="This is the thing the function is on.  This is often also what the function will be acting on.">robot</span><span class="token punctuation tip" title="This separates the thing from the actions.">.</span><span class="token function tip" title='Function name'>moveRandom</span><span class='token punctuation tip' title='Tells the browser to run the instructions' data-placement='bottom'>()</span></code></pre>
+      </section>
+      <section>
+        <h2 class="fragment fade-out">Let's see what else our robot can do!</h2>
+        <p>Typing in <code>robot.</code> will show you.</p>
+      </section>
+      <section>
+        <h2 class="fragment fade-out">What if we want to move our robot to a specific place?</h2>
+        <p>Try <code>robot.move()</code>.</p>
+      </section>
+      <section data-assign-popovers='functions-params'>
+        <p class="fragment"><i>a closer look at</i></p>
+        <pre class="emphasize language-javascript"><code data-trim class="language-javascript" data-manual-highlight='true'><span class="tip" title="This is the thing the function is on.  This is often also what the function will be acting on.">robot</span><span class="token punctuation tip" title="This separates the thing from the actions.">.</span><span class="token function tip" title="This is what we are asking robot to do.  This is the function name.">move</span><span class="token punctuation">(</span><span class="token string tip" title="This is how we give this function information about the direction.">"left"</span><span class="token punctuation tip" title="This separates the first thing we have to tell the function from the next thing.">,</span> <span class="token number tip" title="This is how we tell the function how much to move by.">100</span><span class="token punctuation">)</span></code></pre>
+      </section>
+      <section>
+        <h2>Other functions to try:</h2>
+        <ul>
+          <li>
+            <pre><code data-trim class="language-javascript">robot.moveTo(300, 300);
+robot.change(someImageLinkHere);
+robot.name("Leo");
+robot.reset();
+robot.flip();
+robot.getPosition();
+robot.getSize();
+robot.getElement();</code></pre>
+          </li>
+        </ul>
+      </section>
+      <section>
+        <h2>Using the <i><strong>console</strong></i></h2>
+        <h2>Calling <i><strong>function</strong></i>s</h2>
+      </section>
+      <section>
+      </section>
+    </div>
+  </div>
+  <script type="text/javascript" src="../../../hs-utils/assets/head.js"></script>
+  <script type="text/javascript" src="../../../hs-utils/assets/lib.js"></script>
+  <script type="text/javascript" src="../../../hs-utils/assets/prism.js" data-manual></script>
+  <script type="text/javascript" src="../../../hs-utils/assets/reveal.js"></script>
+</body>
+</html>
