@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Robot Lion</title>
+  <link rel="stylesheet" type="text/css" href="../../../hs-utils/assets/lib.css">
+  <link rel="stylesheet" type="text/css" href="../../../hs-utils/assets/video-controller.css">
+
+  <link rel="stylesheet" type="text/css" href="../../../code-lion/assets/maze/style.css">
+  <link rel="stylesheet" type="text/css" href="../../../code-lion/assets/scene/style.css">
+  <link rel="stylesheet" type="text/css" href="../../../code-lion/assets/robot/style.css">
+
+  <link rel="stylesheet" type="text/css" href="../../../code-lion/assets/main.css">
+</head>
+<body>
+
+  <div id="scene">
+    <div id="robot" class="robot flip">
+      <!-- Image from http://www.clipartlord.com/wp-content/uploads/2014/02/lion8.png -->
+      <img src="../../../code-lion/assets/robot/lion.png">
+    </div>
+  </div>
+
+
+  <div class="instructions">
+    <iframe id="instructions" width="576" height="360" frameborder="0"></iframe>
+    <div class="list-group" id="checklist"></div>
+  </div>
+
+  <script type="text/javascript" src="../../../hs-utils/assets/lib.js"></script>
+  <script type="text/javascript" src="../../../hs-utils/assets/error-handling.js"></script>
+  <script type="text/javascript" src="../../../hs-utils/assets/video-controller.js"></script>
+  <script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
+
+  <script type="text/javascript" src="../../../code-lion/assets/maze/maze.js"></script>
+  <script type="text/javascript" src="../../../code-lion/assets/animator/animator.js"></script>
+  <script type="text/javascript" src="../../../code-lion/assets/animator/tween.js"></script>
+  <script type="text/javascript" src="../../../code-lion/assets/scene/scene.js"></script>
+  <script type="text/javascript" src="../../../code-lion/assets/robot/position.js"></script>
+  <script type="text/javascript" src="../../../code-lion/assets/robot/robot.js"></script>
+
+  <script type="text/javascript" src="./assets/main.js"></script>
+</body>
+</html>
