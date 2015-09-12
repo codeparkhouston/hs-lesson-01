@@ -8,3 +8,5 @@ var animator = new Animator();
 animator.startLoop();
 
 scene.addMaze();
+
+robot.solve = solve;
