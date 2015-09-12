@@ -25,3 +25,5 @@
   * `ln -s ../code-lion/ ./code-lion`
   * run a local server
     * i.e. `http-server -p 4000`
+ 
+TODO: replace method above and set up git subtrees instead
