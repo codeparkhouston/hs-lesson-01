@@ -1,9 +1,26 @@
-## Lessons
+# Fall 2015
 
-* [Lesson One](../../tree/master/lesson-one)
-* [Lesson Two](../../tree/master/lesson-two)
+| Concepts | Topics |
+|------|--------|
+| Introduction | Class expectations and introduction to programming |
+| Functions | Using and writing functions |
+| Types &amp; Logic | Working with strings, numbers, arrays, objects, etc. |
+| Events &amp; interactivity | Reacting to events and changes |
+| DOM-ination | Manipulating the webpage |
+| HTML &amp; CSS | Displaying and styling content |
+| AJAX &amp; APIs | Talking to other sites |
 
 
+# Spring 2016
+
+A semester long real-world project practicing
+
+| Concepts | Topics |
+|----------|--------|
+| Project introductions | Learn about the projects |
+| Collaborating | git, Github, pull requests, forks, merging |
+| Using libraries and frameworks | Bootstrap, lodash, package management |
+| Understanding requirements | Communicating ideas and features |
 
 
 
