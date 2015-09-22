@@ -7,4 +7,4 @@ var animator = new Animator();
 
 animator.startLoop();
 
-videoController('instructions', {videoId: '2s9doCDVQhc'});
+videoController('instructions', {videoId: 'ujdw2NVrnw4'});
