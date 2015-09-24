@@ -9,4 +9,3 @@
     * `Ctrl` + `t` to type in a filename to open
     * `Ctrl` + `Shift` + `d` for duplicating lines of code
     * `Ctrl` + `d` for multi-select
-- [ ] :clap:

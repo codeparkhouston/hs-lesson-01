@@ -21,4 +21,3 @@ See you next class!
   * Type `Install` and select **Package Control: Install Package**
   * Type `SideBarEnhancements` and select it when it comes up
 - [ ] Open [this checklist](https://github.com/codeparkhouston/hs-fall-2015/tree/master/lesson-01) on the computer
-- [ ] :clap:
