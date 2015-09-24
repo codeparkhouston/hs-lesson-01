@@ -1,11 +1,12 @@
 # In class checklist
 
-- [ ] Follow [instructions](https://github.com/codeparkhouston/fall-2015#set-up-for-in-class-projects) to set up your workspace
-- [ ] Open folder `fall-2015/lessons/lesson-01/project`
-  - [ ] Talk about the Cloud9 workspace and the idea of having different files for a project
-  - [ ] Go to https://fall-2015-**your-username**.c9.io/lessons/lesson-01/project/
+- [ ] Download the [class project](https://github.com/codeparkhouston/hs-fall-2015/archive/lesson-one.zip)
+- [ ] Open the `hs-fall-2015-lesson-one` folder in Sublime
+  - [ ] Talk about the idea of having different files for a project
+  - [ ] Right click on `index.html` in the files sidebar and choose "Open in Browser"
   - [ ] Try `robot.solve()` in the console to bring up instructions
-  - [ ] Share shortcuts
+  - [ ] Try some shortcuts in Sublime!
+    * `Ctrl` + `t` to type in a filename to open
     * `Ctrl` + `Shift` + `d` for duplicating lines of code
     * `Ctrl` + `d` for multi-select
 
