@@ -1,5 +1,15 @@
+# In class checklist
 
-# To Students
+- [ ] Follow [instructions](https://github.com/codeparkhouston/fall-2015#set-up-for-in-class-projects) to set up your workspace
+- [ ] Open folder `fall-2015/lessons/lesson-01/project`
+  - [ ] Talk about the Cloud9 workspace and the idea of having different files for a project
+  - [ ] Go to https://fall-2015-**your-username**.c9.io/lessons/lesson-01/project/
+  - [ ] Try `robot.solve()` in the console to bring up instructions
+  - [ ] Share shortcuts
+    * `Ctrl` + `Shift` + `d` for duplicating lines of code
+    * `Ctrl` + `d` for multi-select
+
+# Before Class
 
 Hello,
 
@@ -11,13 +21,3 @@ If you missed class today, we look forward to meeting you Thursday! Be sure to w
 
 See you next class!
 -- Your Code Park teachers
-
-# In class checklist
-
-- [ ] Sign up for GitHub
-- [ ] Get the lesson material on your Cloud9 workspace
-- [ ] Complete lion solve maze project
-  - [ ] Open folder `hs-fall-2015/lesson-01/project`
-    - [ ] Talk about different files briefly
-    - [ ] Open `index.html` in browser by right-clicking in the side bar and choosing `Open in Browser`.
-    - [ ] Try `robot.solve()` in the console to bring up instructions
