@@ -6,7 +6,32 @@
     <link rel="stylesheet" type="text/css" href="./assets/list.css">
   </head>
   <body>
+
     <div id="display" class="container">
+      <div class="row">
+        <div id="card" class='list-group'>
+          
+        </div>
+      </div>
+    </div>
+
+    <div id="templates">
+      <div class="template card" id="item-template">
+        <h3 class="name">{{character.name}}</h3>
+        <% if(typeof character.image !== 'undefined'){ %>
+        <img class="img-responsive" src="{{character.image}}"/>
+        <% }
+        if(typeof character.powerLevel !== 'undefined'){ %>
+        <p class="details power-level">{{character.powerLevel}}</p>
+        <% }
+        if(typeof character.specialPowers !== 'undefined'){ 
+          var powers = character.specialPowers.join(', '); %>
+        <p class="details special-powers">{{powers}}</p>
+        <% }
+        if(typeof character.origin !== 'undefined'){ %>
+        <p class="details origin">{{character.origin}}</p>
+        <% } %>
+      </div>
     </div>
 
     <script type="text/javascript" src="../../hs-utils/assets/lib.js"></script>

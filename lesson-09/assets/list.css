@@ -10,6 +10,35 @@
 }
 
 #card {
-  width: 50%;
+  max-width: 410px;
   margin: 50px auto;
+}
+
+.card {
+  font-size: 20px;
+
+  border: 1px solid #CCC;
+  border-radius: 1em;
+  padding: 1em;
+  box-sizing: border-box;
+}
+
+.origin {
+  font-style: italic;
+}
+
+.details::before {
+  font-weight: bold;
+}
+
+.origin::before {
+  content: 'Origin: ';
+}
+
+.special-powers::before {
+  content: 'Special Powers: ';
+}
+
+.power-level::before {
+  content: 'Powel Level: ';
 }

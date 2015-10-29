@@ -69,11 +69,20 @@ getTemplate = _.memoize(function(templateName){
   var templateNode = document.getElementById(templateName).cloneNode(true);
   var templateString;
 
-  templateNode.id = null;
-  templateString = templateNode.outerHTML;
-  return _.template(templateString);
+  templateNode.setAttribute('id', '');
+  templateString = htmlUnescape(templateNode.outerHTML);
+  return _.template(templateString, {variable: 'character'});
 });
 
 function getTemplateByName(templateName){
   return getTemplate(templateName);
+}
+
+function htmlUnescape(value){
+  return String(value)
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&');
 }
