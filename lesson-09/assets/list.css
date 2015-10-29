@@ -26,19 +26,3 @@
 .origin {
   font-style: italic;
 }
-
-.details::before {
-  font-weight: bold;
-}
-
-.origin::before {
-  content: 'Origin: ';
-}
-
-.special-powers::before {
-  content: 'Special Powers: ';
-}
-
-.power-level::before {
-  content: 'Powel Level: ';
-}

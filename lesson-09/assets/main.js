@@ -23,16 +23,26 @@ function showCard(object, templateName, mountNode, dataFormatter){
   }
 
   function _initialize(){
-    Object.observe(object, function(changes){
+    _observe(object);
+
+    _.each(object, function(value, key){
+      if(_.isObject(value) || _.isArray(value)){
+        _observe(value);
+      }
+    });
+  }
+
+  function _observe(thingToWatch){
+    thingToWatch.constructor.observe(thingToWatch, function(changes){
       changes.forEach(function(change){
-        _update(change);
+        _update(object);
       });
     });
   }
 
   function _update(change){
     var element = mountNode.childNodes.item(0);
-    var updatedElement = _getItemDOM(change.object);
+    var updatedElement = _getItemDOM(change);
     updatedElement.classList.remove('template');
     mountNode.replaceChild(updatedElement, element);
   }
