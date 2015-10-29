@@ -1,6 +1,10 @@
 var objectNode = document.getElementById('card');
 var getTemplate;
 
+function showLink(){
+  document.getElementById('work-link').classList.remove('hide');
+}
+
 function show(object){
   return showCard(object, 'item-template', objectNode);
 }
