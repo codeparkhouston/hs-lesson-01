@@ -1,8 +1,8 @@
 var objectNode = document.getElementById('card');
 var getTemplate;
 
-function showLink(){
-  document.getElementById('work-link').classList.remove('hide');
+function hideLink(){
+  document.getElementById('work-link').classList.add('hide');
 }
 
 function show(object){
