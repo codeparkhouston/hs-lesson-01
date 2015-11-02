@@ -10,11 +10,11 @@
 }
 
 #card {
-  max-width: 410px;
-  margin: 50px auto;
 }
 
 .card {
+  max-width: 410px;
+  margin: 50px auto;
   font-size: 20px;
 
   border: 1px solid #CCC;

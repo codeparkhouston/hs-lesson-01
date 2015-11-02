@@ -6,7 +6,10 @@ function showLink(){
 }
 
 function show(object){
-  return showCard(object, 'item-template', objectNode);
+  var newCard = document.createElement('div');
+  newCard.classList.add('col-xs-6');
+  var cardNode = objectNode.appendChild(newCard);
+  return showCard(object, 'item-template', newCard);
 }
 
 function showCard(object, templateName, mountNode, dataFormatter){
