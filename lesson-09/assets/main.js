@@ -24,6 +24,10 @@ function showCard(object, templateName, mountNode, dataFormatter){
     var html = _getItemHTML(object);
     mountNode.innerHTML = html;
 
+    if(object.color){
+      mountNode.childNodes[0].style.borderColor = object.color;
+    }
+
     _animateAll(mountNode);
 
     return this;
@@ -51,6 +55,11 @@ function showCard(object, templateName, mountNode, dataFormatter){
     var element = mountNode.childNodes.item(0);
     var updatedElement = _getItemDOM(change);
     updatedElement.classList.remove('template');
+
+    if(change.color){
+      updatedElement.style.borderColor = change.color;
+    }
+
     mountNode.replaceChild(updatedElement, element);
   }
 
