@@ -33,7 +33,7 @@ function showCard(object, templateName, mountNode, dataFormatter){
     _observe(object);
 
     _.each(object, function(value, key){
-      if(_.isObject(value) || _.isArray(value)){
+      if((_.isObject(value) || _.isArray(value)) && !_.isFunction(value)){
         _observe(value);
       }
     });
