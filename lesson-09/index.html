@@ -24,7 +24,7 @@
         <% if(typeof character.image !== 'undefined'){ %>
         <img class="img-responsive" src="{{character.image}}"/>
         <% }
-        var features = _.omit(character, 'image', 'name');
+        var features = _.omit(character, 'image', 'name', 'color', 'opacity');
         features = _.omit(features, _.isFunction);
         _.each(features, function(feature, featureName){
           var featureClass = _.snakeCase(featureName).replace('_', '-');
