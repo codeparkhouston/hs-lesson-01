@@ -27,10 +27,10 @@ function showCard(object, templateName, mountNode, dataFormatter){
     if(object.color){
       mountNode.childNodes[0].style.borderColor = object.color;
     }
-    if(object.name){
-      var imageId = _.snakeCase(object.name).replace('_', '-') + '-image';
-      mountNode.childNodes[0].getElementsByTagName('img')[0].setAttribute('id', imageId);
-    }
+    // if(object.name && mountNode.childNodes[0].getElementsByTagName('img')){
+    //   var imageId = _.snakeCase(object.name).replace('_', '-') + '-image';
+    //   mountNode.childNodes[0].getElementsByTagName('img')[0].setAttribute('id', imageId);
+    // }
     _animateAll(mountNode);
 
     return this;
