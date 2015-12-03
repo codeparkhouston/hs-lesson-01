@@ -42,12 +42,6 @@ Let's first try a few things in this "Terminal".
 
   again.  You should see ```hello``` listed in the results.
 
-| Command | What it means | What it does |
-| ------- | ------------- | ------------ |
-| `pwd` | **p**rint **w**orking **d**irectory | Tells us where we are |
-| `ls` | **l**i**s**t | List the things that are in this directory |
-| `mkdir` | **m**a**k**e a **dir**ectory | make a new directory in we are |
-
 
 # Telling git about our project
 
